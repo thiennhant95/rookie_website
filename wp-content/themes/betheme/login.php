@@ -114,14 +114,24 @@ get_header();
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <div class="row myborder">
-                    <form method="post" id="login-form">
+                    <?php
+                    if (isset($_SESSION['login']) && $_SESSION['login']=='thatbai'):
+                        ?>
+                        <div class="alert alert-danger alert-autocloseable-danger">
+                            Bạn nhập sai Tài Khoản hoặc Mật khẩu. Vui lòng thử lại.
+                        </div>
+                    <?php
+                        $_SESSION['login']='thatbai2';
+                    endif;
+                    ?>
+                    <form method="post" id="login-form" action="<?php echo home_url('xu-ly-dang-nhap')?>">
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user mycolor"></i></span>
                             <input required size="60" maxlength="255"  class="form-control" placeholder="Email" name="email" id="email_login" type="email">
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user mycolor"></i></span>
-                            <input required size="60" maxlength="255" min="6" class="form-control" placeholder="Mật khẩu" name="password" id="password_login" type="text">
+                            <input required size="60" maxlength="32" minlength="6" class="form-control" placeholder="Mật khẩu" name="password" id="password_login" type="password">
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -133,25 +143,6 @@ get_header();
                 <div class="col-md-3"></div>
             </div>
         </div>
-        <script>
-            jQuery(function($) {
-                var load_avatar = $("#imagePreview");
-                $("#imageUpload").on('change', function () {
-                    if (typeof (FileReader) != "undefined") {
-                        load_avatar.empty();
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $("<img />", {
-                                "src": e.target.result,
-                                "width": "150px"
-                            }).appendTo(load_avatar);
-                        }
-                        load_avatar.show();
-                        reader.readAsDataURL($(this)[0].files[0]);
-                    }
-                });
-            });
-        </script>
     </div>
 </div>
 <br>
