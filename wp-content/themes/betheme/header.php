@@ -40,6 +40,9 @@
 
 <!-- wp_head() -->
 <?php wp_head(); ?>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
 </head>
 
 <!-- body -->
@@ -196,5 +199,15 @@
 		?>
 		
 		<?php do_action( 'mfn_hook_content_before' );
+        // Omit Closing PHP Tags
+		?>
+        <?php
+        if ( is_front_page() ) {
+            // This is the blog posts index
+            echo do_shortcode('[rev_slider alias="silde_image"]');
+        }
+
+        ?>
+        <br>
+
 		
-// Omit Closing PHP Tags
