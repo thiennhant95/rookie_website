@@ -175,3 +175,98 @@ if( ! mfn_opts_get( 'plugin-visual' ) ){
 		vc_set_as_theme();
 	}
 }
+
+/* Khởi tạo session */
+function myStartSession() {
+  session_start();
+}
+add_action('init', 'myStartSession', 1);
+
+/* convert tên hình */
+function sanitize_file_name_chars($filename) {
+
+    $sanitized_filename = remove_accents($filename); // Convert to ASCII
+
+    // Standard replacements
+    $invalid = array(
+        ' ' . '=&gt;' . '-',
+        '%20' . '=&gt;' . '-',
+        '_' . '=&gt;' . '-'
+    );
+    $sanitized_filename = str_replace(array_keys($invalid), array_values($invalid), $sanitized_filename);
+
+    $sanitized_filename = preg_replace('/[^A-Za-z0-9-\. ]/', '', $sanitized_filename); // Remove all non-alphanumeric except .
+    $sanitized_filename = preg_replace('/\.(?=.*\.)/', '', $sanitized_filename); // Remove all but last .
+    $sanitized_filename = preg_replace('/-+/', '-', $sanitized_filename); // Replace any more than one - in a row
+    $sanitized_filename = str_replace('-.', '.', $sanitized_filename); // Remove last - if at the end
+    $sanitized_filename = strtolower($sanitized_filename); // Lowercase
+    $sanitized_filename = time() . $sanitized_filename;
+    return $sanitized_filename;
+}
+
+add_filter('sanitize_file_name', 'sanitize_file_name_chars', 10);
+
+/* đường dẫn thông tin sản phẩm chi tiết trang cá nhân */
+add_action('init', function() {
+  $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+  $path = explode("/",$url_path);
+  $templatename = 'san-pham'; 
+  if($path[2] == $templatename){
+     $load = locate_template('group-team/detail-product-team.php', true);
+     if ($load) {
+        exit();
+     }
+  }
+});
+
+/* đường dẫn thông tin trang cá nhân */
+add_action('init', function() {
+  $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+  $path = explode("/",$url_path);
+  $templatename = 'group-team'; 
+  if($path[0] == $templatename){
+     $load = locate_template('group-team/information-team.php', true);
+     if ($load) {
+        exit();
+     }
+  }
+});
+
+/* đường dẫn thông tin quản lý trang team */
+add_action('init', function() {
+  $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+  $path = explode("/",$url_path);
+  $templatename = "manage-group"; 
+  if($path[0] == $templatename){
+     $load = locate_template('group-team/manage-page-team.php', true);
+     if ($load) {
+        exit();
+     }
+  }
+});
+
+/* đường dẫn thông tin trang cá nhân */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xu-ly';
+    if($path[0] == $templatename){
+        $load = locate_template('xu_ly.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xu-ly-dang-nhap';
+    if($path[0] == $templatename){
+        $load = locate_template('dang_nhap.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
