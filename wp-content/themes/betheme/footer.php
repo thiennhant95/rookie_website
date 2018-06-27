@@ -172,6 +172,7 @@ if( $back_to_top_class == 'hide' ){
 	
 <!-- wp_footer() -->
 <?php wp_footer(); ?>
+<script src="<?php bloginfo('template_directory') ?>/js/custom_js_nhan.js"></script>
 
 </body>
 </html>
