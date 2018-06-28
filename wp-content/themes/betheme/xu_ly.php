@@ -49,8 +49,6 @@
                 exit;
             }
 
-            #slug
-            $slug =CovertVn($_POST['ten_nhom']);
             $data_prepare_u2 = $wpdb->prepare("SELECT * FROM $table_team WHERE email_member_2 = %s",$_POST['u2_email']);
             $data_team_u2 = $wpdb->get_row($data_prepare_u2);
             if ($data_team_u2)
@@ -61,7 +59,8 @@
                 exit;
             }
 
-
+            #slug
+            $slug =CovertVn($_POST['ten_nhom']);
             $data_prepare1 = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$slug);
             $data_team1 = $wpdb->get_row($data_prepare1);
             if ($data_team1)

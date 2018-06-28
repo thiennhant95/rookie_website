@@ -70,6 +70,9 @@ All css files are placed in /css/ folder
 img.scale-with-grid.wp-post-image {
     height: 250px!important;
 }
+#Content img{
+    width: 100%;
+}
 .section-related-ul.col-4 img.scale-with-grid.wp-post-image {
     height:auto!important;
 }
