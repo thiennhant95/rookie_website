@@ -10,3 +10,188 @@ Version: 17.6
 
 All css files are placed in /css/ folder
 */
+#Top_bar{
+    background-color: #ffffff!important;
+}
+.phone > .icon-phone{
+    display: none;
+}
+.phone > a{
+    font-size: 15px;
+    color: #ffffff!important;
+}
+.phone > a:hover{
+    text-decoration: none;
+    font-size: 15px;
+    color: #2f2f2f;
+}
+#Action_bar{
+    background-color: #2f2f2f!important;
+    height: 50px!important;
+}
+.slogan > a > i.fa.fa-facebook-official {
+    color: #E1E1E1!important;
+}
+.social >a >i{
+    color: #e14e42;
+}
+.social > a{
+    text-decoration: none!important;
+    font-size: 14px;
+    color:white
+}
+.social > a:hover{
+    color: #e14e42;
+}
+.footer_copy >.container >.column.one >.social{
+    display: none;
+}
+#Header_wrapper, #Intro {
+    background-color: #20bcf6!important;
+}
+#Subheader{
+    padding:43px 0!important;
+}
+#Subheader .title {
+    font-size: 30px!important;
+    color: #FFF6F6!important;
+}
+.section.section-post-header {
+    display: none!important;
+}
+.post-title > .entry-title > a{
+    font-size: 20px!important;
+    color: #9f041b!important;
+}
+.post-title > .entry-title > a:hover
+{
+    color: #e14e42!important;
+}
+img.scale-with-grid.wp-post-image {
+    height: 250px!important;
+}
+.section-related-ul.col-4 img.scale-with-grid.wp-post-image {
+    height:auto!important;
+}
+.post-head,.post-footer,.date_label
+{
+    display: none!important;
+}
+/*.post-photo-wrapper {*/
+    /*width: auto!important;*/
+/*}*/
+.image_frame
+{
+    border-color: #fff!important;
+}
+.section.section-post-comments{
+    display: none;
+}
+.widget-area.clearfix > .widget.widget_text > h3, #categories-3 >h3 ,#search-3 > h3
+{
+    color: #00457d;
+    font-weight: 400;
+}
+.button_label,.button_icon{
+    display: none!important;
+}
+.hr_color{
+    color: #e78c45!important;
+    background-color:#e78c45 ;
+}
+.desc >h4 > a{
+    color: #9f041b!important;
+}
+.desc >h4 > a:hover{
+    color: #e14e42!important;
+}
+.textwidget{
+    color: #b1b6ba;
+}
+aside#text-6 >.textwidget{
+    color: #2d221d!important;
+}
+#Footer {
+    background-color: #091b27 !important;
+}
+.footer_copy >.container >.column.one{
+    text-align: center!important;
+}
+
+
+#cfacebook{
+    position:fixed;
+    bottom: 0px;
+    right: 20px;
+    z-index: 9999;
+    width: 250px;
+    height: auto;
+    box-shadow:6px 6px 6px 10px rgba(0,0,0,0.2);
+    border-top-left-radius:5px;
+    border-top-right-radius:5px;
+    overflow:hidden;
+}
+#cfacebook .fchat{
+    float:left;
+    width:100%;
+    height:300px;
+    overflow:hidden;
+    display:none;
+    background-color: #ebebeb;;
+}
+#cfacebook .fchat .fb-page{
+
+    float:left;
+}
+#cfacebook a.chat_fb{
+    float:left;
+    padding:0 25px;
+    width:250px;
+    color: #1e5799;
+    text-decoration:none;
+    height: 35px;
+    line-height:40px;
+    text-shadow:0 1px 0 rgba(0,0,0,0.1);
+    background-repeat:repeat-x;
+    background-size:auto;
+    background-position:0 0;
+    background-color:#ebebeb;
+    border:0;
+    border-bottom:1px solid #ebebeb;;
+    z-index:9999;
+    margin-right:12px;
+    font-size:16px;
+    text-transform: uppercase;
+}
+#cfacebook a.chat_fb:hover
+{
+    color: #005b9a;
+    text-decoration:none;
+}
+#back_to_top.sticky{
+    bottom: 40px!important;
+}
+.author-date > .author, .date > span{
+    display: none;
+}
+.news-home{
+    font-weight: 400!important;
+    font-size: 25px!important;
+}
+.dang-ky-button{
+    background: #F9F9F9;
+    color: #555;
+    box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+    z-index: 1;
+    font-weight: 400;
+    font-size: 18px;
+    width: 100vw;
+    margin-bottom: 4%;
+    margin-left: calc(-50vw + 50%)!important;
+}
+.text-slogan{
+    padding-top: 2.5%;
+}
