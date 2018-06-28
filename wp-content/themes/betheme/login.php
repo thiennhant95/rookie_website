@@ -107,6 +107,12 @@ get_header();
     #imageUpload-label:hover{
         background-position: 0;
     }
+    .error{
+        color: #d53239!important;
+    }
+    .forgot{
+        padding-top: 2%!important;
+    }
 </style>
 <div id="Content">
     <div class="content_wrapper clearfix">
@@ -138,6 +144,11 @@ get_header();
                                 <button class="btn-u btn-block pull-left submit" type="submit">Đăng Nhập</button>
                             </div>
                         </div>
+                        <div class="row forgot">
+                            <div class="col-md-12">
+                                <a href="/forgot-password/">Quên mật khẩu?</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="col-md-3"></div>
@@ -150,3 +161,28 @@ get_header();
 <?php
 get_footer();
 ?>
+<script>
+    jQuery.extend(jQuery.validator.messages, {
+        required: "Đây là trường bắt buộc nhập.",
+        minlength: jQuery.validator.format("Vui lòng nhập từ {0} kí tự trở lên."),
+        email: "Vui lòng nhập đúng định dạng email.",
+        number: "Vui lòng nhập đúng định dạng số.",
+        date:" Vui lòng chọn đúng định dạng ngày."
+    });
+    jQuery(document).ready(function($) {
+
+        //Khi bàn phím được nhấn và thả ra thì sẽ chạy phương thức này
+        $("#login-form").validate({
+            rules: {
+                email:
+                    {  required: true,
+                        email: true
+                    },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            }
+        });
+    });
+</script>
