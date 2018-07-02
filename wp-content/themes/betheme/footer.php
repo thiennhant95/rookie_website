@@ -191,6 +191,11 @@ if( $back_to_top_class == 'hide' ){
     jQuery(".chat_fb").click(function() {
         jQuery('.fchat').toggle('slow');
     });
+    jQuery(function($){
+        $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><i style="font-size: 22px" class="fa fa-shopping-cart"></i><span id="number-cart" class="text"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty'));?>' +
+            '</a></li>');
+    });
+
 </script>
 </div>
 </body>

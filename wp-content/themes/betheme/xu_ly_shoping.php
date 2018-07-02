@@ -1,4 +1,5 @@
 <?php
+
 //Xóa giỏ hàng bằng cách hủy SESSION
 if(isset($_GET["emptycart"]) && $_GET["emptycart"]==1)
 {
