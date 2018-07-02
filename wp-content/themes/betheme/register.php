@@ -166,6 +166,14 @@ get_header();
                         <?php
                         $_SESSION['thongbaoloi']='0';
                     endif;
+                    if (isset($_SESSION['thongbaoloi']) && $_SESSION['thongbaoloi']=='6'):
+                        ?>
+                        <div class="alert alert-danger alert-autocloseable-danger">
+                            Các số điện đăng ký giữa các thành viên không được giống nhau. Vui lòng nhập số điện thoại khác nhau.
+                        </div>
+                        <?php
+                        $_SESSION['thongbaoloi']='0';
+                    endif;
                     ?>
                     <form method="post" id="register-form" action="<?php echo home_url('xu-ly')?>" enctype="multipart/form-data">
                     <div class="input-group margin-bottom-20">

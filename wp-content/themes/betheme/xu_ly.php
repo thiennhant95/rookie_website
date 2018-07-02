@@ -30,6 +30,14 @@
                 wp_redirect($url);
                 exit;
             }
+            if ($_POST['lead_phone']==$_POST['u1_phone'] || $_POST['lead_phone']==$_POST['u2_phone']
+                || $_POST['u1_phone']==$_POST['u2_phone'])
+            {
+                $_SESSION['thongbaoloi'] =6;
+                $url = home_url('dang-ky-thanh-vien');
+                wp_redirect($url);
+                exit;
+            }
             $data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE email_truong_nhom = %s",$_POST['lead_email']);
             $data_team = $wpdb->get_row($data_prepare);
             if ($data_team)

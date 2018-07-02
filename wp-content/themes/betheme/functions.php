@@ -300,4 +300,87 @@ function wptuts_scripts_basic()
     // For either a plugin or a theme, you can then enqueue the script:
     wp_enqueue_script( 'custom-script' );
 }
-add_action( 'wp_enqueue_scripts', 'wptuts_scripts_basic' );
+add_action( 'wp_enqueue_scripts', 'wptuts_scripts_basic');
+
+function create_fbgraph_shortcode1($args, $content) {
+    global $wpdb;
+    $table_products = $wpdb->prefix."products";
+    $data = "SELECT * FROM $table_products LIMIT 4 OFFSET 0";
+    $product_list =$wpdb->get_results($data);
+
+    ob_start();?>
+    <div class="fb-info">
+        <h5>Thông tin của</h5>
+        <div class="avatar"><img alt="" src="" /></div>
+        <div class="info"><strong>ID của bạn: </strong>
+            <strong>Username: </strong>
+            <strong>Giới tính: </strong></div>
+    </div>
+    <?php
+    $result = ob_get_contents();
+    ob_end_clean();
+
+    return $result;
+
+}
+
+function create_shortcode_randompost() {
+
+    global $wpdb;
+    $table_products = $wpdb->prefix."products";
+    $data = "SELECT * FROM $table_products LIMIT 4 OFFSET 0";
+    $product_list =$wpdb->get_results($data);
+
+    ob_start();
+    ?>
+    <div class="shop-items">
+    <div class="container-fluid">
+    <div class="row">
+    <?php
+    foreach ($product_list as $row):
+        $arr_image_products =json_decode($row->product_images)
+        ?>
+        <div class="col-md-3 col-sm-6">
+            <!-- Restaurant Item -->
+            <div class="item">
+                <!-- Item's image -->
+                <img class="img-responsive" src="<?php echo home_url()."/".$arr_image_products[0] ?>" alt="">
+                <!-- Item details -->
+                <div class="item-dtls">
+                    <!-- product title -->
+                    <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+                    <!-- price -->
+                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
+                </div>
+                <!-- add to cart btn -->
+                <div class="ecom bg-lblue">
+                    <a class="btn" href="#"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+                </div>
+            </div>
+        </div>
+    <?php
+    endforeach;
+    ?>
+    </div>
+    </div>
+    </div>
+        <?php
+    $list_post = ob_get_contents(); //Lấy toàn bộ nội dung phía trên bỏ vào biến $list_post để return
+
+    ob_end_clean();
+
+    return $list_post;
+}
+add_shortcode('random_post', 'create_shortcode_randompost');
+
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'shopping';
+    if($path[0] == $templatename){
+        $load = locate_template('xu_ly_shoping.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
