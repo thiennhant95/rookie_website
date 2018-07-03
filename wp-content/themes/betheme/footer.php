@@ -195,7 +195,14 @@ if( $back_to_top_class == 'hide' ){
         $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span id="number-cart" class="text"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty'));?>' +
             '</a></li>');
     });
-
+<?php if(isset($_SESSION["branch_id"])){
+	?>
+	 jQuery(function($){
+		$("#login-account").css({"display":"none"});
+		$("#register").css({"display":"none"});
+	});
+	<?php
+} ?>
 </script>
 </div>
 </body>
