@@ -11,11 +11,26 @@
 	$table_team = $wpdb->prefix."team";
 	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
-	$search = array("\r\n","&lt;br&gt;","\&quot;","\&amp;","\&#039;","\\\\");
-	$replace = array("<br>","<br>","&quot;","&amp;","&#039","\\");
+	$search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
 	if($data_team != null){
 ?>
 <?php get_header(); ?>
+<style>
+ul{
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+</style>
 	<div id="Content">
 		<div class="content_wrapper clearfix">
 			<div class="sections_group">
@@ -38,7 +53,7 @@
 							<span><?php echo str_replace($search,$replace,$data_team->mo_ta); ?></span>
 						</div>
 						<div class="col-md-12" style="margin-top: 15px; border-radius: 10px; background-color: #f8f8f8; padding-top: 15px">
-							<h4><?php echo $data_team->slogan; ?></h4>
+							<h4><?php echo str_replace($search,$replace,$data_team->slogan); ?></h4>
 						</div>
 						<div class="col-md-12" style="margin-top: 20px; padding: 0">
 							<span style="font-size: 25px"><strong>THÔNG TIN NHÓM</strong></span>

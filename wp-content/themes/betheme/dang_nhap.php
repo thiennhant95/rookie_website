@@ -8,9 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         $_SESSION['login'] =1;
         $_SESSION['branch_id']= $data_team->id;
-        $url = home_url('dang-ky-thanh-vien');
+        $_SESSION['branch_slug'] = $data_team->slug;
+        $url = home_url('manage-group')."/".$data_team->slug;
         wp_redirect($url);
-        exit;
     }
     else
     {
