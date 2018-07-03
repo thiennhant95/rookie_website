@@ -22,11 +22,13 @@ get_header();
                 $product_list =$wpdb->get_results($data);
                 $data1 = "SELECT * FROM $table_products WHERE category_product_id=1 LIMIT 16 OFFSET ".$offset;
                 $product_list1 =$wpdb->get_results($data1);
+                $i=1;
                 foreach ($product_list1 as $row)
                 {
                     $arr_image_products =json_decode($row->product_images)
                     ?>
-                    <div class="col-md-3 col-sm-6">
+                <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
+                <div class="col-md-3 col-sm-6">
                         <!-- Restaurant Item -->
                         <div class="item">
                             <!-- Item's image -->
@@ -40,11 +42,19 @@ get_header();
                             </div>
                             <!-- add to cart btn -->
                             <div class="ecom bg-lblue">
-                                <a class="btn" href="#"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+                                <input type="hidden" name="product_id" value="<?php echo $row->id?>" />
+                                <?php
+                                $current_url = base64_encode($_SERVER['REQUEST_URI']);
+                                ?>
+                                <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+                                <input type="hidden" name="type" value="add">
+                                <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
                             </div>
                         </div>
                     </div>
+                </form>
                     <?php
+                    $i++;
                 }
                 ?>
                 <?php

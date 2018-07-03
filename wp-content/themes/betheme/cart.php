@@ -33,6 +33,11 @@ get_header();
         color: #0a0a0a;
     }
 </style>
+<?php
+$table_products = $wpdb->prefix."products";
+$data = "SELECT * FROM $table_products";
+$product_list =$wpdb->get_results($data);
+?>
 <div class="container bootstrap snippet">
     <div class="col-md-12 col-sm-8 content">
         <div class="row">
@@ -40,6 +45,7 @@ get_header();
                 <div class="panel panel-info panel-shadow">
                     <div class="panel-body">
                         <div class="table-responsive">
+                            <form id="product" method="post" action="<?php echo home_url('shopping')?>">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -50,44 +56,63 @@ get_header();
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <?php
+                                if (!isset($_SESSION['products']) || count($_SESSION['products'])==0)
+                                {
+                                    echo "<td colspan='4'>Không có sản phẩm nào trong giỏ hàng.</td>";
+                                }
+                                else
+                                    foreach ($_SESSION['products'] as $row):
+                                        foreach ($product_list as $row_product):
+                                            if ($row_product->id==$row['id']):
+                                                $arr_image_products =json_decode($row_product->product_images);
+                                ?>
                                 <tr>
-                                    <td><img src="https://lorempixel.com/400/200/fashion/2/" class="img-cart"></td>
+                                    <td><?php echo $row_product->product_name ?><img src="<?php echo home_url()."/".$arr_image_products[0] ?>" class="img-cart"></td>
                                     <td>
-                                        <input class="form-control input-soluong" type="number" value="1">
+                                        <input class="form-control input-soluong" name="amount[]" type="number" min="1" value="<?php echo $row['qty']?>">
                                     </td>
-                                    <td>$54.00</td>
-                                    <td>$54.00 <a href="#" class="btn btn-primary thanhtoan"><i class="fa fa-trash-o"></i></td>
+                                    <td><?php echo number_format($row['price']).'đ' ?></td>
+                                    <td><?php echo number_format($row['price']*$row['qty']).'đ' ?> <a href="<?php echo home_url('shopping/')?><?php echo '?removep='.$row['id'].'&return_url='.base64_encode($_SERVER['REQUEST_URI'])?>" class="btn btn-primary thanhtoan"><i class="fa fa-trash-o"></i></td>
                                 </tr>
-                                <tr>
-                                    <td><img src="https://lorempixel.com/400/200/fashion/1/" class="img-cart"></td>
-                                    <td>
-                                            <input class="form-control" type="number" value="2">
-                                    </td>
-                                    <td>$16.00</td>
-                                    <td>$54.00 <a href="#" class="btn btn-primary thanhtoan"><i class="fa fa-trash-o"></i></td>
-                                </tr>
+                                                <input type="hidden" name="product[]" value="<?php echo $row_product->id?>" />
+                                                <?php
+                                                $current_url = base64_encode($_SERVER['REQUEST_URI']);
+                                                ?>
+                                                <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+                                                <input type="hidden" name="type" value="update">
+                                                <?php
+                                            endif;
+                                        endforeach;
+                                    endforeach;
+                                        ?>
                                 <tr>
                                     <td colspan="5">&nbsp;</td>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <td colspan="3" class="text-right">Total Product</td>-->
-<!--                                    <td>$86.00</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td colspan="3" class="text-right">Total Shipping</td>-->
-<!--                                    <td>$2.00</td>-->
-<!--                                </tr>-->
+                                <?php
+                                if (isset($_SESSION['products'])):
+                                ?>
                                 <tr>
-                                    <td colspan="3" class="text-right"><strong>Total</strong></a></td>
-                                    <td>$88.00</td>
+                                    <td colspan="3" class="text-right"><strong>Tổng cộng</strong></a></td>
+                                    <td><?php
+                                        $sum = 0;
+                                        foreach ($_SESSION['products']  as $item) {
+                                            $sum += $item['price']*$item['qty'];
+                                        }
+                                        echo number_format($sum).'đ';
+                                        ?></td>
                                 </tr>
+                                <?php
+                                endif;
+                                ?>
                                 </tbody>
                             </table>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary pull-right thanhtoan">Thanh Toán<span class="glyphicon glyphicon-chevron-right"></span></a> &nbsp;
-                <a href="#" class="btn btn-success pull-right"><span class="glyphicon glyphicon-repeat"></span>&nbsp;  Cập nhật</a>&nbsp;&nbsp;
+                <a href="/thanh-toan/" class="btn btn-primary pull-right thanhtoan">Thanh Toán<span class="glyphicon glyphicon-chevron-right"></span></a> &nbsp;
+                <a  href="javascript:void()" onclick="document.getElementById('product').submit()" class="btn btn-success pull-right"><span class="glyphicon glyphicon-repeat"></span>&nbsp;  Cập nhật</a>&nbsp;&nbsp;
             </div>
         </div>
     </div>

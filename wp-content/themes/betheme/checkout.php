@@ -322,7 +322,15 @@ get_header();
     input[type=checkbox], input[type=radio]{
         width: auto!important;
     }
+    .error{
+        color: #d53239!important;
+    }
 </style>
+<?php
+$table_products = $wpdb->prefix."products";
+$data = "SELECT * FROM $table_products";
+$product_list =$wpdb->get_results($data);
+?>
 <div class="container wrapper">
     <div class="row cart-head">
         <div class="container">
@@ -335,7 +343,7 @@ get_header();
         </div>
     </div>
     <div class="row cart-body">
-        <form class="form-horizontal" method="post" action="">
+            <form class="form-horizontal" id="checkout-form" action="<?php echo home_url('thanhtoan')?>" method="post">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
                 <!--REVIEW ORDER-->
                 <div class="panel panel-info">
@@ -343,60 +351,49 @@ get_header();
                         Sản Phẩm
                     </div>
                     <div class="panel-body">
+                        <?php
+                        if (isset($_SESSION['products']) || count($_SESSION['products'])>0):
+                              foreach ($_SESSION['products'] as $row):
+                                        foreach ($product_list as $row_product):
+                                            if ($row_product->id==$row['id']):
+                                                $arr_image_products =json_decode($row_product->product_images);
+                        ?>
                         <div class="form-group">
                             <div class="col-sm-3 col-xs-3">
-                                <img class="img-responsive" src="//c1.staticflickr.com/1/466/19681864394_c332ae87df_t.jpg" />
+                                <img class="img-responsive" src="<?php echo home_url()."/".$arr_image_products[0] ?>" />
                             </div>
                             <div class="col-sm-6 col-xs-6">
-                                <div class="col-xs-12">ABC</div>
-                                <div class="col-xs-12"><small>Số lượng:<span>1</span></small></div>
+                                <div class="col-xs-12"><a href="<?php echo home_url('san-pham/'.$row_product->product_slug)  ?>"><h4><?php echo $row_product->product_name ?></h4></a></div>
+                                <div class="col-xs-12"><small>Số lượng:<span><?php echo $row['qty']?></span></small></div>
                             </div>
                             <div class="col-sm-3 col-xs-3 text-right">
-                                <h6><span>$</span>25.00</h6>
+                                <h6><span><?php echo number_format($row['price']*$row['qty']).'đ' ?></span></h6>
                             </div>
                         </div>
                         <div class="form-group"><hr /></div>
-                        <div class="form-group">
-                            <div class="col-sm-3 col-xs-3">
-                                <img class="img-responsive" src="//c1.staticflickr.com/1/466/19681864394_c332ae87df_t.jpg" />
-                            </div>
-                            <div class="col-sm-6 col-xs-6">
-                                <div class="col-xs-12">Product name</div>
-                                <div class="col-xs-12"><small>Quantity:<span>1</span></small></div>
-                            </div>
-                            <div class="col-sm-3 col-xs-3 text-right">
-                                <h6><span>$</span>25.00</h6>
-                            </div>
-                        </div>
-                        <div class="form-group"><hr /></div>
-                        <div class="form-group">
-                            <div class="col-sm-3 col-xs-3">
-                                <img class="img-responsive" src="//c1.staticflickr.com/1/466/19681864394_c332ae87df_t.jpg" />
-                            </div>
-                            <div class="col-sm-6 col-xs-6">
-                                <div class="col-xs-12">Product name</div>
-                                <div class="col-xs-12"><small>Quantity:<span>2</span></small></div>
-                            </div>
-                            <div class="col-sm-3 col-xs-3 text-right">
-                                <h6><span>$</span>50.00</h6>
-                            </div>
-                        </div>
-                        <div class="form-group"><hr /></div>
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-xs-12">-->
-<!--                                <strong>Subtotal</strong>-->
-<!--                                <div class="pull-right"><span>$</span><span>200.00</span></div>-->
-<!--                            </div>-->
-<!--                            <div class="col-xs-12">-->
-<!--                                <small>Shipping</small>-->
-<!--                                <div class="pull-right"><span>-</span></div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <div class="form-group"><hr /></div>
+                        <?php
+                                            endif;
+                                        endforeach;
+                              endforeach;
+                        endif; ?>
                         <div class="form-group">
                             <div class="col-xs-12">
+                                <?php
+                                if (isset($_SESSION['products'])):
+                                ?>
                                 <strong>Tổng cộng</strong>
-                                <div class="pull-right"><span>$</span><span>150.00</span></div>
+                                <div class="pull-right"><span><?php
+                                        $sum = 0;
+                                        foreach ($_SESSION['products']  as $item) {
+                                            $sum += $item['price']*$item['qty'];
+                                        }
+                                        echo number_format($sum).'đ';
+                                        ?></span></div>
+                                <?php
+                                else:
+                                    echo "<span> Chưa có sản phẩm trong giỏ hàng</span>";
+                                endif;
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -416,36 +413,36 @@ get_header();
                         <div class="form-group">
                             <div class="col-md-12 col-lg-12"><strong>Họ Tên:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="order_name" class="form-control" value="" />
+                                <input type="text" name="order_name" class="form-control" value=""  required/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Số điện thoại:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="address" class="form-control" value="" />
+                                <input type="text" name="order_phone" class="form-control" value="" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Email:</strong></div>
                             <div class="col-md-12">
-                                <input type="text" name="city" class="form-control" value="" />
+                                <input type="text" name="order_mail" class="form-control" value="" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12"><strong>Địa Chỉ:</strong></div>
                             <div class="col-md-12">
-                                <textarea class="form-control" name="address"></textarea>
+                                <textarea class="form-control" name="order_address"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-xs-12">
                                 <strong>Tỉnh/ Thành Phố:</strong>
-                                <input type="text" name="first_name" class="form-control" value="" />
+                                <input type="text" name="order_city" class="form-control" value="" />
                             </div>
                             <div class="span1"></div>
                             <div class="col-md-6 col-xs-12">
                                 <strong>Quận/ Huyện:</strong>
-                                <input type="text" name="last_name" class="form-control" value="" />
+                                <input type="text" name="order_district" class="form-control" value="" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -459,10 +456,10 @@ get_header();
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
                 <!--SHIPPING METHOD END-->
             </div>
-        </form
     </div>
     <div class="row cart-footer">
     </div>
@@ -471,3 +468,30 @@ get_header();
 <?php
 get_footer();
 ?>
+<script>
+    jQuery.extend(jQuery.validator.messages, {
+        required: "Đây là thông tin bắt buộc nhập.",
+        minlength: jQuery.validator.format("Vui lòng nhập từ {0} kí tự trở lên."),
+        email: "Vui lòng nhập đúng định dạng email.",
+        number: "Vui lòng nhập đúng định dạng số.",
+        date:" Vui lòng chọn đúng định dạng ngày."
+    });
+    jQuery(document).ready(function($) {
+        $.validator.addMethod("noSpace", function(value, element) {
+            return value == '' || value.trim().length != 0;
+        }, "Vui lòng không nhập khoảng trắng.");
+
+        $("#checkout-form").validate({
+            rules: {
+                order_name: {required:true,noSpace:true},
+                order_phone:{required:true,noSpace:true},
+                order_mail:{required:true,noSpace:true},
+                order_address:{required:true,noSpace:true},
+                order_city:{required:true,email: true},
+                order_district:{required:true,email: true}
+            },
+            messages: {
+            }
+        });
+    });
+</script>
