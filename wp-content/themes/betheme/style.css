@@ -198,3 +198,26 @@ aside#text-6 >.textwidget{
 .text-slogan{
     padding-top: 2.5%;
 }
+.ranking-table > tbody > tr > td:nth-child(3) {
+    color: #005b9a;
+    font-weight: bold;
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 18px;
+}
+.ranking-table > tbody > tr > td:nth-child(2) {
+    /*color: #1c2d3f!important;*/
+    font-size: 16px;
+}
+.ranking-table > thead > tr > th{
+     color: #0b2e13!important;
+    font-weight: bold;
+    font-size: 17px;
+ }
+.images-logo{
+    width: 10%!important;
+}
+#title-ranking{
+    color: #e14e42;
+    font-weight: 400;
+    font-size: 20px;
+}

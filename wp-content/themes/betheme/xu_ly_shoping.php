@@ -42,6 +42,10 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
             {
                 if($cart_itm["id"] == $product_id){ //sản phẩm đã tồn tại trong mảng
                     if ($return_url=='/san-pham/') $product_qty=$cart_itm["qty"]+1;
+                    if ($return_url=='/chocolate/') $product_qty=$cart_itm["qty"]+1;
+                    if ($return_url=='/ca-cao/') $product_qty=$cart_itm["qty"]+1;
+                    if ($return_url=='/ca-phe/') $product_qty=$cart_itm["qty"]+1;
+                    if ($return_url=='/') $product_qty=$cart_itm["qty"]+1;
                     $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$product_qty, 'price'=>$cart_itm["price"]);
                     $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
                 }else{
@@ -67,6 +71,50 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
     }
 
     //Trở về lại trang cũ
+    $url = home_url($return_url);
+    wp_redirect($url);
+    exit;
+}
+
+//Xóa sản phẩm trong giỏ hàng
+if(isset($_GET["removep"]) && isset($_GET["return_url"]) && isset($_SESSION["products"])) {
+    $product_id = $_GET["removep"]; //Lấy product_id để xóa
+    $return_url = base64_decode($_GET["return_url"]); //lấy url hiện tại
+
+
+    foreach ($_SESSION["products"] as $cart_itm) //Vòng lặp biến SESSION
+    {
+        if ($cart_itm["id"] != $product_id) { //Lọc lại giỏ hàng, sản phẩm nào trùng product_id muốn xóa sẽ bị loại bỏ
+            $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $cart_itm["qty"], 'price' => $cart_itm["price"]);
+        }
+
+        //Tạo mới biến SESSION lưu giỏ hàng
+        $_SESSION["products"] = $product;
+    }
+
+    //Trở về lại trang cũ
+    $url = home_url($return_url);
+    wp_redirect($url);
+    exit;
+}
+
+if(isset($_POST["type"]) && $_POST["type"]=='update')
+{
+    if(isset($_SESSION["products"])) //Hàm kiểm tra nếu có sản phẩm trong giỏ hàng rồi thì cập nhật lại
+    {
+        foreach ($_SESSION["products"] as $key=>$cart_itm) //vòng lặp mảng SESSION
+        {
+            foreach ($_POST["amount"] as $key_amount=>$row)
+            {
+                if($key == $key_amount){
+                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$row, 'price'=>$cart_itm["price"]);
+                }
+            }
+        }
+        $_SESSION["products"] = $product;
+    }
+    //Trở về lại trang cũ\
+    $return_url   = base64_decode($_POST["return_url"]);
     $url = home_url($return_url);
     wp_redirect($url);
     exit;

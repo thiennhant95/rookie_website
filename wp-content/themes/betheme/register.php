@@ -284,7 +284,7 @@ get_footer();
 ?>
 <script>
     jQuery.extend(jQuery.validator.messages, {
-        required: "Đây là trường bắt buộc nhập.",
+        required: "Đây là thông tin bắt buộc nhập.",
         minlength: jQuery.validator.format("Vui lòng nhập từ {0} kí tự trở lên."),
         email: "Vui lòng nhập đúng định dạng email.",
         number: "Vui lòng nhập đúng định dạng số.",

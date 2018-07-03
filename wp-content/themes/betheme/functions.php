@@ -337,9 +337,11 @@ function create_shortcode_randompost() {
     <div class="container-fluid">
     <div class="row">
     <?php
+    $i=1;
     foreach ($product_list as $row):
         $arr_image_products =json_decode($row->product_images)
         ?>
+        <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
         <div class="col-md-3 col-sm-6">
             <!-- Restaurant Item -->
             <div class="item">
@@ -354,11 +356,21 @@ function create_shortcode_randompost() {
                 </div>
                 <!-- add to cart btn -->
                 <div class="ecom bg-lblue">
-                    <a class="btn" href="#"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+
+                    <input type="hidden" name="product_id" value="<?php echo $row->id?>" />
+                    <?php
+                    $current_url = base64_encode($_SERVER['REQUEST_URI']);
+                    ?>
+                    <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+                    <input type="hidden" name="type" value="add">
+                    <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+
                 </div>
             </div>
         </div>
-    <?php
+        </form>
+        <?php
+        $i++;
     endforeach;
     ?>
     </div>
@@ -379,6 +391,169 @@ add_action('init', function() {
     $templatename = 'shopping';
     if($path[0] == $templatename){
         $load = locate_template('xu_ly_shoping.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'thanhtoan';
+    if($path[0] == $templatename){
+        $load = locate_template('xu_ly_thanh_toan.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+function ranking_team() {
+    ob_start();
+    ?>
+                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959;">
+                    <thead>
+                    <tr>
+                        <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
+                    </tr>
+                    <tr>
+                        <th width="15%"><strong>Hạng</strong></th>
+                        <th><strong>Nhóm</strong></th>
+                        <th width="20%"><strong>Điểm</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    <tr>-->
+<!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
+<!--                    </tr>-->
+
+                    <tr>
+                        <td class="text-danger" style="vertical-align: middle; text-align: center">1</td>
+                        <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
+                        <td style="vertical-align: middle; text-align: center">180</td>
+                    </tr>
+                    <tr>
+                        <td class="text-success" style="vertical-align: middle; text-align: center">2</td>
+                        <td class="text-success" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Supper Ship</td>
+                        <td style="vertical-align: middle; text-align: center">170</td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary" style="vertical-align: middle; text-align: center">3</td>
+                        <td class="text-primary" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Fly</td>
+                        <td style="vertical-align: middle; text-align: center">160</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">4</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Fish</td>
+                        <td style="vertical-align: middle; text-align: center">150</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">5</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Shark</td>
+                        <td style="vertical-align: middle; text-align: center">140</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">6</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Angel</td>
+                        <td style="vertical-align: middle; text-align: center">130</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">7</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
+                        <td style="vertical-align: middle; text-align: center">120</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">8</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
+                        <td style="vertical-align: middle; text-align: center">110</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">9</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
+                        <td style="vertical-align: middle; text-align: center">100</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center">10</td>
+                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
+                        <td style="vertical-align: middle; text-align: center">90</td>
+                    </tr>
+                    </tbody>
+                </table>
+    <?php
+    $list_post = ob_get_contents(); //Lấy toàn bộ nội dung phía trên bỏ vào biến $list_post để return
+
+    ob_end_clean();
+
+    return $list_post;
+}
+add_shortcode('ranking', 'ranking_team');
+
+#product
+add_action('admin_menu', 'random_post_setup_menu');
+function random_post_setup_menu(){
+    add_menu_page( 'Cài đặt random post', 'Sản phẩm', 'manage_options','main-plugin-tdc', 'cpanel_control','', 6 );
+    add_submenu_page( 'main-plugin-tdc', 'Danh mục', 'Danh Mục', 'manage_options', 'settings-plugin-tdc', 'cpanel_control_tdc_setting');
+}
+
+/// Cập nhật mật khẩu nhóm /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'change-password';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/change-password.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/// Cập nhật thông tin nhóm /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'change-information-group';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/change-information.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/// Cập nhật thông tin nhóm /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'change-description-group';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/change-description.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/// Xử lý upload hình nhóm ajax /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'upload-avatar-group';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/upload-image.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/// Đăng xuất /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'dang-xuat';
+    if($path[0] == $templatename){
+        $load = locate_template('log-out.php', true);
         if ($load) {
             exit();
         }
