@@ -3,7 +3,7 @@ function show_company_view()
 {
     global $wpdb;
     $table_products = $wpdb->prefix."products";
-    $data = "SELECT * FROM $table_products WHERE is_delete=1";
+    $data = "SELECT * FROM $table_products WHERE is_delete=0";
     $product_list =$wpdb->get_results($data);
     ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css">
@@ -11,6 +11,18 @@ function show_company_view()
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Quản Lý Sản Phẩm</h3>
+                <p>
+                    <?php
+                    if (isset($_SESSION['themsp']) && $_SESSION['themsp']=='1'):
+                    ?>
+                <div class="alert alert-success alert-autocloseable-danger">
+                    Thêm mới sản phẩm thành công.
+                </div>
+                <?php
+                $_SESSION['themsp']='0';
+                endif;
+                ?>
+                </p>
                 <!--            <br/>-->
                 <h3 class="box-title" style="float: right"><a class="btn btn-primary btn-flat" href="../wp-admin/admin.php?page=product_view&add_product=1">Thêm Sản Phẩm Mới</a></h3>
             </div>
@@ -31,9 +43,10 @@ function show_company_view()
                     </thead>
                     <tbody>
                     <?php
+                    $target_dir = home_url()."/wp-content/uploads/image-product/";
                     foreach ($product_list as $row)
                     {
-                        $product_images =json_decode($row->product_images)
+                        $product_images =json_decode($row->product_images);
                         ?>
                         <tr>
                             <td><?php echo $row->id?></td>
@@ -45,7 +58,7 @@ function show_company_view()
                                 ?></td>
                             <td><?php echo (number_format($row->product_price))?></td>
                             <td><?php echo $row->warehouse_amount ?></td>
-                            <td><img class="img-thumbnail" alt="Cinque Terre" src="../<?php echo $product_images[0] ?>" width="80" height="80"></td>
+                            <td><img class="img-thumbnail" alt="Cinque Terre" src="<?php echo $target_dir.$product_images[0] ?>" width="80" height="80"></td>
                             <td><?php echo $row->status==1?'<span class="badge bg-green">Đang hiển thị</span>':'<span class="badge bg-red">Không hiển thị</span>'?></td>
                             <td>
                                 <a class="btn btn-primary btn-flat" href="<?php echo site_url('admin/product/edit/'.$row->product_name) ?>">Sửa</a>
@@ -129,10 +142,10 @@ function show_company_view()
                     </p>
                     <div class="box box-info">
                         <div class="box-body">
-                            <form id="product-form" action="<?php echo site_url('admin/product/add')?>" method="post" enctype="multipart/form-data">
+                            <form id="product-form" action="<?php echo home_url('them-product')?>" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label>Chọn Danh Mục Sản Phẩm:</label>
-                                    <select class="form-control" name="category_id" required>
+                                    <select class="form-control" name="category_product_id" required>
                                         <option value="1">Ca cao</option>
                                         <option value="2">Chocolate</option>
                                         <option value="3">Cà phê</option>
@@ -144,22 +157,10 @@ function show_company_view()
                                     <input type="text" name="product_name" required="required" class="form-control">
                                 </div>
                                 <!-- /.form group -->
-
-                                <div class="form-group">
-                                    <label>Khối lượng tịnh (nếu có):</label>
-                                    <input type="number" name="net_weight" class="form-control">
-                                </div>
-
                                 <div class="form-group">
                                     <label>Đơn giá (VNĐ):</label>
                                     <input type="number" name="product_price" required="required" class="form-control">
                                 </div>
-
-<!--                                <div class="form-group">-->
-<!--                                    <label>Giảm giá (VNĐ):</label>-->
-<!--                                    <input type="number" name="discount" required="required" class="form-control">-->
-<!--                                </div>-->
-
                                 <div class="form-group">
                                     <label>Số lượng tồn kho:</label>
                                     <input type="number" name="warehouse_amount" required="required" class="form-control">
@@ -167,31 +168,30 @@ function show_company_view()
 
                                 <div class="form-group">
                                     <label>Ngày sản xuất (nếu có):</label>
-                                    <input type="date" name="warehouse_amount" class="form-control">
+                                    <input type="date" name="manufactore_date" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Ngày hết hạn (nếu có):</label>
-                                    <input type="date" name="warehouse_amount" class="form-control">
+                                    <input type="date" name="expired_date" class="form-control">
                                 </div>
                                 <!-- /.form group -->
                                 <div class="form-group">
                                     <label>Nội dung:</label>
-                                    <textarea class="form-control" id="content" name="content" required></textarea>
+                                    <?php
+                                    $content = "";
+                                    $editor_id = "content";
+                                    $settings =   array(
+                                        "wpautop" => true,
+                                        "media_buttons" => false,
+                                        "textarea_name" => $editor_id,
+                                        "textarea_rows" => get_option("default_post_edit_rows", 7),
+                                        "quicktags" => true
+                                    );
+                                    wp_editor( $content, $editor_id, $settings = array() );
+                                    ?>
                                 </div>
-                                <?php
 
-                                $content = "";
-                                $editor_id = "admin_editor";
-                                $settings =   array(
-                                    "wpautop" => true,
-                                    "media_buttons" => false,
-                                    "textarea_name" => $editor_id,
-                                    "textarea_rows" => get_option("default_post_edit_rows", 7),
-                                    "quicktags" => true
-                                );
-                                wp_editor( $content, $editor_id, $settings = array() );
-                                ?>
 
                                 <div class="form-group">
                                     <label>Hình ảnh (Chọn tối đa 4 hình ảnh):</label>
@@ -218,7 +218,7 @@ function show_company_view()
             </div>
             <!-- /.box-body -->
         </div>
-        </div>
+<!--        </div>-->
 
         <style>
             #slide-table td
@@ -228,21 +228,6 @@ function show_company_view()
         </style>
 
         <script type="text/javascript">
-            $(function() {
-                var editor = CKEDITOR.replace('content',
-                    {
-                        filebrowserBrowseUrl : '<?php echo base_url()."admin/ckfinder/ckfinder.html"; ?>',
-                        filebrowserImageBrowseUrl : '<?php  echo base_url()."admin/ckfinder/ckfinder.html?Type=Images";?>',
-                        filebrowserFlashBrowseUrl : '<?php  echo base_url()."admin/ckfinder/ckfinder.html?Type=Flash" ?>',
-                        filebrowserUploadUrl : '<?php echo base_url()."admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files"?>',
-                        filebrowserImageUploadUrl : '<?php  echo base_url()."admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images";?>',
-                        filebrowserFlashUploadUrl : '<?php  echo base_url()."admin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash";?>',
-                        filebrowserWindowWidth : '600',
-                        filebrowserWindowHeight : '150'
-                    });
-                CKFinder.setupCKEditor( editor, "<?php  echo base_url().'admin/ckfinder/'?>" );
-            });
-
             $(function(){
                 $("input[type='submit']").click(function(e){
                     var $fileUpload = $("input[type='file']");
