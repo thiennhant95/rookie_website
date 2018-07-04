@@ -18,9 +18,9 @@ get_header();
                     $offset=($_GET['page-sp']-1)*16;
                 }
                 $table_products = $wpdb->prefix."products";
-                $data = "SELECT * FROM $table_products";
+                $data = "SELECT * FROM $table_products WHERE status=1";
                 $product_list =$wpdb->get_results($data);
-                $data1 = "SELECT * FROM $table_products WHERE category_product_id=1 LIMIT 16 OFFSET ".$offset;
+                $data1 = "SELECT * FROM $table_products WHERE category_product_id=1 AND status=1 LIMIT 16 OFFSET ".$offset;
                 $product_list1 =$wpdb->get_results($data1);
                 $i=1;
                 foreach ($product_list1 as $row)

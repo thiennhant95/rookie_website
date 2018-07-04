@@ -328,7 +328,7 @@ function create_shortcode_randompost() {
 
     global $wpdb;
     $table_products = $wpdb->prefix."products";
-    $data = "SELECT * FROM $table_products LIMIT 4 OFFSET 0";
+    $data = "SELECT * FROM $table_products WHERE status=1 LIMIT 4 OFFSET 0";
     $product_list =$wpdb->get_results($data);
 
     ob_start();
