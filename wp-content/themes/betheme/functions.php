@@ -575,3 +575,16 @@ function admin_styles(){
 }
 
 add_action( 'admin_enqueue_scripts', 'admin_styles' );
+
+/// Đăng xuất /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xoa-product';
+    if($path[0] == $templatename){
+        $load = locate_template('xuly_product/delete.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
