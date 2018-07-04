@@ -562,8 +562,7 @@ add_action('init', function() {
 
 /* Bootstrap css , jquery admin page */
 function admin_styles(){
-
-    wp_register_style( 'am_admin_bootstrap', get_template_directory_uri() . '/css/bootstrap.min.css' );
+    wp_register_style( 'am_admin_bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css');
     wp_register_style( 'am_admin_darktooltip', get_template_directory_uri() . '/css/darktooltip.min.css' );
     wp_register_style( 'am_admin_custom_style_admin', get_template_directory_uri() . '/css/admin-custom-style.css' );
     wp_enqueue_script( 'am_admin_jquery', get_template_directory_uri() . '/js/jquery-3.1.1.min.js' );
