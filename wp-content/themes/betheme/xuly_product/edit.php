@@ -1,4 +1,12 @@
 <?php
+function rand_string( $length ) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $size = strlen( $chars );
+    for( $i = 0; $i < $length; $i++ ) {
+        $str .= $chars[ rand( 0, $size - 1 ) ];
+    }
+    return $str;
+}
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $table_team = $wpdb->prefix . "products";
     #slug
@@ -14,27 +22,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($data_team->product_slug==CovertVn($_POST['product_name']))
         $slug =CovertVn($_POST['product_name'])."-1";
     }
+
+    # upload images
+    if ($_FILES["product_images"]["name"][0]!=null ) {
+        $name_upload = [];
+        foreach ($_FILES["product_images"]["error"] as $key => $error) {
+            if ($error == UPLOAD_ERR_OK) {
+                $name = rand_string(5) . $_FILES['product_images']['name'][$key];
+                $name_upload[] = $name;
+                $target_dir = WP_CONTENT_DIR . "/uploads/image-product/";
+                move_uploaded_file($_FILES['product_images']['tmp_name'][$key], $target_dir . $name);
+            }
+        }
+        $images_upload = json_encode($name_upload);
+        $insert = $wpdb->update($table_team, array(
+            'product_images'=>$images_upload,
+        ),
+            array('id'=>$_GET['id']));
+    }
+
     $insert = $wpdb->update($table_team, array(
-            'product_name'=>$_POST['product_name'],
-            'product_slug'=>$slug,
-            'product_description'=>$_POST['content'],
-            'expired_date'=>$_POST['expired_date'],
-            'manufactore_date'=>$_POST['manufactore_date'],
-            'warehouse_amount'=>$_POST['warehouse_amount'],
-            'product_price'=>$_POST['product_price'],
-            'is_delete'=>0,
-            'status'=>$_POST['status_product'],
-            'category_product_id'=>$_POST['category_product_id']
+        'product_name'=>$_POST['product_name'],
+        'product_slug'=>$slug,
+        'product_description'=>$_POST['content'],
+        'expired_date'=>$_POST['expired_date'],
+        'manufactore_date'=>$_POST['manufactore_date'],
+        'warehouse_amount'=>$_POST['warehouse_amount'],
+        'product_price'=>$_POST['product_price'],
+        'is_delete'=>0,
+        'status'=>$_POST['status_product'],
+        'category_product_id'=>$_POST['category_product_id'],
         ),array('id'=>$_GET['id'])
     );
     if($insert){
-        $_SESSION['themsp'] =1;
+        $_SESSION['suasp'] =1;
         wp_redirect('../wp-admin/admin.php?page=product_view');
         exit;
     }
     else
     {
-        $_SESSION['themsp'] =0;
+        $_SESSION['suasp'] =0;
         wp_redirect('../wp-admin/admin.php?page=product_view');
         exit;
     }

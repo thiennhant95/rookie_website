@@ -9,6 +9,7 @@ if (isset($_GET['type']) && $_GET['type']='delete' ) {
             'is_delete' => 1
         ), array('id' => $_GET['id']));
         if ($update) {
+            $_SESSION['suasp'] =3;
             wp_redirect('../wp-admin/admin.php?page=product_view');
             exit;
         } else {

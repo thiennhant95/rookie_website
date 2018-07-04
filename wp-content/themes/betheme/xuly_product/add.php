@@ -43,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'status'=>$_POST['status_product'],
             'category_product_id'=>$_POST['category_product_id'],
             'product_images'=>$images_upload,
-
         )
     );
     if($insert){
