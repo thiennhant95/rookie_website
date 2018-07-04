@@ -338,6 +338,7 @@ function create_shortcode_randompost() {
     <div class="row">
     <?php
     $i=1;
+    $images_url = home_url()."/wp-content/uploads/image-product/";
     foreach ($product_list as $row):
         $arr_image_products =json_decode($row->product_images)
         ?>
@@ -346,7 +347,7 @@ function create_shortcode_randompost() {
             <!-- Restaurant Item -->
             <div class="item">
                 <!-- Item's image -->
-                <img class="img-responsive" src="<?php echo home_url()."/".$arr_image_products[0] ?>" alt="">
+                <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
                 <!-- Item details -->
                 <div class="item-dtls">
                     <!-- product title -->
@@ -488,13 +489,6 @@ function ranking_team() {
 }
 add_shortcode('ranking', 'ranking_team');
 
-#product
-add_action('admin_menu', 'random_post_setup_menu');
-function random_post_setup_menu(){
-    add_menu_page( 'Cài đặt random post', 'Sản phẩm', 'manage_options','main-plugin-tdc', 'cpanel_control','', 6 );
-    add_submenu_page( 'main-plugin-tdc', 'Danh mục', 'Danh Mục', 'manage_options', 'settings-plugin-tdc', 'cpanel_control_tdc_setting');
-}
-
 /// Cập nhật mật khẩu nhóm /
 add_action('init', function() {
     $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
@@ -576,13 +570,25 @@ function admin_styles(){
 
 add_action( 'admin_enqueue_scripts', 'admin_styles' );
 
-/// Đăng xuất /
+//xoa sp
 add_action('init', function() {
     $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
     $path = explode("/",$url_path);
     $templatename = 'xoa-product';
     if($path[0] == $templatename){
         $load = locate_template('xuly_product/delete.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+//them-sp
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'them-product';
+    if($path[0] == $templatename){
+        $load = locate_template('xuly_product/add.php', true);
         if ($load) {
             exit();
         }

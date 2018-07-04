@@ -23,6 +23,7 @@ get_header();
                 $data1 = "SELECT * FROM $table_products WHERE category_product_id=2 AND status=1 LIMIT 16 OFFSET ".$offset;
                 $product_list1 =$wpdb->get_results($data1);
                 $i=1;
+                $images_url = home_url()."/wp-content/uploads/image-product/";
                 foreach ($product_list1 as $row)
                 {
                     $arr_image_products =json_decode($row->product_images)
@@ -32,7 +33,7 @@ get_header();
                             <!-- Restaurant Item -->
                             <div class="item">
                                 <!-- Item's image -->
-                                <img class="img-responsive" src="<?php echo home_url()."/".$arr_image_products[0] ?>" alt="">
+                                <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
                                 <!-- Item details -->
                                 <div class="item-dtls">
                                     <!-- product title -->

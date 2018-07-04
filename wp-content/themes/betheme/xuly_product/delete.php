@@ -6,7 +6,7 @@ if (isset($_GET['type']) && $_GET['type']='delete' ) {
     $data_team = $wpdb->get_row($data_prepare);
     if ($data_team) {
         $update = $wpdb->update($table_team, array(
-            'is_delete' => 0
+            'is_delete' => 1
         ), array('id' => $_GET['id']));
         if ($update) {
             wp_redirect('../wp-admin/admin.php?page=product_view');
