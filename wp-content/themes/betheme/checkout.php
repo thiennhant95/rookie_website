@@ -312,7 +312,7 @@ get_header();
         }
 
     }
-    input,textarea{
+    input,textarea,select{
         background-color: #fff!important;
         font-family: Helvetica Neue, sans-serif!important;
         color: #0a0a0a!important;
@@ -330,6 +330,7 @@ get_header();
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
+$images_url = home_url()."/wp-content/uploads/image-product/";
 ?>
 <div class="container wrapper">
     <div class="row cart-head">
@@ -360,7 +361,7 @@ $product_list =$wpdb->get_results($data);
                         ?>
                         <div class="form-group">
                             <div class="col-sm-3 col-xs-3">
-                                <img class="img-responsive" src="<?php echo home_url()."/".$arr_image_products[0] ?>" />
+                                <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" />
                             </div>
                             <div class="col-sm-6 col-xs-6">
                                 <div class="col-xs-12"><a href="<?php echo home_url('san-pham/'.$row_product->product_slug)  ?>"><h4><?php echo $row_product->product_name ?></h4></a></div>
@@ -435,14 +436,71 @@ $product_list =$wpdb->get_results($data);
                             </div>
                         </div>
                         <div class="form-group">
+                            <?php
+                            $table_tinh = $wpdb->prefix."tinhthanhpho";
+                            $data_tinh = "SELECT * FROM $table_tinh";
+                            $tinh_list =$wpdb->get_results($data_tinh);
+                            ?>
                             <div class="col-md-6 col-xs-12">
                                 <strong>Tỉnh/ Thành Phố:</strong>
-                                <input type="text" name="order_city" class="form-control" value="" />
+                                <select class="form-control" name="order_city" required>
+                                    <option value="0">Chọn Tỉnh/ Thành phố</option>
+                                    <?php
+                                    foreach ($tinh_list as $row)
+                                    {
+                                        ?>
+                                    <option value="<?php echo $row->matp?>"><?php echo $row->name ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
                             </div>
                             <div class="span1"></div>
                             <div class="col-md-6 col-xs-12">
+                                <?php
+                                $table_huyen = $wpdb->prefix."quanhuyen";
+                                $data_huyen = "SELECT * FROM $table_huyen";
+                                $huyen_list =$wpdb->get_results($data_huyen);
+                                ?>
                                 <strong>Quận/ Huyện:</strong>
-                                <input type="text" name="order_district" class="form-control" value="" />
+                                <select class="form-control"  name="order_district" required>
+                                    <option value="0">Chọn Quận/ Huyện</option>
+                                    <?php
+                                    foreach ($huyen_list as $row_huyen)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $row_huyen->name?>"><?php echo $row_huyen->name ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-xs-12">
+                                <?php
+                                $table_xa = $wpdb->prefix."xaphuongthitran";
+                                $data_xa = "SELECT * FROM $table_xa";
+                                $xa_list =$wpdb->get_results($data_xa);
+                                ?>
+                                <strong>Phường/ Xã:</strong>
+                                <select class="form-control"  name="order_ward" required>
+                                    <option value="0">Chọn Phường/ Xã</option>
+                                    <?php
+                                    foreach ($xa_list as $row_xa)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $row_xa->name?>"><?php echo $row_xa->name ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12"><strong>Ghi chú:</strong></div>
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="order_content"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -484,14 +542,22 @@ get_footer();
         $("#checkout-form").validate({
             rules: {
                 order_name: {required:true,noSpace:true},
-                order_phone:{required:true,noSpace:true},
-                order_mail:{required:true,noSpace:true},
+                order_phone:{required:true,noSpace:true,number:true},
+                order_mail:{required:true,noSpace:true,email:true},
                 order_address:{required:true,noSpace:true},
-                order_city:{required:true,email: true},
-                order_district:{required:true,email: true}
+                order_city:{required:true},
+                order_district:{required:true},
+                order_ward:{required:true}
             },
             messages: {
             }
         });
     });
+    // jQuery(document).ready(function($) {
+    //     $('#order_city').click(function (e) {
+    //         var id_city = $('#order_city').val();
+    //
+    //     })
+    // });
+
 </script>

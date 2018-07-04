@@ -37,6 +37,7 @@ get_header();
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
+$images_url = home_url()."/wp-content/uploads/image-product/";
 ?>
 <div class="container bootstrap snippet">
     <div class="col-md-12 col-sm-8 content">
@@ -68,7 +69,7 @@ $product_list =$wpdb->get_results($data);
                                                 $arr_image_products =json_decode($row_product->product_images);
                                 ?>
                                 <tr>
-                                    <td><?php echo $row_product->product_name ?><img src="<?php echo home_url()."/".$arr_image_products[0] ?>" class="img-cart"></td>
+                                    <td><?php echo $row_product->product_name ?><img src="<?php echo $images_url.$arr_image_products[0] ?>" class="img-cart"></td>
                                     <td>
                                         <input class="form-control input-soluong" name="amount[]" type="number" min="1" value="<?php echo $row['qty']?>">
                                     </td>

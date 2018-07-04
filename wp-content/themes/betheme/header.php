@@ -45,7 +45,6 @@
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php bloginfo('template_url'); ?>/css/shop.css" type="text/css" media="screen" />
-
 </head>
 
 <!-- body -->
@@ -213,4 +212,4 @@
         ?>
         <br>
 
-		
+

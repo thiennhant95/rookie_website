@@ -559,16 +559,18 @@ function admin_styles(){
     wp_register_style( 'am_admin_bootstrap', '//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css');
     wp_register_style( 'am_admin_darktooltip', get_template_directory_uri() . '/css/darktooltip.min.css' );
     wp_register_style( 'am_admin_custom_style_admin', get_template_directory_uri() . '/css/admin-custom-style.css' );
+    wp_register_style( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css');
     wp_enqueue_script( 'am_admin_jquery', get_template_directory_uri() . '/js/jquery-3.1.1.min.js' );
     wp_enqueue_script( 'am_admin_bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js' );
     wp_enqueue_script( 'am_admin_validate_tooltips', get_template_directory_uri() . '/js/jquery-validate.bootstrap-tooltip.js' );
     wp_enqueue_script( 'am_admin_jquery_validate', get_template_directory_uri() . '/js/jquery.validate-1.14.0.min.js' );
+    wp_enqueue_script( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.min.js');
+    wp_enqueue_script( 'am_admin_jquery_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js');
     wp_enqueue_style( 'am_admin_bootstrap');
     wp_enqueue_style( 'am_admin_darktooltip');
     wp_enqueue_style('am_admin_custom_style_admin');
+    wp_enqueue_style('am_admin_bootstrap_datatables');
 }
-
-add_action( 'admin_enqueue_scripts', 'admin_styles' );
 
 //xoa sp
 add_action('init', function() {
@@ -591,6 +593,70 @@ add_action('init', function() {
         $load = locate_template('xuly_product/add.php', true);
         if ($load) {
             exit();
+        }
+    }
+});
+//cập nhật
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'update-product';
+    if($path[0] == $templatename){
+        $load = locate_template('xuly_product/edit.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+//cập nhật
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'admin-team';
+    if($path[0] == $templatename){
+        $load = locate_template('xuly_product/admin_team.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+#add nhom admin
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xu-ly-admin';
+    if($path[0] == $templatename){
+        $load = locate_template('xu-ly-admin.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+/// Đăng bài viết /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'post-group-team';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/post-group.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+/// đường dẫn trang chi tiết bài viết nhóm /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    if (count($path) >=3) {
+        $templatename = 'bai-viet';
+        if ($path[2] == $templatename) {
+            $load = locate_template('group-team/detail-post-team.php', true);
+            if ($load) {
+                exit();
+            }
         }
     }
 });
