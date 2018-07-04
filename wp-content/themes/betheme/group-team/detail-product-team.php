@@ -25,7 +25,7 @@
 	<div id="Content">
 		<div class="content_wrapper clearfix">
 			<div class="sections_group">
-				<div class="col-md-12">
+				<div class="col-md-12" style="margin-bottom: 20px">
 					<div class="col-md-offset-2 col-md-8">
 						<div class="col-md-12" style="position: relative; padding: 0">
 							<div class="col-md-12" style="background-color:#000; background-image: url('<?php echo $data_team->background; ?>'); background-position: center center; background-repeat: no-repeat; background-size: cover; overflow: hidden; height: 250px; padding: 0px">

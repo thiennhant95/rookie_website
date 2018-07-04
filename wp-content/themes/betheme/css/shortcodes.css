@@ -1557,11 +1557,9 @@ a.icon_bar{color:#444!important}
 
 /* Table */
 .style-simple table:not(.recaptchatable) th{background:none}
-.style-simple table:not(.recaptchatable) tr:first-child td{background:none}
 .style-simple table:not(.recaptchatable) th,.style-simple table td{border-width:0 1px 1px 0}
 .style-simple table:not(.recaptchatable) tr td:last-child,.style-simple table tr th:last-child{border-right:0}
 .style-simple table:not(.recaptchatable) tr:last-child td{border-bottom:0}
-.style-simple table:not(.recaptchatable) tr:nth-child(2n) td{background:none}
 
 /* Opening hours */
 .style-simple .opening_hours{padding:0;border:0;background-color:transparent}

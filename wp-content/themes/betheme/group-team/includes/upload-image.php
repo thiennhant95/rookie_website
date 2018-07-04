@@ -14,7 +14,7 @@ if(isset($_FILES["avatar_group"])){
 	$path_upload = WP_CONTENT_DIR."/uploads/avatar-group/";
 	$url_img = home_url()."/wp-content/uploads/avatar-group/";
 	$session_id_team = $_SESSION["branch_id"];
-	if(in_array($_FILES["avatar_group"]["type"],$arr_image) && $_FILES["avatar_group"]["size"] <= $max_upload_file && $_FILES["error"] == 0){
+	if(in_array($_FILES["avatar_group"]["type"],$arr_image) && $_FILES["avatar_group"]["size"] <= $max_upload_file && $_FILES["avatar_group"]["error"] == 0){
 		$count_explode = explode(".", $_FILES["avatar_group"]["name"]);
 		$count_array_explode = count($count_explode);
 		$randname = rand_string(10);

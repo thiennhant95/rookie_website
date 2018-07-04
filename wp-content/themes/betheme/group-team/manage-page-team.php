@@ -130,7 +130,7 @@
 
     label{ cursor: pointer; }
 
-    #upload-photo, #upload-background {
+    #upload-photo, #upload-background, #upload-feature {
        opacity: 0;
        z-index: -1;
     }
@@ -171,83 +171,110 @@
                         <input type="file" name="upload-photo" id="upload-photo" style="display: none">
                     </div>
                     <div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-                        <h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
+                        <h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>" target="_blank"><?php echo $data_team->ten_nhom ?></a></strong></h3>
                     </div>
                     <div class="clearfix"></div>
                     <div style="margin-left: 5%; position: absolute;"><button type="submit" class="btn btn-primary" style="width: 120px; border-radius: 5px; display:none" id="save-upload">Cập nhật</button></div>
                     </form>
                 </div>
             </div>
+            <?php 
+                if(isset($_SESSION["success_change"])){
+            ?>
             <div class="col-md-12">
-                <?php 
-                    if(isset($_SESSION["success_change"])){
-                        if($_SESSION["success_change"] == 1){
-                            ?>
-                            <div class="alert alert-success">
-                                Cập nhật mật khẩu thành công
-                            </div>
-                            <?php
-                            $_SESSION["success_change"] = 0; 
-                        }
-                        if($_SESSION["success_change"] == 2){
-                            ?>
-                            <div class="alert alert-danger">
-                                Cập nhật mật khẩu thất bại
-                            </div>
-                            <?php
-                            $_SESSION["success_change"] = 0; 
-                        }
-                        if($_SESSION["success_change"] == 3){
-                            ?>
-                            <div class="alert alert-danger">
-                                Mật khẩu nhập lại không khớp
-                            </div>
-                            <?php
-                            $_SESSION["success_change"] = 0; 
-                        }
-                        if($_SESSION["success_change"] == 4){
-                            ?>
-                            <div class="alert alert-danger">
-                                Mật khẩu cũ không đúng
-                            </div>
-                            <?php
-                            $_SESSION["success_change"] = 0; 
-                        }
+                <?php
+                    if($_SESSION["success_change"] == 1){
+                        ?>
+                        <div class="alert alert-success">
+                            Cập nhật mật khẩu thành công
+                        </div>
+                        <?php
+                        $_SESSION["success_change"] = 0; 
                     }
-
-                ?>
+                    if($_SESSION["success_change"] == 2){
+                        ?>
+                        <div class="alert alert-danger">
+                            Cập nhật mật khẩu thất bại
+                        </div>
+                        <?php
+                        $_SESSION["success_change"] = 0; 
+                    }
+                    if($_SESSION["success_change"] == 3){
+                        ?>
+                        <div class="alert alert-danger">
+                            Mật khẩu nhập lại không khớp
+                        </div>
+                        <?php
+                        $_SESSION["success_change"] = 0; 
+                    }
+                    if($_SESSION["success_change"] == 4){
+                        ?>
+                        <div class="alert alert-danger">
+                            Mật khẩu cũ không đúng
+                        </div>
+                        <?php
+                        $_SESSION["success_change"] = 0; 
+                    }
+                ?>    
             </div>
+            <?php } ?>
             <div class="clearfix"></div>
+            <?php 
+            if(isset($_SESSION["success_change_info"])){
+            ?>
             <div class="col-md-12">
-                <?php 
-                    if(isset($_SESSION["success_change_info"])){
-                        if($_SESSION["success_change_info"] == 1){
-                            ?>
-                            <div class="alert alert-success">
-                                Cập nhật thông tin thành công
-                            </div>
-                            <?php
-                            $_SESSION["success_change_info"] = 0; 
-                        }
-                        if($_SESSION["success_change_info"] == 2){
-                            ?>
-                            <div class="alert alert-danger">
-                                Cập nhật thông tin thất bại
-                            </div>
-                            <?php
-                            $_SESSION["success_change_info"] = 0; 
-                        }
-                        if($_SESSION["success_change_info"] == 2){
-                            ?>
-                            <div class="alert alert-danger">
-                                Cập nhật thông tin thất bại
-                            </div>
-                            <?php
-                            $_SESSION["success_change_info"] = 0; 
-                        }
+                <?php
+                    if($_SESSION["success_change_info"] == 1){
+                        ?>
+                        <div class="alert alert-success">
+                            Cập nhật thông tin thành công
+                        </div>
+                        <?php
+                        $_SESSION["success_change_info"] = 0; 
+                    }
+                    if($_SESSION["success_change_info"] == 2){
+                        ?>
+                        <div class="alert alert-danger">
+                            Cập nhật thông tin thất bại
+                        </div>
+                        <?php
+                        $_SESSION["success_change_info"] = 0; 
                     }
                 ?>
             </div>
+            <?php } ?>
+             <?php 
+            if(isset($_SESSION["success_post"])){
+            ?>
+            <div class="col-md-12">
+                <?php
+                    if($_SESSION["success_post"] == 1){
+                        ?>
+                        <div class="alert alert-success">
+                            Đăng bài viết thành công
+                        </div>
+                        <?php
+                        $_SESSION["success_post"] = 0; 
+                    }
+                    if($_SESSION["success_post"] == 2){
+                        ?>
+                        <div class="alert alert-danger">
+                            Đăng bài viết thất bại
+                        </div>
+                        <?php
+                        $_SESSION["success_post"] = 0; 
+                    }
+                    if($_SESSION["success_post"] == 3){
+                        ?>
+                        <div class="alert alert-danger">
+                            Không được để rỗng thông tin bài viết
+                        </div>
+                        <?php
+                        $_SESSION["success_post"] = 0; 
+                    }
+                ?>
+            </div>
+            <?php } ?>
             <div class="col-md-12" style="display:none" id="notice-upload-avatar"></div>
             <div class="clearfix"></div>
             <div class="col-md-2" style="margin-bottom: 30px">
@@ -258,6 +285,8 @@
 				  <li class="menu-tab" data-id="menu2"><a>Đổi mật khẩu</a></li>
 				  <li class="menu-tab" data-id="menu3"><a>Sản phẩm nhóm</a></li>
 				  <li class="menu-tab" data-id="menu4"><a>Đơn đặt hàng</a></li>
+                  <li class="menu-tab" data-id="menu6"><a>Bài viết</a></li>
+                  <li class="menu-tab" data-id="menu7"><a>Tạo bài viết</a></li>
                   <li class="menu-tab"><a href="<?php echo home_url('dang-xuat') ?>">Đăng xuất</a></li>
 				</ul>
             </div>
@@ -400,9 +429,77 @@
                             </div>
                         </div>
                     </form>
+                    <form method="post" id="register-form5" class="form-manage" action="" data-id="menu6" style="display:none">
+                        <?php 
+                            $table_post_group = $wpdb->prefix."post_group";
+                            $table_team_post = $wpdb->prefix."team_post";
+                            $query_prepare_post_group = $wpdb->prepare("SELECT * FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE id_team = %d",$_SESSION["branch_id"]);
+                            $data_post_group = $wpdb->get_results($query_prepare_post_group);
+                        ?>
+                        <table id="your-list-post" class="table table-responsive table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ảnh đại diện</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Nội dung tóm tắt</th>
+                                    <th>Trạng thái</th>
+                                    <th>URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                            if(!empty($data_post_group)){ 
+                                foreach($data_post_group as $post_group){
+                            ?>
+                                <tr>
+                                    <td><img src="<?php echo $post_group->post_group_feature ?>" style="width: 100px !important"></td>
+                                    <td><?php echo $post_group->post_group_title ?></td>
+                                    <td><?php echo $post_group->post_group_content?></td>
+                                    <td><?php echo $post_group->post_group_status ?></td>
+                                    <td><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?>"><?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?></a></td>
+                                </tr>
+                            <?php 
+                                } 
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </form>
+                    <form method="post" id="register-form6" class="form-manage" action="<?php echo home_url('post-group-team'); ?>" data-id="menu7" style="display:none" enctype="multipart/form-data">
+                        <div class="margin-bottom-20">
+                            <span><strong>Tiêu đề :</strong></span>
+                            <input type="" maxlength="255" class="form-control" placeholder="Tiêu đề" name="post_title">
+                        </div>
+                        <div class="margin-bottom-20">
+                            <span><strong>Nội dung :</strong></span>
+                            <?php 
+                                $content_post = "";
+                                $editor_post = 'description_post';
+                                $settings =   array(
+                                    'wpautop' => true,
+                                    'media_buttons' => false,
+                                    'textarea_name' => $editor_post,
+                                    'textarea_rows' => get_option('default_post_edit_rows', 7),
+                                    'quicktags' => true
+                                );
+                                wp_editor( $content_post, $editor_post, $settings = array() ); 
+                            ?>
+                        </div>
+                        <div class="margin-bottom-20">
+                            <span><strong>Ảnh đại diện :</strong></span>
+                            <input type="file" name="upload-feature" id="upload-feature" style="display: none">
+                            <label for="upload-feature">
+                                <span class="btn btn-primary">Upload</span>
+                            </label>
+                            <p id="load-feature"></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn-u btn-block pull-left submit" type="submit" name="dangbai">Đăng bài</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-md-8" id="menu2">
-
             </div>
         </div>
     </div>
@@ -437,6 +534,16 @@
             {
                 $(".form-manage").css({"display":"none"});
                 $("#register-form4").css({"display":"block"});
+            }
+            if(data == "menu6")
+            {
+                $(".form-manage").css({"display":"none"});
+                $("#register-form5").css({"display":"block"});
+            }
+            if(data == "menu7")
+            {
+                $(".form-manage").css({"display":"none"});
+                $("#register-form6").css({"display":"block"});
             }
 		});
 	});
@@ -482,6 +589,15 @@
 
 
     jQuery(document).ready(function($) {
+        $("#your-list-post").DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true,
+            "pageLength"  : 10
+        });
         $.validator.addMethod("noSpace", function(value, element) {
             return value == '' || value.trim().length != 0;
         }, "Vui lòng không nhập khoảng trắng.");
@@ -615,6 +731,22 @@
                 }
             });    
         }));
+        $("#upload-feature").on('change', function () {
+            var load_feature = $("#load-feature");
+            if (typeof (FileReader) != "undefined") {
+                load_feature.empty();
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("<img />", {
+                        "src": e.target.result,
+                        "width": "120px",
+                        "height":"120px"
+                    }).appendTo(load_feature);
+                }
+                load_feature.show();
+                reader.readAsDataURL($(this)[0].files[0]);
+            }
+        });
     });
 </script>
 <?php get_footer(); ?>
