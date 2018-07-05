@@ -75,7 +75,7 @@
             {
                 $slug =CovertVn($_POST['ten_nhom'])."-1";
             }
-
+            $url =home_url('xac-nhan-tai-khoan/?token='.generateRandomString(32));
             $insert = $wpdb->insert($table_team, array(
                     "ten_nhom" => htmlspecialchars($_POST['ten_nhom']),
                     "mat_khau_nhom" => htmlspecialchars(sha1($_POST['password'])),
@@ -103,9 +103,13 @@
                     "truong_member_2" => htmlspecialchars($_POST['u2_school']),
                     "email_member_2" => htmlspecialchars($_POST['u2_email']),
                     "sdt_member_2" => htmlspecialchars($_POST['u2_phone']),
+                    "team_status"=>3,
+                    "verify_email"=>$url
                 )
             );
             if ($insert) {
+                require ("PHPMailer/src/mail_dangky.php");
+                sendmail($_POST['lead_email'],$url);
                 $_SESSION['xacnhan'] = 1;
                 $url = home_url('dang-ky-thanh-vien');
                 wp_redirect($url);
@@ -145,6 +149,16 @@ function CovertVn($str)
     $str = strtolower($str);
     $str = preg_replace("/( )/", '-', $str);
     return $str;
+}
+
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
 }
 
 ?>

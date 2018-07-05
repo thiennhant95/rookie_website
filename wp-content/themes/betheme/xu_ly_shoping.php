@@ -1,5 +1,14 @@
 <?php
 
+if (isset($_POST['id_team']) && $_POST['id_team']!=0)
+{
+    $id_team =$_POST['id_team'];
+}
+else
+{
+    $id_team = 0;
+}
+
 //Xóa giỏ hàng bằng cách hủy SESSION
 if(isset($_GET["emptycart"]) && $_GET["emptycart"]==1)
 {
@@ -15,9 +24,19 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
     $product_id   = filter_var($_POST["product_id"], FILTER_SANITIZE_STRING); //product id
     $return_url   = base64_decode($_POST["return_url"]); // url trả về
     if ($_POST["product_qty"])
-    $product_qty  = filter_var($_POST["product_qty"], FILTER_SANITIZE_NUMBER_INT); //số lượng
-    else
-        $product_qty=1;
+    {
+        $product_qty  = filter_var($_POST["product_qty"], FILTER_SANITIZE_NUMBER_INT); //số lượng
+        if ($product_qty <1)
+        {
+            $_SESSION['message_qty']=1;
+            $url = home_url($return_url);
+            wp_redirect($url);
+            exit;
+        }
+    }
+
+    else{$product_qty=1;}
+
 
 
     //Giới hạn sản phẩm
@@ -32,7 +51,7 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
     if ($results) { //Kiểm tra có dữ liệu hay không
 
         //Chuẩn bị array(mảng) để lưu thông tin sản phẩm
-        $new_product = array(array('name'=>$obj->product_name, 'id'=>$product_id, 'qty'=>$product_qty, 'price'=>$obj->product_price));
+        $new_product = array(array('name'=>$obj->product_name, 'id'=>$product_id, 'qty'=>$product_qty, 'price'=>$obj->product_price,'id_team'=>$id_team));
 
         if(isset($_SESSION["products"])) //Hàm kiểm tra nếu có sản phẩm trong giỏ hàng rồi thì cập nhật lại
         {
@@ -46,11 +65,12 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
                     if ($return_url=='/ca-cao/') $product_qty=$cart_itm["qty"]+1;
                     if ($return_url=='/ca-phe/') $product_qty=$cart_itm["qty"]+1;
                     if ($return_url=='/') $product_qty=$cart_itm["qty"]+1;
-                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$product_qty, 'price'=>$cart_itm["price"]);
+                    if (strpos($return_url, 'group-team') !== false) $product_qty=$cart_itm["qty"]+1;
+                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$product_qty, 'price'=>$cart_itm["price"],'id_team'=>$id_team);
                     $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
                 }else{
                     //item doesn't exist in the list, just retrive old info and prepare array for session var
-                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"]);
+                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"],'id_team'=>$id_team);
                 }
             }
 
@@ -85,7 +105,7 @@ if(isset($_GET["removep"]) && isset($_GET["return_url"]) && isset($_SESSION["pro
     foreach ($_SESSION["products"] as $cart_itm) //Vòng lặp biến SESSION
     {
         if ($cart_itm["id"] != $product_id) { //Lọc lại giỏ hàng, sản phẩm nào trùng product_id muốn xóa sẽ bị loại bỏ
-            $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $cart_itm["qty"], 'price' => $cart_itm["price"]);
+            $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $cart_itm["qty"], 'price' => $cart_itm["price"],'id_team'=>$id_team);
         }
 
         //Tạo mới biến SESSION lưu giỏ hàng
@@ -100,6 +120,8 @@ if(isset($_GET["removep"]) && isset($_GET["return_url"]) && isset($_SESSION["pro
 
 if(isset($_POST["type"]) && $_POST["type"]=='update')
 {
+    $return_url   = base64_decode($_POST["return_url"]);
+
     if(isset($_SESSION["products"])) //Hàm kiểm tra nếu có sản phẩm trong giỏ hàng rồi thì cập nhật lại
     {
         foreach ($_SESSION["products"] as $key=>$cart_itm) //vòng lặp mảng SESSION
@@ -107,6 +129,12 @@ if(isset($_POST["type"]) && $_POST["type"]=='update')
             foreach ($_POST["amount"] as $key_amount=>$row)
             {
                 if($key == $key_amount){
+                    if ($row < 1){
+                        $_SESSION['message_qty']=1;
+                        $url = home_url($return_url);
+                        wp_redirect($url);
+                        exit;
+                    }
                     $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$row, 'price'=>$cart_itm["price"]);
                 }
             }
@@ -114,7 +142,6 @@ if(isset($_POST["type"]) && $_POST["type"]=='update')
         $_SESSION["products"] = $product;
     }
     //Trở về lại trang cũ\
-    $return_url   = base64_decode($_POST["return_url"]);
     $url = home_url($return_url);
     wp_redirect($url);
     exit;

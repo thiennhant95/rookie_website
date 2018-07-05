@@ -192,7 +192,7 @@ if( $back_to_top_class == 'hide' ){
         jQuery('.fchat').toggle('slow');
     });
     jQuery(function($){
-        $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span style="font-size:30px" class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty'));?></span>' +
+        $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span style="font-size:30px" class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty')); else echo '0'?></span>' +
             '</a></li>');
     });
 <?php if(isset($_SESSION["branch_id"])){

@@ -444,7 +444,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                             <div class="col-md-6 col-xs-12">
                                 <strong>Tỉnh/ Thành Phố:</strong>
                                 <select class="form-control" name="order_city" required>
-                                    <option value="0">Chọn Tỉnh/ Thành phố</option>
+                                    <option>Chọn Tỉnh/ Thành phố</option>
                                     <?php
                                     foreach ($tinh_list as $row)
                                     {
@@ -464,7 +464,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 ?>
                                 <strong>Quận/ Huyện:</strong>
                                 <select class="form-control"  name="order_district" required>
-                                    <option value="0">Chọn Quận/ Huyện</option>
+                                    <option>Chọn Quận/ Huyện</option>
                                     <?php
                                     foreach ($huyen_list as $row_huyen)
                                     {
@@ -485,7 +485,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 ?>
                                 <strong>Phường/ Xã:</strong>
                                 <select class="form-control"  name="order_ward" required>
-                                    <option value="0">Chọn Phường/ Xã</option>
+                                    <option>Chọn Phường/ Xã</option>
                                     <?php
                                     foreach ($xa_list as $row_xa)
                                     {

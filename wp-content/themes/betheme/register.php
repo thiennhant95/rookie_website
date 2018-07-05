@@ -352,9 +352,9 @@ get_footer();
                 lead_school:{required:true,noSpace:true},
                 u1_school:{required:true,noSpace:true},
                 u2_school:{required:true,noSpace:true},
-                lead_phone:{required:true,number: true,minlength:10},
-                u1_phone:{required:true,number: true,minlength:10},
-                u2_phone:{required:true,number: true,minlength:10},
+                lead_phone:{required:true,number: true,minlength:10,maxlength:12},
+                u1_phone:{required:true,number: true,minlength:10,maxlength:12},
+                u2_phone:{required:true,number: true,minlength:10,maxlength:12},
                 lead_birthday:{required:true,date: true},
                 u1_birthday:{required:true,date: true},
                 u2_birthday:{required:true,date: true}

@@ -7,6 +7,9 @@ function show_company_view()
     $product_list =$wpdb->get_results($data);
     $target_dir = home_url()."/wp-content/uploads/image-product/";
     ?>
+<!--    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
+<!--    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>-->
+<!--    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css">
     <div <?php if (isset($_GET['add_product'])==1 ||isset($_GET['update_product'])==1) echo "style='display:none'"?> class="content-wrapper">
         <div class="box">

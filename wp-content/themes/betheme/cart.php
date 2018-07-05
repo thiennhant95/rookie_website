@@ -45,6 +45,16 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
             <div class="col-md-12">
                 <div class="panel panel-info panel-shadow">
                     <div class="panel-body">
+                        <?php
+                        if (isset($_SESSION['message_qty']) && $_SESSION['message_qty']==1):
+                        ?>
+                        <div class="alert alert-danger">
+                            Số lượng sản phẩm đặt hàng phải lớn hơn 0
+                        </div>
+                        <?php
+                        endif;
+                        $_SESSION['message_qty']=0;
+                        ?>
                         <div class="table-responsive">
                             <form id="product" method="post" action="<?php echo home_url('shopping')?>">
                             <table class="table">
@@ -113,7 +123,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                     </div>
                 </div>
                 <a href="/thanh-toan/" class="btn btn-primary pull-right thanhtoan">Thanh Toán<span class="glyphicon glyphicon-chevron-right"></span></a> &nbsp;
-                <a  href="javascript:void()" onclick="document.getElementById('product').submit()" class="btn btn-success pull-right"><span class="glyphicon glyphicon-repeat"></span>&nbsp;  Cập nhật</a>&nbsp;&nbsp;
+                <a  href="javascript:void()" onclick="document.getElementById('product').submit()" class="btn btn-success pull-right"><span class="glyphicon glyphicon-refresh"></span>&nbsp;  Cập nhật</a>&nbsp;&nbsp;
             </div>
         </div>
     </div>
