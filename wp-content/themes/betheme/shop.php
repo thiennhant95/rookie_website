@@ -37,7 +37,7 @@ get_header();
                         <!-- Item details -->
                         <div class="item-dtls">
                             <!-- product title -->
-                            <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+                            <h4><a href="<?php echo home_url()."/chi-tiet-san-pham/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
                             <!-- price -->
                             <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
                         </div>

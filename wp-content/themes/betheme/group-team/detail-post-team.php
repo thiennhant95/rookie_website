@@ -25,6 +25,27 @@
 	if($data_team != null && $check_post_slug == "bai-viet" && $data_post_group != null)
 	{
 ?>
+<style type="text/css" media="screen">
+.gioi-thieu ul{
+	display: block;
+	list-style-type: disc;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 40px;
+}
+.gioi-thieu li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.style-simple table:not(.recaptchatable) th { background: gainsboro; }
+.list-team td, .list-team th{ border: 1px solid #fff !important; }
+@media screen (max-width: 680px)
+{	
+	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
+}
+</style>
 <?php get_header(); ?>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
@@ -45,8 +66,8 @@
 						</div>
 						<div class="clearfix"></div>
 						<div class="col-md-12" style="padding: 0">
-							<div class="col-md-5" style="margin-top: 15px">
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
+							<div class="col-md-5 size-custom" style="margin-top: 15px">
+							<div class="col-md-12 gioi-thieu" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
 								<h4><span class="glyphicon glyphicon-globe" style="padding-right: 15px; color: #0CBDE3"></span><strong>Giới thiệu</strong></h4>
 								<div class="col-md-12 row">
 									<?php
@@ -89,7 +110,7 @@
 								</div>
 							</div>
 							</div>
-							<div class="col-md-7 row" style="margin-top: 15px">
+							<div class="col-md-7 row size-custom" style="margin-top: 15px">
 								<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 									<h2><strong><?php echo $data_detail_post_group->post_group_title; ?></strong></h2>
 									<div class="col-md-12 row">

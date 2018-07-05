@@ -429,15 +429,21 @@
                                     <div class="col-md-3 col-sm-6">
                                         <!-- Restaurant Item -->
                                         <div class="item">
-                                            <?php if(!in_array($row->id,$arr_team_product)){ ?>
-                                                <input type="checkbox" class="checkbox-products" name="san_pham_nhom" value="<?php echo $row->id; ?>" <?php if($count_arr_team_product >= 10){ echo "disabled"; } ?>>
-                                            <?php } 
-                                                else{
-                                            ?>
-                                                <input type="checkbox" class="checkbox-products checked-product" name="san_pham_nhom" value="<?php echo $row->id; ?>" checked="checked">
-                                            <?php
-                                                }
-                                            ?>
+                                            <?php if(!empty($arr_team_product)){ ?>
+                                                <?php if(!in_array($row->id,$arr_team_product)){ ?>
+                                                    <input type="checkbox" class="checkbox-products" name="san_pham_nhom" value="<?php echo $row->id; ?>" <?php if($count_arr_team_product >= 10){ echo "disabled"; } ?>>
+                                                <?php } 
+                                                    else{
+                                                ?>
+                                                    <input type="checkbox" class="checkbox-products checked-product" name="san_pham_nhom" value="<?php echo $row->id; ?>" checked="checked">
+                                                <?php
+                                                    }
+                                                ?>
+                                            <?php }else{
+                                                ?>
+                                                 <input type="checkbox" class="checkbox-products" name="san_pham_nhom" value="<?php echo $row->id; ?>" <?php if($count_arr_team_product >= 10){ echo "disabled"; } ?>>
+                                                <?php
+                                            } ?>
                                             <!-- Item's image -->
                                             <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
                                             <!-- Item details -->

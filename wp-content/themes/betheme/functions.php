@@ -366,7 +366,7 @@ function create_shortcode_randompost() {
                 <!-- Item details -->
                 <div class="item-dtls">
                     <!-- product title -->
-                    <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+                    <h4><a href="<?php echo home_url()."/chi-tiet-san-pham/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
                     <!-- price -->
                     <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
                 </div>
@@ -695,6 +695,19 @@ add_action('init', function() {
     $templatename = 'xac-nhan-tai-khoan';
     if($path[0] == $templatename){
         $load = locate_template('xac_nhan_tai_khoan.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Chi tiết sản phẩm */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'chi-tiet-san-pham';
+    if($path[0] == $templatename){
+        $load = locate_template('product-detail.php', true);
         if ($load) {
             exit();
         }

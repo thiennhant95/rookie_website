@@ -1,7 +1,14 @@
+<?php 
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $explode = explode("/",$url_path);
+    $product_slug = $explode[1];
+    global $wpdb;
+    $table_products = $wpdb->prefix."products";
+    $data_prepare_products = $wpdb->prepare("SELECT * FROM $table_products WHERE product_slug = %s",$product_slug);
+    $data_products = $wpdb->get_row($data_prepare_products);
+    if(!empty($data_products)){
+?>
 <?php
-/**
- * Template Name: Product Detail
- **/
 get_header();
 ?>
 <style>
@@ -149,9 +156,10 @@ get_header();
         width: 120px;
     }
 
-    .pro-img-list {
+    .pro-img-list img {
         margin: 10px 0 0 -15px;
-        width: 100%;
+        width: 90px !important;
+        height: auto;
         display: inline-block;
     }
 
@@ -172,50 +180,79 @@ get_header();
     <section class="panel">
         <div class="panel-body">
             <div class="col-md-6">
+                <?php
+                $images_url = home_url()."/wp-content/uploads/image-product/"; 
+                $arr_image_product = json_decode($data_products->product_images); 
+                if(!empty($arr_image_product))
+                {
+                    $start = 0;
+                    foreach($arr_image_product as $key => $image_product){
+                    if($key == $start){
+                ?>
                 <div class="pro-img-details">
-                    <img src="http://thevectorlab.net/flatlab/img/product-list/pro-thumb-big.jpg" alt="">
+                    <img src="<?php echo $images_url.$image_product ?>" alt="">
                 </div>
+                <?php 
+                    }
+                    else{
+                ?>
                 <div class="pro-img-list">
                     <a href="#">
-                        <img src="http://thevectorlab.net/flatlab/img/product-list/pro-thumb-1.jpg" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="http://thevectorlab.net/flatlab/img/product-list/pro-thumb-2.jpg" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="http://thevectorlab.net/flatlab/img/product-list/pro-thumb-3.jpg" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="http://thevectorlab.net/flatlab/img/product-list/pro-thumb-1.jpg" alt="">
+                        <img src="<?php echo $images_url.$image_product ?>" alt="">
                     </a>
                 </div>
+                <?php 
+                        }
+                    }
+                }
+                ?>
             </div>
             <div class="col-md-6">
-                <h4 class="pro-d-title">
-                    <a href="#" class="">
-                        Leopard Shirt Dress
-                    </a>
-                </h4>
+                <h2>
+                    <strong>
+                        <?php echo $data_products->product_name; ?>
+                    <strong>
+                </h2>
                 <p>
-                    Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally.
+                    <?php  echo str_replace($search, $replace,$data_products->product_description); ?>
                 </p>
-                <div class="product_meta">
-                    <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">Jackets</a>, <a rel="tag" href="#">Men</a>, <a rel="tag" href="#">Shirts</a>, <a rel="tag" href="#">T-shirt</a>.</span>
-                </div>
-                <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">$544</span>  <span class="pro-price"> $300.00</span></div>
+                <div class="m-bot15"> <strong>Price : </strong><span class="pro-price"><?php echo number_format($data_products->product_price)."đ"; ?></span></div>
+                <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
                 <div class="form-group">
                     <label>Số Lượng</label>
-                    <input type="quantiy" placeholder="1" class="form-control quantity">
+                    <input type="quantiy" placeholder="1" class="form-control quantity" name="product_qty">
                 </div>
                 <p>
-                    <button class="btn btn-round btn-danger" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                    <div>
+                        <input type="hidden" name="product_id" value="<?php echo $row->id; ?>" />
+                        <?php
+                            $current_url = base64_encode($_SERVER['REQUEST_URI']);
+                        ?>
+                        <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+                        <input type="hidden" name="type" value="add">
+                        <button class="btn btn-round btn-danger ecom bg-lblue" type="button" onclick="document.getElementById('product-<?php echo $i?>').submit()" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</button>
+                    </div>                                              
                 </p>
+                </form>
             </div>
         </div>
+        <section>
+            <?php echo str_replace($search, $replace, $data_products->product_long_description); ?>
+        </section>
     </section>
 </div>
     </div>
 </div>
 <?php
 get_footer();
+?>
+<?php 
+    }
+    else
+    {
+        global $wp_query;
+        $wp_query->set_404();
+        status_header( 404 );
+        get_template_part( 404 );
+    } 
 ?>

@@ -36,13 +36,17 @@
 }
 .style-simple table:not(.recaptchatable) th { background: gainsboro; }
 .list-team td, .list-team th{ border: 1px solid #fff !important; }
+@media screen (max-width: 680px)
+{	
+	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
+}
 </style>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
 			<div class="sections_group">
 				<div class="col-md-12" style="margin-bottom: 20px">
-					<div class="col-md-offset-1 col-md-10">
-						<div class="col-md-12" style="position: relative; padding: 0">
+					<div class="col-md-offset-1 col-md-10 col-xs-12 col-sm-12">
+						<div class="col-md-12 col-xs-12 col-sm-12" style="position: relative; padding: 0">
 							<div class="col-md-12" style="background-color:#000; background-image: url('<?php echo $data_team->background; ?>'); background-position: center center; background-repeat: no-repeat; background-size: cover; overflow: hidden; height: 250px; padding: 0px">
 							</div>
 							<div class="col-md-2 col-xs-4 col-sm-4" style="position: absolute; background-color: #fff; left: 5%; bottom:0; height: 120px; padding:0; width:120px">
@@ -55,8 +59,8 @@
 							</div>
 						</div>
 						<div class="clearfix"></div>
-						<div class="col-md-12" style="padding: 0">
-						<div class="col-md-5" style="margin-top: 15px">
+						<div class="col-md-12 col-xs-12 col-sm-12" style="padding: 0">
+						<div class="col-md-5 col-xs-12 col-sm-12 size-custom" style="margin-top: 15px; padding-left: 0; padding-right: 0">
 							<div class="col-md-12 gioi-thieu" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
 								<h4><span class="glyphicon glyphicon-globe" style="padding-right: 15px; color: #0CBDE3"></span><strong>Giới thiệu</strong></h4>
 								<div class="col-md-12 row">
@@ -100,10 +104,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-7 row" style="margin-top: 15px">	
+						<div class="col-md-7 col-xs-12 col-sm-12 row size-custom" style="margin-top: 15px; ">	
 							<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
-								<div class="col-md-12 col-xs-12 col-sm-12 row">
+								<div class="col-md-12 col-xs-12 col-sm-12">
 									<table class="table table-striped table-bordered list-team table-reponsive" style="font-size: 13px">
 										<thead>
 											<tr>
@@ -158,7 +162,7 @@
 								        ?>
 								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
 								        		<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
-										        <div class="col-md-3 col-sm-6">
+										        <div class="col-md-4 col-sm-6">
 										            <!-- Restaurant Item -->
 										            <div class="item">
 										                <!-- Item's image -->
@@ -166,7 +170,7 @@
 										                <!-- Item details -->
 										                <div class="item-dtls">
 										                    <!-- product title -->
-										                    <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+										                    <h4><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
 										                    <!-- price -->
 										                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
 										                </div>
