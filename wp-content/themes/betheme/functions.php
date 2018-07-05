@@ -564,14 +564,14 @@ function admin_styles(){
     wp_enqueue_script( 'am_admin_bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js' );
     wp_enqueue_script( 'am_admin_validate_tooltips', get_template_directory_uri() . '/js/jquery-validate.bootstrap-tooltip.js' );
     wp_enqueue_script( 'am_admin_jquery_validate', get_template_directory_uri() . '/js/jquery.validate-1.14.0.min.js' );
-    wp_enqueue_script( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.min.js');
     wp_enqueue_script( 'am_admin_jquery_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js');
+    wp_enqueue_script( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.min.js');  
     wp_enqueue_style( 'am_admin_bootstrap');
     wp_enqueue_style( 'am_admin_darktooltip');
     wp_enqueue_style('am_admin_custom_style_admin');
     wp_enqueue_style('am_admin_bootstrap_datatables');
 }
-
+add_action( 'admin_enqueue_scripts', 'admin_styles' );
 //xoa sp
 add_action('init', function() {
     $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
