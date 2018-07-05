@@ -153,6 +153,7 @@
 										    $images_url = home_url()."/wp-content/uploads/image-product/";
 										    foreach ($data_products as $row):
 									        $arr_image_products =json_decode($row->product_images);
+									        if(!empty($data_team->san_pham_nhom)){
 									        if(in_array($row->id,$arr_team_product)){
 								        ?>
 								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
@@ -186,6 +187,7 @@
 						        		<?php
 						        		$i++; 
 							        		}
+							        	}
 							        		endforeach 
 						        		?>
     									</div>
