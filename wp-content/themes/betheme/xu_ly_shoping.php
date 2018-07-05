@@ -23,6 +23,8 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
 {
     $product_id   = filter_var($_POST["product_id"], FILTER_SANITIZE_STRING); //product id
     $return_url   = base64_decode($_POST["return_url"]); // url trả về
+//    print_r($_POST["product_qty"]);
+//    die();
     if ($_POST["product_qty"])
     {
         $product_qty  = filter_var($_POST["product_qty"], FILTER_SANITIZE_NUMBER_INT); //số lượng

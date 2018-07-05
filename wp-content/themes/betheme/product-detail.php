@@ -224,7 +224,7 @@ get_header();
                 </div>
                 <p>
                     <div>
-                        <input type="hidden" name="product_id" value="<?php echo $row->id; ?>" />
+                        <input type="hidden" name="product_id" value="<?php echo $data_products->id; ?>" />
                         <?php
                             $current_url = base64_encode($_SERVER['REQUEST_URI']);
                         ?>
