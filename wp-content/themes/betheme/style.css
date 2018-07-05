@@ -10,6 +10,16 @@ Version: 17.6
 
 All css files are placed in /css/ folder
 */
+@media only screen and (max-width: 767px) {
+    .register,.login-account{
+        color: #1c2d3f!important;
+        font-weight: 400!important;
+    }
+    .header-classic #Action_bar .social{
+        padding-top: 10px!important;
+        text-align: right;
+    }
+}
 #Top_bar{
     background-color: #ffffff!important;
 }
