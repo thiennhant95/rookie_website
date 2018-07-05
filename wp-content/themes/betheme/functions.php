@@ -427,7 +427,7 @@ add_action('init', function() {
 function ranking_team() {
     ob_start();
     ?>
-                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959;">
+                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px">
                     <thead>
                     <tr>
                         <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
@@ -656,6 +656,45 @@ add_action('init', function() {
     $templatename = 'post-group-team';
     if($path[0] == $templatename){
         $load = locate_template('group-team/includes/post-group.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Xử lý đăng ký sản phẩm nhóm */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xu-ly-dang-ky-san-pham';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/products/function-product.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+//page đặt hàng thành công
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'dat-hang-thanh-cong';
+    if($path[0] == $templatename){
+        $load = locate_template('success_order.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+//page đặt hàng thành công
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xac-nhan-tai-khoan';
+    if($path[0] == $templatename){
+        $load = locate_template('xac_nhan_tai_khoan.php', true);
         if ($load) {
             exit();
         }

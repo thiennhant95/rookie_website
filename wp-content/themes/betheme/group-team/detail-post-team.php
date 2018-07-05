@@ -43,8 +43,10 @@
 								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
 							</div>
 						</div>
-						<div class="col-md-12 row" style="margin-top: 15px">
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
+						<div class="clearfix"></div>
+						<div class="col-md-12" style="padding: 0">
+							<div class="col-md-5" style="margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
 								<h4><span class="glyphicon glyphicon-globe" style="padding-right: 15px; color: #0CBDE3"></span><strong>Giới thiệu</strong></h4>
 								<div class="col-md-12 row">
 									<?php
@@ -53,17 +55,8 @@
 									?>
 								</div>
 							</div>
-							<div class="col-md-7 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
-								<h2><strong><?php echo $data_detail_post_group->post_group_title; ?></strong></h2>
-								<div class="col-md-12 row">
-									<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$data_detail_post_group->post_group_slug; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-								</div>
-								<div class="col-md-12 row">
-									<?php echo str_replace($search, $replace,$data_detail_post_group->post_group_content); ?>
-								</div>
-							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
 								<div class="col-md-12 row">
 									<?php
@@ -72,7 +65,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong>Bài Viết</strong></h4>
 								<div class="col-md-12 row" style="margin-top: 15px">
 								<?php 
@@ -95,7 +88,20 @@
 								?>
 								</div>
 							</div>
+							</div>
+							<div class="col-md-7 row" style="margin-top: 15px">
+								<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+									<h2><strong><?php echo $data_detail_post_group->post_group_title; ?></strong></h2>
+									<div class="col-md-12 row">
+										<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$data_detail_post_group->post_group_slug; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+									</div>
+									<div class="col-md-12 row">
+										<?php echo str_replace($search, $replace,$data_detail_post_group->post_group_content); ?>
+									</div>
+								</div>
+							</div>
 						</div>
+					</div>
 					</div>
 				</div>	
 			</div>

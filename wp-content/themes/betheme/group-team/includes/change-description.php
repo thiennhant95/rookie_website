@@ -11,5 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		),
 		array("id" => $session_id_team)
 	);
+	if($update){
+		$_SESSION["success_description"] = 1;
+		$url = home_url()."/manage-group/".$data_query_team->slug;
+		wp_redirect($url);
+	}
+	else{
+		$_SESSION["success_description"] = 2;
+		$url = home_url()."/manage-group/".$data_query_team->slug;
+		wp_redirect($url);
+	}
 }
 ?>

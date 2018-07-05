@@ -143,6 +143,7 @@
     .avatar:hover .textbox{margin-top: -48px; }
     #background .textbox{margin-top: -48px; }
     #background:hover .textbox{margin-top: 0px; z-index:9999;}
+    .checkbox-products{ width: 20px; height: 20px;  filter: invert(150%) hue-rotate(50deg) brightness(1.9); }
 </style>
 <div id="Content">
     <div class="content_wrapper clearfix">
@@ -239,6 +240,30 @@
                         </div>
                         <?php
                         $_SESSION["success_change_info"] = 0; 
+                    }
+                ?>
+            </div>
+            <?php } ?>
+            <?php 
+            if(isset($_SESSION["success_description"])){
+            ?>
+            <div class="col-md-12">
+                <?php
+                    if($_SESSION["success_description"] == 1){
+                        ?>
+                        <div class="alert alert-success">
+                            Cập nhật thông tin thành công
+                        </div>
+                        <?php
+                        $_SESSION["success_description"] = 0; 
+                    }
+                    if($_SESSION["success_description"] == 2){
+                        ?>
+                        <div class="alert alert-danger">
+                            Cập nhật thông tin thất bại
+                        </div>
+                        <?php
+                        $_SESSION["success_description"] = 0; 
                     }
                 ?>
             </div>
@@ -386,6 +411,52 @@
                         </div>
                     </form>
                     <form method="post" id="register-form2" class="form-manage" action="" data-id="menu3" style="display:none">
+                        <?php 
+                            $table_products = $wpdb->prefix."products";
+                            $query_products = "SELECT * FROM $table_products";
+                            $data_products = $wpdb->get_results($query_products);
+                            $arr_team_product = json_decode($data_team->san_pham_nhom);
+                            $count_arr_team_product = count($arr_team_product);
+                        ?>
+                        <div class="shop-items">
+                            <div class="container-fluid">
+                                <div class="row">
+                                <?php
+                                $images_url = home_url()."/wp-content/uploads/image-product/";
+                                foreach ($data_products as $row):
+                                    $arr_image_products =json_decode($row->product_images);
+                                    ?>
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Restaurant Item -->
+                                        <div class="item">
+                                            <?php if(!in_array($row->id,$arr_team_product)){ ?>
+                                                <input type="checkbox" class="checkbox-products" name="san_pham_nhom" value="<?php echo $row->id; ?>" <?php if($count_arr_team_product >= 10){ echo "disabled"; } ?>>
+                                            <?php } 
+                                                else{
+                                            ?>
+                                                <input type="checkbox" class="checkbox-products checked-product" name="san_pham_nhom" value="<?php echo $row->id; ?>" checked="checked">
+                                            <?php
+                                                }
+                                            ?>
+                                            <!-- Item's image -->
+                                            <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
+                                            <!-- Item details -->
+                                            <div class="item-dtls">
+                                                <!-- product title -->
+                                                <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+                                                <!-- price -->
+                                                <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                endforeach;
+                                ?>
+                                </div>
+                            </div>
+                            <button class="btn-u btn-block pull-left submit" type="submit" name="xacnhan">Xác nhận</button>
+                            <span class="col-md-12" id="notice-products" style="margin-top: 15px"></span>
+                        </div>
                     </form>
                     <form method="post" id="register-form3" class="form-manage" action="" data-id="menu4" style="display:none">
                     </form>
@@ -505,6 +576,64 @@
     </div>
 </div>
 <script>
+    jQuery(function($){
+        $(".checkbox-products").change(function(){
+            if($(this).hasClass('checked-product'))
+            {
+                $(this).removeClass("checked-product");   
+            }
+            else
+            {
+                 $(this).addClass("checked-product");
+            }
+            var checked_product = $(".checked-product");
+            if(checked_product.length >= 10)
+            {
+                $(".checkbox-products").each(function(number, index ) {
+                   if(!$(index).hasClass('checked-product')){
+                        $(index).attr("disabled","disabled");
+                   }
+                })
+            }
+            else
+            {
+                $(".checkbox-products").each(function(number, index ) {
+                    $(index).removeAttr("disabled");
+                })
+            }
+        })
+        $('#register-form2').on('submit',(function(e) {
+            e.preventDefault();
+            var url = '<?php echo home_url()."/xu-ly-dang-ky-san-pham" ?>';
+            var arr_product = new Array();
+            var id_team = <?php echo $_SESSION['branch_id']; ?>;
+            $(".checkbox-products").each(function(number, index ) {
+               if($(index).hasClass('checked-product')){
+                   arr_product.push($(index).val());
+               }
+            })
+            $.ajax({
+                url: url,
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',                
+                data: { product: arr_product, id_team : id_team },
+                success: function( data, textStatus, jQxhr ){
+                    if(data == 1){
+                        $("#notice-products").html('<div class="col-md-12 alert alert-success">Cập nhật sản phẩm nhóm thành công</div>');
+                    }
+                    else{
+                        $("#notice-products").html('<div class="col-md-12 alert alert-danger">Cập nhật sản phẩm nhóm thất bại</div>');
+                    }        
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });    
+        }));
+
+    });    
+
     jQuery(function($){
     	$(".menu-tab").click(function(){
     		$(".menu-tab").removeClass("active");

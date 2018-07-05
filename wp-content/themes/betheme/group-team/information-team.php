@@ -21,7 +21,7 @@
 ?>
 <?php get_header(); ?>
 <style>
-ul{
+.gioi-thieu ul{
 	display: block;
 	list-style-type: disc;
 	-webkit-margin-before: 1em;
@@ -30,7 +30,7 @@ ul{
 	-webkit-margin-end: 0px;
 	-webkit-padding-start: 40px;
 }
-li {
+.gioi-thieu li {
     display: list-item;
     text-align: -webkit-match-parent;
 }
@@ -54,8 +54,10 @@ li {
 								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
 							</div>
 						</div>
-						<div class="col-md-12 row" style="margin-top: 15px">
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
+						<div class="clearfix"></div>
+						<div class="col-md-12" style="padding: 0">
+						<div class="col-md-5" style="margin-top: 15px">
+							<div class="col-md-12 gioi-thieu" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
 								<h4><span class="glyphicon glyphicon-globe" style="padding-right: 15px; color: #0CBDE3"></span><strong>Giới thiệu</strong></h4>
 								<div class="col-md-12 row">
 									<?php
@@ -64,47 +66,8 @@ li {
 									?>
 								</div>
 							</div>
-							<div class="col-md-7 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
-								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
-								<div class="col-md-12 row">
-									<table class="table table-responsive table-striped table-bordered list-team">
-										<thead>
-											<tr>
-												<th>Họ Tên</th>
-												<th>SĐT</th>
-												<th>Email</th>
-												<th>Trường học</th>
-												<th>Chức vụ</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="success">
-												<td><?php echo $data_team->ten_truong_nhom ?></td>
-												<td><?php echo $data_team->sdt_truong_nhom ?></td>
-												<td><?php echo $data_team->email_truong_nhom ?></td>
-												<td><?php echo $data_team->truong_truong_nhom ?></td>
-												<td>Trưởng nhóm</td>
-											</tr>
-											<tr class="info">
-												<td><?php echo $data_team->ten_member_1 ?></td>
-												<td><?php echo $data_team->sdt_member_1 ?></td>
-												<td><?php echo $data_team->email_member_1 ?></td>
-												<td><?php echo $data_team->truong_member_1 ?></td>
-												<td>Thành viên</td>
-											</tr>
-											<tr class="warning">
-												<td><?php echo $data_team->ten_member_2 ?></td>
-												<td><?php echo $data_team->sdt_member_2 ?></td>
-												<td><?php echo $data_team->email_member_2 ?></td>
-												<td><?php echo $data_team->truong_member_2 ?></td>
-												<td>Thành viên</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
 								<div class="col-md-12 row">
 									<?php
@@ -112,11 +75,8 @@ li {
 									?>
 								</div>
 							</div>
-							<div class="col-md-7 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 15px">
-								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
-							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-5" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong>Bài Viết</strong></h4>
 								<div class="col-md-12 row" style="margin-top: 15px">
 								<?php 
@@ -140,6 +100,100 @@ li {
 								</div>
 							</div>
 						</div>
+						<div class="col-md-7 row" style="margin-top: 15px">	
+							<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
+								<div class="col-md-12 col-xs-12 col-sm-12 row">
+									<table class="table table-striped table-bordered list-team table-reponsive" style="font-size: 13px">
+										<thead>
+											<tr>
+												<th>Họ Tên</th>
+												<th>SĐT</th>
+												<th>Email</th>
+												<th>Chức vụ</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="success">
+												<td><?php echo $data_team->ten_truong_nhom ?></td>
+												<td><?php echo $data_team->sdt_truong_nhom ?></td>
+												<td><?php echo $data_team->email_truong_nhom ?></td>
+												<td>Trưởng nhóm</td>
+											</tr>
+											<tr class="info">
+												<td><?php echo $data_team->ten_member_1 ?></td>
+												<td><?php echo $data_team->sdt_member_1 ?></td>
+												<td><?php echo $data_team->email_member_1 ?></td>
+												<td>Thành viên</td>
+											</tr>
+											<tr class="warning">
+												<td><?php echo $data_team->ten_member_2 ?></td>
+												<td><?php echo $data_team->sdt_member_2 ?></td>
+												<td><?php echo $data_team->email_member_2 ?></td>
+												<td>Thành viên</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 15px">
+								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
+								<div class="col-md-12 row">
+									<?php 
+			                            $table_products = $wpdb->prefix."products";
+			                            $query_products = "SELECT * FROM $table_products";
+			                            $data_products = $wpdb->get_results($query_products);
+			                            $arr_team_product = json_decode($data_team->san_pham_nhom);
+			                            $i = 1;
+			                        ?>
+									<div class="shop-items">
+								    	<div class="container-fluid">
+								    		<div class="row">
+									    <?php
+										    $images_url = home_url()."/wp-content/uploads/image-product/";
+										    foreach ($data_products as $row):
+									        $arr_image_products =json_decode($row->product_images);
+									        if(in_array($row->id,$arr_team_product)){
+								        ?>
+								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
+								        		<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
+										        <div class="col-md-3 col-sm-6">
+										            <!-- Restaurant Item -->
+										            <div class="item">
+										                <!-- Item's image -->
+										                <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
+										                <!-- Item details -->
+										                <div class="item-dtls">
+										                    <!-- product title -->
+										                    <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+										                    <!-- price -->
+										                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
+										                </div>
+										                <!-- add to cart btn -->
+										                <div class="ecom bg-lblue">
+
+										                    <input type="hidden" name="product_id" value="<?php echo $row->id; ?>" />
+										                    <?php
+										                    	$current_url = base64_encode($_SERVER['REQUEST_URI']);
+										                    ?>
+										                    <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+										                    <input type="hidden" name="type" value="add">
+										                    <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+									                	</div>
+									            	</div>
+									        	</div>
+									        </form>
+						        		<?php
+						        		$i++; 
+							        		}
+							        		endforeach 
+						        		?>
+    									</div>
+    								</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					</div>
 				</div>	
 			</div>
