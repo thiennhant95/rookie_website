@@ -206,6 +206,21 @@ function sanitize_file_name_chars($filename) {
 
 add_filter('sanitize_file_name', 'sanitize_file_name_chars', 10);
 
+/// đường dẫn trang chi tiết bài viết nhóm /
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    if (count($path) >=3) {
+        $templatename = 'bai-viet';
+        if ($path[2] == $templatename) {
+            $load = locate_template('group-team/detail-post-team.php', true);
+            if ($load) {
+                exit();
+            }
+        }
+    }
+});
+
 /* đường dẫn thông tin sản phẩm chi tiết trang cá nhân */
 add_action('init', function() {
   $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
@@ -643,20 +658,6 @@ add_action('init', function() {
         $load = locate_template('group-team/includes/post-group.php', true);
         if ($load) {
             exit();
-        }
-    }
-});
-/// đường dẫn trang chi tiết bài viết nhóm /
-add_action('init', function() {
-    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
-    $path = explode("/",$url_path);
-    if (count($path) >=3) {
-        $templatename = 'bai-viet';
-        if ($path[2] == $templatename) {
-            $load = locate_template('group-team/detail-post-team.php', true);
-            if ($load) {
-                exit();
-            }
         }
     }
 });
