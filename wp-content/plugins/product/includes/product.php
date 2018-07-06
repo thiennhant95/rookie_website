@@ -249,19 +249,19 @@ function show_company_view()
         </style>
 
         <script type="text/javascript">
-            $(function(){
-                $("input[type='submit']").click(function(e){
-                    var $fileUpload = $("input[type='file']");
-                    if (parseInt($fileUpload.get(0).files.length)<4){
-                        alert("Bạn chọn tối đa 4 hình ảnh");
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                });
-            });
+            // $(function(){
+            //     $("input[type='submit']").click(function(e){
+            //         var $fileUpload = $("input[type='file']");
+            //         if (parseInt($fileUpload.get(0).files.length)<4){
+            //             alert("Bạn chọn tối đa 4 hình ảnh");
+            //             return false;
+            //         }
+            //         else
+            //         {
+            //             return true;
+            //         }
+            //     });
+            // });
         </script>
 
         <?php
