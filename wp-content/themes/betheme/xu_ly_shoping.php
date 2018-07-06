@@ -137,7 +137,7 @@ if(isset($_POST["type"]) && $_POST["type"]=='update')
                         wp_redirect($url);
                         exit;
                     }
-                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$row, 'price'=>$cart_itm["price"]);
+                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$row, 'price'=>$cart_itm["price"],'id_team'=>$id_team);
                 }
             }
         }

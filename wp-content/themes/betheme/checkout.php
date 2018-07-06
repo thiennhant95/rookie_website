@@ -445,7 +445,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Tỉnh/ Thành Phố:</strong>
                                 <select class="form-control" name="order_city" required>
                                     <option>Chọn Tỉnh/ Thành phố</option>
-                                    <option value="TP HCM">TP HCM</option>
+                                    <option value="TP-HCM">TP HCM</option>
                                     <?php
 //                                    foreach ($tinh_list as $row)
 //                                    {
@@ -488,7 +488,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Phường/ Xã:</strong>
                                 <select class="form-control"  name="order_ward" required>
                                     <option>Chọn Phường/ Xã</option>
-                                    <option>Phường 7</option>
+                                    <option value="phường 7">Phường 7</option>
                                     <?php
 //                                    foreach ($xa_list as $row_xa)
 //                                    {

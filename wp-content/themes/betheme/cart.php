@@ -34,6 +34,7 @@ get_header();
     }
 </style>
 <?php
+// print_r($_SESSION['products']);
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
