@@ -320,6 +320,7 @@
 									                </p>
 									                <div class="m-bot15"> <strong>Price : </strong><span class="pro-price"><?php echo number_format($data_products->product_price)."đ"; ?></span></div>
 									                <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
+									                	<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
 									                <div class="form-group">
 									                    <label>Số Lượng</label>
 									                    <input type="quantiy" placeholder="1" class="form-control quantity" name="product_qty">
