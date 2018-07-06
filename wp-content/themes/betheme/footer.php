@@ -196,11 +196,17 @@ if( $back_to_top_class == 'hide' ){
             '</a></li>');
     });
 <?php if(isset($_SESSION["branch_id"])){
+        $table_team = $wpdb->prefix."team";
+        $data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE id = %d",$_SESSION["branch_id"]);
+        $data_team = $wpdb->get_row($data_prepare);
 	?>
 	 jQuery(function($){
 		$("#login-account").css({"display":"none"});
 		$("#register").css({"display":"none"});
 	});
+    jQuery(function($){
+        $(".social").append('<a class="register" id="register" href="/manage-group/<?php echo $data_team->slug ?>"><i class="fa fa-user"></i>&nbsp; Mypage</a>');
+    });
 	<?php
 } ?>
 </script>

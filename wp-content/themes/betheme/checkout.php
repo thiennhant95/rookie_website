@@ -445,14 +445,15 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Tỉnh/ Thành Phố:</strong>
                                 <select class="form-control" name="order_city" required>
                                     <option>Chọn Tỉnh/ Thành phố</option>
+                                    <option value="TP HCM">TP HCM</option>
                                     <?php
-                                    foreach ($tinh_list as $row)
-                                    {
-                                        ?>
-                                    <option value="<?php echo $row->matp?>"><?php echo $row->name ?></option>
-                                    <?php
-                                    }
-                                    ?>
+//                                    foreach ($tinh_list as $row)
+//                                    {
+//                                        ?>
+<!--                                    <option value="--><?php //echo $row->matp?><!--">--><?php //echo $row->name ?><!--</option>-->
+<!--                                    --><?php
+//                                    }
+//                                    ?>
                                 </select>
                             </div>
                             <div class="span1"></div>
@@ -465,14 +466,15 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Quận/ Huyện:</strong>
                                 <select class="form-control"  name="order_district" required>
                                     <option>Chọn Quận/ Huyện</option>
+                                    <option value="Quận 5">Quận 5</option>
                                     <?php
-                                    foreach ($huyen_list as $row_huyen)
-                                    {
-                                        ?>
-                                        <option value="<?php echo $row_huyen->name?>"><?php echo $row_huyen->name ?></option>
-                                        <?php
-                                    }
-                                    ?>
+//                                    foreach ($huyen_list as $row_huyen)
+//                                    {
+//                                        ?>
+<!--                                        <option value="--><?php //echo $row_huyen->name?><!--">--><?php //echo $row_huyen->name ?><!--</option>-->
+<!--                                        --><?php
+//                                    }
+//                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -486,13 +488,14 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Phường/ Xã:</strong>
                                 <select class="form-control"  name="order_ward" required>
                                     <option>Chọn Phường/ Xã</option>
+                                    <option>Phường 7</option>
                                     <?php
-                                    foreach ($xa_list as $row_xa)
-                                    {
-                                        ?>
-                                        <option value="<?php echo $row_xa->name?>"><?php echo $row_xa->name ?></option>
-                                        <?php
-                                    }
+//                                    foreach ($xa_list as $row_xa)
+//                                    {
+//                                        ?>
+<!--                                        <option value="--><?php //echo $row_xa->name?><!--">--><?php //echo $row_xa->name ?><!--</option>-->
+<!--                                        --><?php
+//                                    }
                                     ?>
                                 </select>
                             </div>
