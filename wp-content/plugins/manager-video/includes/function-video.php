@@ -14,6 +14,7 @@ function list_manage_video()
 				<th>ID Video</th>
 				<th>Tên Video</th>
 				<th>Loại Video</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,6 +32,15 @@ function list_manage_video()
 						}
 					?>
 				</td>
+				<td class="text-center">
+                    <a href='<?php echo admin_url().'admin.php?page=video-delete&video='.$video->id ?>' title="Are you sure?" class="btn btn-danger btn-flat popovers" data-placement="left"  data-toggle="popover"  data-trigger="focus" data-content="
+                                    <div>
+                                    <a class='btn btn-flat btn-sm btn-default pull-left' data-trigger='focus'><span class='glyphicon glyphicon-remove'></span></a>&nbsp
+                                    <a class='btn btn-flat btn-danger btn-sm pull-right' href='<?php echo admin_url().'video-delete?video='.$video->id ?>' ><span class='glyphicon glyphicon-ok'></span></a>
+                                    </div>
+                                    " data-html="true"  data-type="Group" onclick="return confirm_delete();">Xóa</a>
+                                    <script>function confirm_delete() { return confirm("Bạn có chắc muốn xoá dữ liệu này ?"); }</script>
+                </td>
 			</tr>
 		<?php } ?>
 		</tbody>
@@ -175,8 +185,34 @@ function add_video()
 	}
 }
 
-function plugin_shortcode_video()
-{
+function delete_manage_video(){
+	if(isset($_GET["page"]) && isset($_GET['video']) && $_GET["page"] == "video-delete"){
+		global $wpdb;
+		$id_video = $_GET["video"];
+		$table_video = $wpdb->prefix."video_rookie";
+		$query_all_video = "SELECT * FROM $table_video WHERE status = 1";
+		$data_all_video = $wpdb->get_results($query_all_video);
+		if(count($data_all_video) > 2){
+			$delete = $wpdb->delete($table_video , array('id' => $id_video));
+			if($delete){
+				$url_admin_video = admin_url('admin.php?page=list-video');
+				wp_redirect($url_admin_video);
+			}
+			else{
+				$url_admin_video = admin_url('admin.php?page=list-video');
+				wp_redirect($url_admin_video);
+				echo "<script>alert('Không thể xoá video')</script>";
+			}
+		}
+		else{
+			$url_admin_video = admin_url('admin.php?page=list-video');
+			wp_redirect($url_admin_video);
+			echo "<script>alert('Không thể xoá video')</script>";
+		}
+	}
+}
+
+function plugin_shortcode_video(){
 	global $wpdb;
 	$table_video = $wpdb->prefix."video_rookie";
 	$query_video = "SELECT * FROM $table_video WHERE status = 1 order by id DESC LIMIT 2";

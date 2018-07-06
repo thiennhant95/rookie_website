@@ -11,7 +11,7 @@
 	$table_team = $wpdb->prefix."team";
 	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
-	$search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
 	$table_post_group = $wpdb->prefix."post_group";
     $table_team_post = $wpdb->prefix."team_post";
@@ -112,7 +112,6 @@
 										<thead>
 											<tr>
 												<th>Họ Tên</th>
-												<th>SĐT</th>
 												<th>Email</th>
 												<th>Chức vụ</th>
 											</tr>
@@ -120,19 +119,16 @@
 										<tbody>
 											<tr class="success">
 												<td><?php echo $data_team->ten_truong_nhom ?></td>
-												<td><?php echo $data_team->sdt_truong_nhom ?></td>
 												<td><?php echo $data_team->email_truong_nhom ?></td>
 												<td>Trưởng nhóm</td>
 											</tr>
 											<tr class="info">
 												<td><?php echo $data_team->ten_member_1 ?></td>
-												<td><?php echo $data_team->sdt_member_1 ?></td>
 												<td><?php echo $data_team->email_member_1 ?></td>
 												<td>Thành viên</td>
 											</tr>
 											<tr class="warning">
 												<td><?php echo $data_team->ten_member_2 ?></td>
-												<td><?php echo $data_team->sdt_member_2 ?></td>
 												<td><?php echo $data_team->email_member_2 ?></td>
 												<td>Thành viên</td>
 											</tr>

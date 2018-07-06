@@ -16,7 +16,7 @@
 	$table_post_group = $wpdb->prefix."post_group";
 	$data_prepare_detail_post_group = $wpdb->prepare("SELECT * FROM $table_post_group WHERE post_group_slug = %s",$post_slug);
 	$data_detail_post_group = $wpdb->get_row($data_prepare_detail_post_group);
-	$search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
 	$table_post_group = $wpdb->prefix."post_group";
     $table_team_post = $wpdb->prefix."team_post";

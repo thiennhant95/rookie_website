@@ -17,6 +17,13 @@ function mv_manage_menu()
 }
 add_action('admin_menu', 'mv_manage_menu');
 
+/* Cập nhật video */
+function mv_delete_video() 
+{
+	add_submenu_page( '', 'Edit Video', 'Edit Video', 'manage_options', 'video-delete','delete_manage_video');
+}
+add_action('admin_menu', 'mv_delete_video');
+
 /* Submenu tạo video */ 
 function mv_create_video()
 {

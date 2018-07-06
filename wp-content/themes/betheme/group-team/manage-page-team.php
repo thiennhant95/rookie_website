@@ -331,13 +331,17 @@
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home mycolor"></i></span>
                             <input required size="60" maxlength="255" class="form-control" placeholder="Tên Trường" name="lead_school" id="lead_school" type="text" value="<?php echo $data_team->truong_truong_nhom ?>">
                         </div>
-                    <div class="input-group margin-bottom-20">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone mycolor"></i></span>
-                        <input required size="60" maxlength="255" class="form-control" placeholder="Số điện thoại" name="lead_phone" id="lead_phone" type="text" value="<?php echo $data_team->sdt_truong_nhom ?>">
-                    </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-phone mycolor"></i></span>
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Số điện thoại" name="lead_phone" id="lead_phone" type="text" value="<?php echo $data_team->sdt_truong_nhom ?>">
+                        </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="lead_birthday" id="lead_birthday" type="text" value="<?php echo $data_team->namsinh_truong_nhom ?>">
+                        </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook trưởng nhóm" name="facebook_truong_nhom" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_truong_nhom ?>">
                         </div>
                         <hr/>
 
@@ -348,7 +352,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Email" name="u1_email" id="u1_email" type="email" value="<?php echo $data_team->email_member_1; ?>" disabled="disabled">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Email" name="u1_email" id="u1_email" type="email" value="<?php echo $data_team->email_member_1; ?>">
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home mycolor"></i></span>
@@ -362,6 +366,10 @@
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u1_birthday" id="u1_birthday" type="text" value="<?php echo $data_team->namsinh_member_1; ?>">
                         </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 1" name="facebook_u1" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_u1 ?>">
+                        </div>
                         <hr/>
 
                         <span class="title-group"><i class="glyphicon glyphicon-user"></i> THÔNG TIN THÀNH VIÊN 2</span>
@@ -371,7 +379,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Email" name="u2_email" id="u2_email" type="email" value="<?php echo $data_team->email_member_2; ?>" disabled="disabled">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Email" name="u2_email" id="u2_email" type="email" value="<?php echo $data_team->email_member_2; ?>">
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home mycolor"></i></span>
@@ -384,6 +392,10 @@
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u2_birthday" id="u2_birthday" type="text" value="<?php echo $data_team->namsinh_member_2; ?>">
+                        </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 2" name="facebook_u2" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_u2 ?>">
                         </div>
                         <div class="row">
                             <div class="col-md-12">

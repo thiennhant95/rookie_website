@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if(!empty($data_query_team)){
 				$update = $wpdb->update($table_team,
 					array(
+						"email_member_2" => htmlspecialchars($_POST["u2_email"]),
+						"email_member_1" => htmlspecialchars($_POST["u1_email"]),
 						"ten_truong_nhom" => htmlspecialchars($_POST['lead_username']),
 						"truong_truong_nhom" => htmlspecialchars($_POST['lead_school']),
 						"sdt_truong_nhom" => htmlspecialchars($_POST['lead_phone']),
@@ -30,7 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 						"ten_member_2" => htmlspecialchars($_POST["u2_username"]),
 						"truong_member_2" => htmlspecialchars($_POST["u2_school"]),
 						"sdt_member_2" => htmlspecialchars($_POST["u2_phone"]),
-						"namsinh_member_2" => htmlspecialchars($_POST["u2_birthday"])
+						"namsinh_member_2" => htmlspecialchars($_POST["u2_birthday"]),
+						"facebook_truong_nhom" => htmlspecialchars($_POST["facebook_truong_nhom"]),
+						"facebook_u1" => htmlspecialchars($_POST["facebook_u1"]),
+						"facebook_u2" => htmlspecialchars($_POST["facebook_u2"])
 					),
 					array("id" => $session_id_team)
 				);

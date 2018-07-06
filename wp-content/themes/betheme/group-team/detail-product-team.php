@@ -16,7 +16,7 @@
 	$table_products = $wpdb->prefix."products";
 	$data_prepare_products = $wpdb->prepare("SELECT * FROM $table_products WHERE product_slug = %s",$product_slug);
 	$data_products = $wpdb->get_row($data_prepare_products);
-	$search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
 	$table_post_group = $wpdb->prefix."post_group";
     $table_team_post = $wpdb->prefix."team_post";
