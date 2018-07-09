@@ -67,7 +67,7 @@
 								<?php  ?>
 							</div>
 							<div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
+								<h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></h3>
 							</div>
 						</div>
 						<div class="clearfix"></div>
@@ -151,6 +151,7 @@
 									<div class="col-md-12 row">
 										<?php echo str_replace($search, $replace,$data_detail_post_share->post_content); ?>
 									</div>
+									<div class="col-md-12 fb-comments" data-width="100%" data-href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/".$post_slug ?>" data-numposts="5"></div>
 								</div>
 							</div>
 							<?php 
@@ -164,6 +165,7 @@
 										<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 											<h3><strong>Tất cả bài viết chia sẽ</strong></h3>
 											<?php foreach($data_all_post_share as $all_post_share){ ?>
+											<div class="col-md-12" style="border: 1px solid #D9D9D9; border-radius: 10px; margin-bottom: 10px; padding: 15px"><?php echo $all_post_share->status_share ?></div>
 											<div class="col-md-4">
 			                                	<?php echo get_the_post_thumbnail($all_post_share->ID,'thumbnail') ?>
 			                                </div>

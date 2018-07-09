@@ -67,7 +67,7 @@
 								<?php  ?>
 							</div>
 							<div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
+								<h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></h3>
 							</div>
 						</div>
 						<div class="clearfix"></div>
@@ -151,7 +151,7 @@
 									<div class="col-md-12 row">
 										<?php echo str_replace($search, $replace,$data_detail_post_group->post_group_content); ?>
 									</div>
-									<div class="col-md-12 fb-comments" data-href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_slug ?>" data-numposts="5"></div>
+									<div class="col-md-12 fb-comments" data-width="100%" data-href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_slug ?>" data-numposts="5"></div>
 								</div>
 							</div>
 							<?php 

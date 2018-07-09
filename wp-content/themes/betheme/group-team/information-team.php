@@ -44,6 +44,7 @@
 {	
 	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
 }
+
 </style>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
@@ -59,7 +60,7 @@
 								<?php  ?>
 							</div>
 							<div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
+								<h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></h3>
 							</div>
 						</div>
 						<div class="clearfix"></div>
@@ -187,6 +188,9 @@
 								        ?>
 								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
 								        		<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
+								        		<?php if($i%3==1){ ?>
+								        		<div class="clearfix"></div>
+								        		<?php } ?>
 										        <div class="col-md-4 col-sm-6">
 										            <!-- Restaurant Item -->
 										            <div class="item">
@@ -195,7 +199,7 @@
 										                <!-- Item details -->
 										                <div class="item-dtls">
 										                    <!-- product title -->
-										                    <h4><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+										                    <h5><strong><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></strong></h5>
 										                    <!-- price -->
 										                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
 										                </div>
@@ -232,6 +236,11 @@
 	</div>
 <style>
 	#Subheader{ display: none; }
+	@media only  screen and (min-width: 996px) and (max-width: 1480px){
+    .shop-items .item img {
+    	height: 130px!important;
+		}
+	}
 </style>
 <?php  get_footer(); ?>
 <?php 

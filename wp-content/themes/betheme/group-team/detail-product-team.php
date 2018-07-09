@@ -196,7 +196,6 @@
     }
 
     .pro-img-list {
-        margin: 10px 0 0 -15px;
         width: 90px;
         display: inline-block;
     }
@@ -211,6 +210,8 @@
         font-size: 18px;
         font-weight: 300;
     }
+    .pro-img-list{ cursor: pointer }
+    .active-image { border: 3px solid #29E2D7; }
 </style>
 <?php get_header(); ?>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
@@ -227,7 +228,7 @@
 								<?php  ?>
 							</div>
 							<div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-								<h3 style="color: #000"><strong><?php echo $data_team->ten_nhom ?></strong></h3>
+								<h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></h3>
 							</div>
 						</div>
 						<div class="clearfix"></div>
@@ -321,19 +322,28 @@
 									        			if($key == $start){
 										        	?>
 									                <div class="pro-img-details">
-									                    <img src="<?php echo $images_url.$image_product ?>" alt="">
+									                    <img src="<?php echo $images_url.$image_product ?>" alt="" id="product-select">
 									                </div>
 									                <?php 
 									                	}
-									                	else{
+                                                        if($key == $start){
 									                ?>
-									                <div class="pro-img-list">
-									                    <a href="#">
+									                <div class="pro-img-list active-image" style="margin-right: 5px">
+									                    <span class="thumbnail-img">
 									                        <img src="<?php echo $images_url.$image_product ?>" alt="">
-									                    </a>
+									                    </span>
 									                </div>
 									                <?php 
-									                		}
+                                                        }
+                                                        else{
+                                                    ?>
+                                                    <div class="pro-img-list" style="margin-right: 5px">
+                                                        <span class="thumbnail-img">
+                                                            <img src="<?php echo $images_url.$image_product ?>" alt="">
+                                                        </span>
+                                                    </div>
+                                                    <?php
+                                                            }
 									                	}
 									                }
 									                ?>
@@ -342,7 +352,7 @@
 									                <h2>
 									                    <strong>
 									                        <?php echo $data_products->product_name; ?>
-									                    <strong>
+									                    </strong>
 									                </h2>
 									                <p>
 									                    <?php  echo str_replace($search, $replace,$data_products->product_description); ?>
@@ -387,6 +397,17 @@
 	.gallery li{ float: left; margin-left: 15px }
 	.quantity { display: inline-block !important; width: 60px !important; font-size: inherit !important;}
 </style>
+<script>
+jQuery(function($){    
+    $(".pro-img-list").click(function(){
+        $(".pro-img-list").removeClass("active-image");
+        $("#product-select").removeAttr("src");
+        $(this).addClass("active-image");
+        var src = $(this).find("img").attr('src');
+        $("#product-select").attr('src',src);
+    })
+})
+</script>
 <?php  get_footer(); ?>
 <?php 
 	} 

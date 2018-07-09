@@ -227,7 +227,7 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 				
 			</div>
 		</div>
-		
+		<div class="col-md-12 fb-comments" data-width="100%" data-href="<?php echo home_url().'/'.$post->post_name ?>" data-numposts="5" style="z-index:10"></div>
 		<?php if( mfn_opts_get( 'share' ) && ( get_post_meta( get_the_ID(), 'mfn-post-template', true ) == 'intro' ) ): ?>
 			<div class="section section-post-intro-share">
 				<div class="section_wrapper clearfix">
@@ -246,7 +246,6 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 				</div>
 			</div>
 		<?php endif; ?>
-		
 		<div class="section section-post-about">
 			<div class="section_wrapper clearfix">
 			

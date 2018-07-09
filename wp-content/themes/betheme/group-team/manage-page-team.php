@@ -473,7 +473,7 @@
                                 ?>
                                 </div>
                             </div>
-                            <button class="btn-u btn-block pull-left submit" type="submit" name="xacnhan">Xác nhận</button>
+                            <button class="btn-primary btn-block pull-left submit" type="submit" name="xacnhan" id="submit_product">Xác nhận</button>
                             <span class="col-md-12" id="notice-products" style="margin-top: 15px"></span>
                         </div>
                     </form>
@@ -626,6 +626,7 @@
             var url = '<?php echo home_url()."/xu-ly-dang-ky-san-pham" ?>';
             var arr_product = new Array();
             var id_team = <?php echo $_SESSION['branch_id']; ?>;
+            $("#submit_product").attr("disabled","disabled");
             $(".checkbox-products").each(function(number, index ) {
                if($(index).hasClass('checked-product')){
                    arr_product.push($(index).val());
@@ -643,7 +644,8 @@
                     }
                     else{
                         $("#notice-products").html('<div class="col-md-12 alert alert-danger">Cập nhật sản phẩm nhóm thất bại</div>');
-                    }        
+                    }
+                    $("#submit_product").removeAttr("disabled");        
                 },
                 error: function( jqXhr, textStatus, errorThrown ){
                     console.log( errorThrown );

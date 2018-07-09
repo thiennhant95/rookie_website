@@ -40,7 +40,7 @@ if( $back_to_top_class == 'hide' ){
 </section>
 <style>
     .image-tai-tro{
-        width: 50%;
+        width: 50% !important;
     }
 </style>
 
