@@ -261,3 +261,16 @@ aside#text-6 >.textwidget{
     width: 170px;
     height: 75px;
 }
+.tai-tro{
+    background: #F9F9F9;
+    color: #555;
+    /*box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.1);*/
+    position: relative;
+    /*text-align: center;*/
+    border-bottom: 1px solid rgba(150, 150, 150, 0.1);
+    z-index: 1;
+    font-weight: 400;
+    font-size: 18px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%)!important;
+}

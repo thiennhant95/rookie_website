@@ -34,7 +34,6 @@ get_header();
     }
 </style>
 <?php
-// print_r($_SESSION['products']);
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
@@ -69,6 +68,8 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 </thead>
                                 <tbody>
                                 <?php
+                                print_r($_SESSION['products']);
+                                die();
                                 if (!isset($_SESSION['products']) || count($_SESSION['products'])==0)
                                 {
                                     echo "<td colspan='4'>Không có sản phẩm nào trong giỏ hàng.</td>";
@@ -80,7 +81,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                                 $arr_image_products =json_decode($row_product->product_images);
                                 ?>
                                 <tr>
-                                    <td><?php echo $row_product->product_name ?><img src="<?php echo $images_url.$arr_image_products[0] ?>" class="img-cart"></td>
+                                    <td><a id="product-name" href="<?php echo home_url('chi-tiet-san-pham/'.$row_product->product_slug)?>"><?php echo $row_product->product_name ?></a><img src="<?php echo $images_url.$arr_image_products[0] ?>" class="img-cart"></td>
                                     <td>
                                         <input class="form-control input-soluong" name="amount[]" type="number" min="1" value="<?php echo $row['qty']?>">
                                     </td>
@@ -133,3 +134,8 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
 <?php
 get_footer();
 ?>
+<style>
+    #product-name:hover{
+        text-decoration: none;
+    }
+</style>
