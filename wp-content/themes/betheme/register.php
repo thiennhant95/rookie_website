@@ -300,7 +300,8 @@ get_footer();
         minlength: jQuery.validator.format("Vui lòng nhập từ {0} kí tự trở lên."),
         email: "Vui lòng nhập đúng định dạng email.",
         number: "Vui lòng nhập đúng định dạng số.",
-        date:" Vui lòng chọn đúng định dạng ngày."
+        date:" Vui lòng chọn đúng định dạng ngày.",
+        url:"Vui lòng nhập đúng đường dẫn"
     });
     jQuery(document).ready(function($) {
         $("#u2_birthday").datepicker({
@@ -369,10 +370,10 @@ get_footer();
                 u2_phone:{required:true,number: true,minlength:10,maxlength:12},
                 lead_birthday:{required:true,date: true},
                 u1_birthday:{required:true,date: true},
-                u2_birthday:{required:true,date: true}
-                lead_facebook:{required:true}
-                u1_facebook:{required:true}
-                u2_facebook:{required:true}
+                u2_birthday:{required:true,date: true},
+                lead_facebook:{required:true,url:true},
+                u1_facebook:{required:true,url:true},
+                u2_facebook:{required:true,url:true}
             },
             messages: {
                 password_confirm: {equalTo:"Mật khẩu xác nhận không giống với mật khẩu trên."},

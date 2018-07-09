@@ -23,7 +23,26 @@ if( $back_to_top_class == 'hide' ){
 ?>
 
 <?php do_action( 'mfn_hook_content_after' ); ?>
-
+<section class="vc_section tai-tro wpb_animate_when_almost_visible wpb_fadeInDown fadeInDown wpb_start_animation animated">
+    <div class="vc_row wpb_row vc_row-fluid">
+        <div class="wpb_column vc_column_container vc_col-sm-12">
+            <div class="vc_column-inner ">
+                <div class="wpb_wrapper">
+                    <div class="wpb_text_column wpb_content_element ">
+                        <div class="wpb_wrapper">
+                            <a href="http://vinacacao.com.vn/" target="_blank"><img class="image-tai-tro" src="<?php echo home_url('wp-content/uploads/image-company/logo.png')?>"> </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .image-tai-tro{
+        width: 50%;
+    }
+</style>
 
 <!-- #Footer -->		
 <footer id="Footer" class="clearfix">

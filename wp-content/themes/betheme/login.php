@@ -130,6 +130,16 @@ get_header();
                         $_SESSION['login']='thatbai2';
                     endif;
                     ?>
+                    <?php
+                    if (isset($_SESSION['login']) && $_SESSION['login']=='thatbai_1'):
+                        ?>
+                        <div class="alert alert-danger alert-autocloseable-danger">
+                            Tài khoản của bạn đang bị khóa hoặc chưa được xác nhận. Vui lòng liên hệ quản trị viên.
+                        </div>
+                        <?php
+                        $_SESSION['login']='thatbai2';
+                    endif;
+                    ?>
                     <form method="post" id="login-form" action="<?php echo home_url('xu-ly-dang-nhap')?>">
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user mycolor"></i></span>
@@ -144,12 +154,42 @@ get_header();
                                 <button class="btn-u btn-block pull-left submit" type="submit">Đăng Nhập</button>
                             </div>
                         </div>
+                    </form>
                         <div class="row forgot">
                             <div class="col-md-12">
-                                <a href="/forgot-password/">Quên mật khẩu?</a>
+                                <div class="container">
+                                    <a href="#" data-toggle="modal" data-target="#myModal">Quên mật khẩu?</a>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 class="modal-title">Quên mật khẩu</h4>
+                                                </div>
+                                                <form class="form-group" method="post" id="forgot-form">
+                                                    <div class="modal-body">
+                                                        <input class="form-control" id="email-forgot" required style="width: 100%!important" type="email" value="" placeholder="Địa chỉ Email của bạn">
+                                                    </div>
+                                                    <div id="alert" class="">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button href="<?php echo home_url('forgot-password')?>" type="submit" class="btn btn-primary submit-forgot" id="submit-forgot"><i id="icon-fesh" class=""></i>Gửi</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
-                    </form>
+
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -162,6 +202,31 @@ get_header();
 get_footer();
 ?>
 <script>
+    jQuery(document).ready(function($) {
+        $("#forgot-form").on("click", ".submit-forgot", function(event){
+            event.preventDefault();
+            $("#icon-fesh").addClass('fa fa-refresh fa-spin');
+            var href = $(this).attr("href");
+            var email =$('#email-forgot').val();
+            $.ajax({
+                type: "POST",
+                data:{email:email},
+                url: href,
+                dataType : "json"
+            })
+                .done(function(data){
+                    $("#icon-fesh").removeClass('fa fa-refresh fa-spin');
+                    if(data.status ==1)
+                    {
+                        $('#alert').addClass('alert alert-success').html('Đã gửi mật khẩu mới vào email của bạn. Vui lòng kiểm tra email.');
+                    }
+                    else if(data.status ==0)
+                    {
+                        $('#alert').addClass('alert alert-danger').html('Tài khoản email không tồn tại.');
+                    }
+                })
+        });
+    });
     jQuery.extend(jQuery.validator.messages, {
         required: "Đây là trường bắt buộc nhập.",
         minlength: jQuery.validator.format("Vui lòng nhập từ {0} kí tự trở lên."),

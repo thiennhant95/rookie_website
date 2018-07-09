@@ -8,7 +8,6 @@ else
 {
     $id_team = 0;
 }
-
 //Xóa giỏ hàng bằng cách hủy SESSION
 if(isset($_GET["emptycart"]) && $_GET["emptycart"]==1)
 {
@@ -50,6 +49,49 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
     $table_team = $wpdb->prefix."products";
     $results = $wpdb->prepare("SELECT * FROM $table_team WHERE id= %d",$product_id);
     $obj = $wpdb->get_row($results);
+//    if ($results) { //Kiểm tra có dữ liệu hay không
+//
+//        //Chuẩn bị array(mảng) để lưu thông tin sản phẩm
+//        $new_product = array(array('name'=>$obj->product_name, 'id'=>$product_id, 'qty'=>$product_qty, 'price'=>$obj->product_price,'id_team'=>$id_team));
+//
+//        if(isset($_SESSION["products"])) //Hàm kiểm tra nếu có sản phẩm trong giỏ hàng rồi thì cập nhật lại
+//        {
+//            $found = false; //Thiết lập mặc định ban đầu biến kiểm tra sản phẩm tồn tại thành false
+//
+//            foreach ($_SESSION["products"] as $cart_itm) //vòng lặp mảng SESSION
+//            {
+//                if($cart_itm["id"] == $product_id) { //sản phẩm đã tồn tại trong mảng
+//                    if ($id_team == $cart_itm['id_team']) {
+//                        if ($return_url == '/san-pham/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/chocolate/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/ca-cao/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/ca-phe/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/') $product_qty = $cart_itm["qty"] + 1;
+//                        if (strpos($return_url, 'group-team') !== false) $product_qty = $cart_itm["qty"] + 1;
+//                        $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $product_qty, 'price' => $cart_itm["price"], 'id_team' => $id_team);
+//                        $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
+//                    }
+//                }else{
+//                    //item doesn't exist in the list, just retrive old info and prepare array for session var
+//                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"],'id_team'=>$id_team);
+//                }
+//            }
+//
+//            if($found == false) //Không tìm thấy sản phẩm trong giỏ hàng
+//            {
+//                //Thêm mới sản phẩm vào mảng
+//                $_SESSION["products"] = array_merge($product, $new_product);
+//            }else{
+//                //Tìm thấy sản phẩm đã có trong mảng SESSION nên chỉ cập nhật lại số lượng(QTY)
+//                $_SESSION["products"] = $product;
+//            }
+//
+//        }else{
+//            //Tạo biến SESSION mới hoàn toàn nếu không có sản phẩm nào trong giỏ hàng
+//            $_SESSION["products"] = $new_product;
+//        }
+//
+//    }
     if ($results) { //Kiểm tra có dữ liệu hay không
 
         //Chuẩn bị array(mảng) để lưu thông tin sản phẩm
@@ -61,18 +103,51 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
 
             foreach ($_SESSION["products"] as $cart_itm) //vòng lặp mảng SESSION
             {
-                if($cart_itm["id"] == $product_id){ //sản phẩm đã tồn tại trong mảng
-                    if ($return_url=='/san-pham/') $product_qty=$cart_itm["qty"]+1;
-                    if ($return_url=='/chocolate/') $product_qty=$cart_itm["qty"]+1;
-                    if ($return_url=='/ca-cao/') $product_qty=$cart_itm["qty"]+1;
-                    if ($return_url=='/ca-phe/') $product_qty=$cart_itm["qty"]+1;
-                    if ($return_url=='/') $product_qty=$cart_itm["qty"]+1;
-                    if (strpos($return_url, 'group-team') !== false) $product_qty=$cart_itm["qty"]+1;
-                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$product_qty, 'price'=>$cart_itm["price"],'id_team'=>$id_team);
-                    $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
-                }else{
-                    //item doesn't exist in the list, just retrive old info and prepare array for session var
+//                if($cart_itm["id"] == $product_id) { //sản phẩm đã tồn tại trong mảng
+//                    if ($id_team == $cart_itm['id_team']) {
+//                        if ($return_url == '/san-pham/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/chocolate/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/ca-cao/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/ca-phe/') $product_qty = $cart_itm["qty"] + 1;
+//                        if ($return_url == '/') $product_qty = $cart_itm["qty"] + 1;
+//                        if (strpos($return_url, 'group-team') !== false) $product_qty = $cart_itm["qty"] + 1;
+//                        $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $product_qty, 'price' => $cart_itm["price"], 'id_team' => $id_team);
+//                        $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
+//                    }
+//                }else{
+//                    //item doesn't exist in the list, just retrive old info and prepare array for session var
+//                    $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"],'id_team'=>$id_team);
+//                }
+                if ($cart_itm['id_team']==$id_team){
+                    if($cart_itm["id"] == $product_id){
+                        if ($return_url == '/san-pham/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/chocolate/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/ca-cao/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/ca-phe/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/') $product_qty = $cart_itm["qty"] + 1;
+                        if (strpos($return_url, 'group-team') !== false) $product_qty = $cart_itm["qty"] + 1;
+                        $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $product_qty, 'price' => $cart_itm["price"], 'id_team' => $id_team);
+                        $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
+                    }
+                    else{
                     $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"],'id_team'=>$id_team);
+                    }
+                }
+                else{
+                    if($cart_itm["id"] == $product_id){
+                        if ($return_url == '/san-pham/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/chocolate/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/ca-cao/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/ca-phe/') $product_qty = $cart_itm["qty"] + 1;
+                        if ($return_url == '/') $product_qty = $cart_itm["qty"] + 1;
+                        if (strpos($return_url, 'group-team') !== false) $product_qty = $cart_itm["qty"] + 1;
+                        $product[] = array('name' => $cart_itm["name"], 'id' => $cart_itm["id"], 'qty' => $product_qty, 'price' => $cart_itm["price"], 'id_team' => $cart_itm['id_team']);
+                        $found = true; // Thiết lập biến kiểm tra sản phẩm tồn tại thành true
+                    }
+                    else
+                    {
+                        $product[] = array('name'=>$cart_itm["name"], 'id'=>$cart_itm["id"], 'qty'=>$cart_itm["qty"], 'price'=>$cart_itm["price"],'id_team'=>$id_team);
+                    }
                 }
             }
 
@@ -91,7 +166,6 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
         }
 
     }
-
     //Trở về lại trang cũ
     $url = home_url($return_url);
     wp_redirect($url);
