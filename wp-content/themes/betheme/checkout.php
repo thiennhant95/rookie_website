@@ -364,7 +364,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" />
                             </div>
                             <div class="col-sm-6 col-xs-6">
-                                <div class="col-xs-12"><a href="<?php echo home_url('san-pham/'.$row_product->product_slug)  ?>"><h4><?php echo $row_product->product_name ?></h4></a></div>
+                                <div class="col-xs-12"><a href="<?php echo home_url('chi-tiet-san-pham/'.$row_product->product_slug)  ?>"><h4><?php echo $row_product->product_name ?></h4></a></div>
                                 <div class="col-xs-12"><small>Số lượng:<span><?php echo $row['qty']?></span></small></div>
                             </div>
                             <div class="col-sm-3 col-xs-3 text-right">
@@ -445,7 +445,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Tỉnh/ Thành Phố:</strong>
                                 <select class="form-control" name="order_city" required>
                                     <option>Chọn Tỉnh/ Thành phố</option>
-                                    <option value="TP-HCM">TP HCM</option>
+                                    <option value="TP HCM">TP HCM</option>
                                     <?php
 //                                    foreach ($tinh_list as $row)
 //                                    {
@@ -488,7 +488,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <strong>Phường/ Xã:</strong>
                                 <select class="form-control"  name="order_ward" required>
                                     <option>Chọn Phường/ Xã</option>
-                                    <option value="phường 7">Phường 7</option>
+                                    <option>Phường 7</option>
                                     <?php
 //                                    foreach ($xa_list as $row_xa)
 //                                    {
