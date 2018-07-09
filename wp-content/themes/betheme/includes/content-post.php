@@ -225,15 +225,57 @@ if( ! function_exists('mfn_content_post') ){
 								$output .= '</div>';
 							}
 							
-							
+							$output .= '<div class="btn btn-xs btn-primary" data-toggle="modal" data-target="#sharetowall'.get_the_ID().'">Chia sẽ về trang của bạn</div>';
 						$output .= '</div>';
 					$output .= '</div>';
 				
 				$output .= '</div>';
-				
+				$output .= '<div id="sharetowall'.get_the_ID().'" class="modal fade" role="dialog" >
+								<div class="modal-dialog">
+								  <form action="" id="FormShare'.get_the_ID().'">
+								  	<input type="hidden" value="'.get_the_ID().'" class="sharetowall">
+								    <div class="modal-content">
+								      <div class="modal-body">
+								        <p><textarea class="form-control share-status" placeholder="Nói gì đó về nội dung này..."></textarea></p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="submit" class="btn btn-primary share-button">Chia sẽ</button>
+								        <p class="notice-share"></p>
+								      </div>
+								    </div>
+								  </form>
+							  	</div>
+							</div>';
+				$output .= '<script>
+							jQuery(document).ready(function($) {
+								$("#FormShare'.get_the_ID().'").on("submit",(function(e) {
+					            e.preventDefault();
+					            var share = $(this).find(".sharetowall").val();
+					            var status = $(this).find(".share-status").val();
+					            console.log(share);
+					            var url = "'.home_url().'/share-to-wall";
+					            $(".share-button").attr("disabled","disabled");
+					            $.ajax({
+					                url: url,
+					                dataType: "text",
+					                type: "post",
+					                contentType: "application/x-www-form-urlencoded",  
+					                data: { share: share, status: status },
+					                success: function( data, textStatus, jQxhr ){
+					                	$(".notice-share").html(data);
+					                	setTimeout(function(){ 
+					                		$(".share-button").removeAttr("disabled");
+					                	}, 3000);
+					                },
+					                error: function( jqXhr, textStatus, errorThrown ){
+					                    console.log( errorThrown );
+					                }
+					            });    
+					       	 }));
+					       	});
+							</script>';
 			}
 		}
-		
 		return $output;
 	}
 }

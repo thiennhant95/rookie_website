@@ -6,6 +6,7 @@
  <?php 
 	$url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
 	$explode = explode("/",$url_path);
+	$group_team_slug = $explode[0];
 	$team_slug = $explode[1];
 	$check_post_slug = $explode[2];
 	$post_slug = $explode[3];
@@ -14,16 +15,17 @@
 	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
 	$table_post_group = $wpdb->prefix."post_group";
-	$data_prepare_detail_post_group = $wpdb->prepare("SELECT * FROM $table_post_group WHERE post_group_slug = %s",$post_slug);
-	$data_detail_post_group = $wpdb->get_row($data_prepare_detail_post_group);
 	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
 	$table_post_group = $wpdb->prefix."post_group";
     $table_team_post = $wpdb->prefix."team_post";
-    $query_prepare_post_group = $wpdb->prepare("SELECT * FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE id_team = %d ORDER BY $table_team_post.id DESC LIMIT 3",$data_team->id);
+    $table_post = $wpdb->prefix."posts";
+    $data_prepare_detail_post_group = $wpdb->prepare("SELECT * FROM $table_post_group WHERE post_group_slug = %s",$post_slug);
+	$data_detail_post_group = $wpdb->get_row($data_prepare_detail_post_group);
+    $query_prepare_post_group = $wpdb->prepare("SELECT * FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE id_team = %d AND $table_team_post.post_type = 1 ORDER BY $table_team_post.id DESC LIMIT 3",$data_team->id);
+    $query_prepare_post_share = $wpdb->prepare("SELECT * FROM $table_post INNER JOIN $table_team_post ON $table_post.ID = $table_team_post.id_post WHERE id_team = %d AND $table_team_post.post_type = 2 ORDER BY $table_team_post.id DESC LIMIT 3",$data_team->id);
     $data_post_group = $wpdb->get_results($query_prepare_post_group);
-	if($data_team != null && $check_post_slug == "bai-viet" && $data_post_group != null)
-	{
+    $data_post_share = $wpdb->get_results($query_prepare_post_share);
 ?>
 <style type="text/css" media="screen">
 .gioi-thieu ul{
@@ -46,6 +48,10 @@
 	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
 }
 </style>
+<?php
+	if($data_team != null && $check_post_slug == "bai-viet" && $group_team_slug == "group-team")
+	{
+?>
 <?php get_header(); ?>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
@@ -87,7 +93,7 @@
 							</div>
 							<div class="clearfix"></div>
 							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
-								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong>Bài Viết</strong></h4>
+								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
 								<div class="col-md-12 row" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_group)){ 
@@ -109,7 +115,33 @@
 								?>
 								</div>
 							</div>
+							<div class="clearfix"></div>
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẽ</a></strong></h4>
+								<div class="col-md-12 row" style="margin-top: 15px">
+								<?php 
+									if(!empty($data_post_share)){ 
+                                		foreach($data_post_share as $post_share){
+                                ?>
+                                <div class="col-md-12" style="border: 1px solid #D9D9D9; border-radius: 10px; margin-bottom: 10px; padding: 15px"><?php echo $post_share->status_share ?></div>
+                                <div class="col-md-4">
+                                	<?php echo get_the_post_thumbnail($post_share->ID,'thumbnail') ?>
+                                </div>
+                                <div class="col-md-8">
+                                	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/".$post_share->post_name; ?>"><span style="font-size: 18px"><strong><?php echo $post_share->post_title ?></strong></span></a>
+                                	<p><?php $wptrim = wp_trim_words($post_share->post_content,20,"..."); echo $wptrim; ?></p>
+                                	<p class="text-right"><iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/$post_share->post_name"; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe></p>
+                                </div>
+                                <hr>
+                                <div class="clearfix"></div>
+                                <?php
+                                		}
+                                	}
+								?>
+								</div>
 							</div>
+							</div>
+							<?php if($data_detail_post_group != null && $post_slug != null){ ?>
 							<div class="col-md-7 row size-custom" style="margin-top: 15px">
 								<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 									<h2><strong><?php echo $data_detail_post_group->post_group_title; ?></strong></h2>
@@ -119,8 +151,48 @@
 									<div class="col-md-12 row">
 										<?php echo str_replace($search, $replace,$data_detail_post_group->post_group_content); ?>
 									</div>
+									<div class="col-md-12 fb-comments" data-href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_slug ?>" data-numposts="5"></div>
 								</div>
 							</div>
+							<?php 
+								}
+								else if($post_slug == null){
+									$query_all_post_group = $wpdb->prepare("SELECT * FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE id_team = %d ORDER BY $table_team_post.id DESC",$data_team->id);
+    								$data_all_post_group = $wpdb->get_results($query_all_post_group);
+    								if(!empty($data_all_post_group)){
+    								?>
+    								<div class="col-md-7 row size-custom" style="margin-top: 15px">
+										<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+											<h3><strong>Tất cả bài viết</strong></h3>
+											<?php foreach($data_all_post_group as $all_post_group){ ?>
+											<div class="col-md-4">
+			                                	<img src="<?php echo $all_post_group->post_group_feature ?>" style="width: 100px !important">
+			                                </div>
+			                                <div class="col-md-8">
+			                                	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$all_post_group->post_group_slug; ?>"><span style="font-size: 18px"><strong><?php echo $all_post_group->post_group_title ?></strong></span></a>
+			                                	<p><?php $wptrim = wp_trim_words($all_post_group->post_group_content,20,"..."); echo $wptrim; ?></p>
+			                                	<p class="text-right"><iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$all_post_group->post_group_slug; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe></p>
+			                                </div>
+			                                <hr>
+			                                <div class="clearfix"></div>
+			                            <?php } ?>
+										</div>
+									</div>
+    								<?php
+    								}
+								}
+								else{
+									?>
+									<div class="col-md-7 row size-custom" style="margin-top: 15px">
+										<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+											<div class="col-md-12 alert alert-warning">
+												Bài viết không tồn tại
+											</div>
+										</div>
+									</div>
+									<?php
+								}
+							?>
 						</div>
 					</div>
 					</div>

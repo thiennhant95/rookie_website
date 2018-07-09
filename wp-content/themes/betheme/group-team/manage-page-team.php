@@ -7,6 +7,7 @@
     ob_start();
 	$url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
 	$explode = explode("/",$url_path);
+    $group_team_slug = $explode[0];
 	$team_slug = $explode[1];
 	global $wpdb;
 	$table_team = $wpdb->prefix."team";
@@ -14,7 +15,7 @@
 	$data_team = $wpdb->get_row($data_prepare);
 	$search = array("\r\n","&lt;br&gt;","\&quot;","\&amp;","\&#039;","\\\\");
 	$replace = array("<br>","<br>","&quot;","&amp;","&#039","\\");
-	if($data_team != null){
+	if($data_team != null && $group_team_slug == "manage-group"){
         if(isset($_SESSION["branch_id"]) && isset($_SESSION["branch_slug"])){ 
             if($_SESSION["branch_slug"] == $team_slug){
 ?>

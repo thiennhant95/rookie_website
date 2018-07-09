@@ -221,6 +221,21 @@ add_action('init', function() {
     }
 });
 
+/* đường dẫn trang chi tiết bài viết chia sẽ */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    if (count($path) >=3) {
+        $templatename = 'bai-viet-chia-se';
+        if ($path[2] == $templatename) {
+            $load = locate_template('group-team/detail-post-share.php', true);
+            if ($load) {
+                exit();
+            }
+        }
+    }
+});
+
 /* đường dẫn thông tin sản phẩm chi tiết trang cá nhân */
 add_action('init', function() {
   $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
@@ -708,6 +723,32 @@ add_action('init', function() {
     $templatename = 'chi-tiet-san-pham';
     if($path[0] == $templatename){
         $load = locate_template('product-detail.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Xử lý chia sẽ bài viết */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'share-to-wall';
+    if($path[0] == $templatename){
+        $load = locate_template('function-share-to-wall.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Chi tiết sản phẩm */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'forgot-password';
+    if($path[0] == $templatename){
+        $load = locate_template('forgot_password.php', true);
         if ($load) {
             exit();
         }
