@@ -11,7 +11,7 @@ get_header();
             $per_page =16;
             if (!isset($_GET['page-sp']) ||$_GET['page-sp']==null || $_GET['page-sp']==0)
             {
-                $offset=1;
+                $offset=0;
             }
             else
             {
@@ -63,6 +63,9 @@ get_header();
             ?>
         </div>
     </div>
+    <?php
+    if (count($product_list)>16):
+    ?>
     <nav aria-label="Page navigation" id="div1">
         <ul class="pager">
             <li>
@@ -84,6 +87,9 @@ get_header();
             </li>
         </ul>
     </nav>
+        <?php
+    endif;
+        ?>
 </div>
 <?php
 get_footer();

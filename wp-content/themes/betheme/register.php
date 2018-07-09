@@ -211,6 +211,10 @@ get_header();
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="lead_birthday" id="lead_birthday" type="text">
                         </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-facebook-square mycolor"></i></span>
+                            <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="lead_facebook" id="lead_facebook" type="text">
+                        </div>
                         <hr/>
 
                         <span class="title-group"><i class="glyphicon glyphicon-user"></i> THÔNG TIN THÀNH VIÊN 1</span>
@@ -234,6 +238,10 @@ get_header();
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u1_birthday" id="u1_birthday" type="text">
                         </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-facebook-square mycolor"></i></span>
+                            <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="u1_facebook" id="u1_facebook" type="text">
+                        </div>
                         <hr/>
 
                         <span class="title-group"><i class="glyphicon glyphicon-user"></i> THÔNG TIN THÀNH VIÊN 2</span>
@@ -256,6 +264,10 @@ get_header();
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
                             <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u2_birthday" id="u2_birthday" type="text">
+                        </div>
+                        <div class="input-group margin-bottom-20">
+                            <span class="input-group-addon"><i class="fa fa-facebook-square mycolor"></i></span>
+                            <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="u2_facebook" id="u2_facebook" type="text">
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -358,6 +370,9 @@ get_footer();
                 lead_birthday:{required:true,date: true},
                 u1_birthday:{required:true,date: true},
                 u2_birthday:{required:true,date: true}
+                lead_facebook:{required:true}
+                u1_facebook:{required:true}
+                u2_facebook:{required:true}
             },
             messages: {
                 password_confirm: {equalTo:"Mật khẩu xác nhận không giống với mật khẩu trên."},

@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $insert = $wpdb->insert($table_team, array(
             'product_name'=>$_POST['product_name'],
             'product_slug'=>$slug,
-            'product_description'=>$_POST['content'],
+            'product_description'=>$_POST['sort_content'],
+            'product_long_description'=>$_POST['content'],
             'expired_date'=>$_POST['expired_date'],
             'manufactore_date'=>$_POST['manufactore_date'],
             'warehouse_amount'=>$_POST['warehouse_amount'],

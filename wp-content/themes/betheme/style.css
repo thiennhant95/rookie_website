@@ -252,3 +252,12 @@ aside#text-6 >.textwidget{
     /*background-color: #777!important;*/
     border-radius: 10px!important;
 }
+.shop-items .item img {
+    height: 250px!important;
+}
+#Top_bar #logo img {
+    vertical-align: middle;
+     max-height: 130%!important;
+    width: 170px;
+    height: 75px;
+}

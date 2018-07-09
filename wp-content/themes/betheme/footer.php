@@ -24,6 +24,7 @@ if( $back_to_top_class == 'hide' ){
 
 <?php do_action( 'mfn_hook_content_after' ); ?>
 
+
 <!-- #Footer -->		
 <footer id="Footer" class="clearfix">
 	

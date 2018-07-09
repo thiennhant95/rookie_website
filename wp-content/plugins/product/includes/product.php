@@ -1,6 +1,8 @@
 <?php
 function show_company_view()
 {
+    $search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+    $replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
     global $wpdb;
     $table_products = $wpdb->prefix."products";
     $data = "SELECT * FROM $table_products WHERE is_delete=0";
@@ -196,6 +198,11 @@ function show_company_view()
                                     <label>Ngày hết hạn (nếu có):</label>
                                     <input type="date" name="expired_date" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>Tóm tắt sản phẩm:</label>
+                                    <textarea class="form-control" name="sort_content">
+                                    </textarea>
+                                </div>
                                 <!-- /.form group -->
                                 <div class="form-group">
                                     <label>Nội dung:</label>
@@ -317,11 +324,19 @@ function show_company_view()
                                     <label>Ngày hết hạn (nếu có):</label>
                                     <input type="date" value="<?php echo $data_team->expired_date ?>" name="expired_date" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>Tóm tắt sản phẩm:</label>
+                                    <textarea class="form-control" name="sort_content">
+                                        <?php
+                                        echo $data_team->product_description;
+                                        ?>
+                                    </textarea>
+                                </div>
                                 <!-- /.form group -->
                                 <div class="form-group">
                                     <label>Nội dung:</label>
                                     <?php
-                                    $content = $data_team->product_description;
+                                    $content = str_replace($search,$replace,$data_team->product_long_description);
                                     $editor_id = "content";
                                     $settings =   array(
                                         "wpautop" => true,

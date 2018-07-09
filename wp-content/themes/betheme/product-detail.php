@@ -1,4 +1,6 @@
-<?php 
+<?php
+$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
+$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
     $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
     $explode = explode("/",$url_path);
     $product_slug = $explode[1];
@@ -211,12 +213,12 @@ get_header();
                 <h2>
                     <strong>
                         <?php echo $data_products->product_name; ?>
-                    <strong>
+                    </strong>
                 </h2>
                 <p>
                     <?php  echo str_replace($search, $replace,$data_products->product_description); ?>
                 </p>
-                <div class="m-bot15"> <strong>Price : </strong><span class="pro-price"><?php echo number_format($data_products->product_price)."đ"; ?></span></div>
+                <div class="m-bot15"> <strong>Giá : </strong><span class="pro-price"><?php echo number_format($data_products->product_price)."đ"; ?></span></div>
                 <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
                 <div class="form-group">
                     <label>Số Lượng</label>
@@ -241,7 +243,33 @@ get_header();
         </section>
     </section>
 </div>
+        <div class="col-md-3">
+            <?php
+            $table_products = $wpdb->prefix."products";
+            $data = "SELECT * FROM $table_products WHERE status=1 LIMIT 4 OFFSET 0";
+            $product_list =$wpdb->get_results($data);
+            $images_url = home_url()."/wp-content/uploads/image-product/";
+            foreach ($product_list as $row)
+            {
+                $arr_image_products =json_decode($row->product_images)
+                ?>
+                    <nav class="navbar navbar-default" style="padding: 10%;margin-bottom: 0" role="navigation">
+                            <div class="navbar-header">
+                                <img class="" width="80" height="60" src="<?php echo $images_url.$arr_image_products[0]?>"/>
+                            </div>
+                            <div id="sidebar-wrapper" class="sidebar-toggle">
+                                <ul class="sidebar-nav">
+                                    <li><a id="product_name" href="<?php echo home_url('chi-tiet-san-pham/'.$row->product_slug)?>">&nbsp;<?php echo $row->product_name ?></a></li>
+                                    <li style="color: #ED2728">&nbsp;&nbsp;<?php echo number_format($row->product_price).'đ' ?></li>
+                                </ul>
+                            </div>
+                    </nav>
+                <?php
+            }
+            ?>
+        </div>
     </div>
+    <br>
 </div>
 <?php
 get_footer();
@@ -256,3 +284,11 @@ get_footer();
         get_template_part( 404 );
     } 
 ?>
+<style>
+    #product_name:hover{
+        text-decoration: none;
+    }
+    div#Subheader {
+        display: none;
+    }
+</style>

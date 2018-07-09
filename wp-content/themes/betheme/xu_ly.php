@@ -104,7 +104,10 @@
                     "email_member_2" => htmlspecialchars($_POST['u2_email']),
                     "sdt_member_2" => htmlspecialchars($_POST['u2_phone']),
                     "team_status"=>3,
-                    "verify_email"=>$url
+                    "verify_email"=>$url,
+                    "facebook_truong_nhom" =>htmlspecialchars($_POST['lead_facebook']),
+                    "facebook_u1" =>htmlspecialchars($_POST['u1_facebook']),
+                    "facebook_u2" =>htmlspecialchars($_POST['u2_facebook'])
                 )
             );
             if ($insert) {
