@@ -43,13 +43,13 @@ load_theme_textdomain( 'mfn-opts', LANG_DIR );
  * --------------------------------------------------------------------------- */
 if( ! function_exists( 'mfn_admin_scripts' ) )
 {
-	function mfn_admin_scripts() {
-		wp_enqueue_script( 'jquery-ui-sortable' );
-	}
+    function mfn_admin_scripts() {
+        wp_enqueue_script( 'jquery-ui-sortable' );
+    }
 }   
 add_action( 'wp_enqueue_scripts', 'mfn_admin_scripts' );
 add_action( 'admin_enqueue_scripts', 'mfn_admin_scripts' );
-	
+    
 require( THEME_DIR .'/muffin-options/theme-options.php' );
 
 $theme_disable = mfn_opts_get( 'theme-disable' );
@@ -68,7 +68,7 @@ require_once( LIBS_DIR .'/theme-head.php' );
 // Menu -----------------------------------------------------------------------
 require_once( LIBS_DIR .'/theme-menu.php' );
 if( ! isset( $theme_disable['mega-menu'] ) ){
-	require_once( LIBS_DIR .'/theme-mega-menu.php' );
+    require_once( LIBS_DIR .'/theme-mega-menu.php' );
 }
 
 // Muffin Builder -------------------------------------------------------------
@@ -80,26 +80,26 @@ require_once( LIBS_DIR .'/builder/front.php' );
 $post_types_disable = mfn_opts_get( 'post-type-disable' );
 
 if( ! isset( $post_types_disable['client'] ) ){
-	require_once( LIBS_DIR .'/meta-client.php' );
+    require_once( LIBS_DIR .'/meta-client.php' );
 }
 if( ! isset( $post_types_disable['offer'] ) ){
-	require_once( LIBS_DIR .'/meta-offer.php' );
+    require_once( LIBS_DIR .'/meta-offer.php' );
 }
 if( ! isset( $post_types_disable['portfolio'] ) ){
-	require_once( LIBS_DIR .'/meta-portfolio.php' );
+    require_once( LIBS_DIR .'/meta-portfolio.php' );
 }
 if( ! isset( $post_types_disable['slide'] ) ){
-	require_once( LIBS_DIR .'/meta-slide.php' );
+    require_once( LIBS_DIR .'/meta-slide.php' );
 }
 if( ! isset( $post_types_disable['testimonial'] ) ){
-	require_once( LIBS_DIR .'/meta-testimonial.php' );
+    require_once( LIBS_DIR .'/meta-testimonial.php' );
 }
 
 if( ! isset( $post_types_disable['layout'] ) ){
-	require_once( LIBS_DIR .'/meta-layout.php' );
+    require_once( LIBS_DIR .'/meta-layout.php' );
 }
 if( ! isset( $post_types_disable['template'] ) ){
-	require_once( LIBS_DIR .'/meta-template.php' );
+    require_once( LIBS_DIR .'/meta-template.php' );
 }
 
 require_once( LIBS_DIR .'/meta-page.php' );
@@ -130,7 +130,7 @@ require_once( LIBS_DIR .'/tinymce/tinymce.php' );
 
 // Plugins ---------------------------------------------------------------------- 
 if( ! isset( $theme_disable['demo-data'] ) ){
-	require_once( LIBS_DIR .'/importer/import.php' );
+    require_once( LIBS_DIR .'/importer/import.php' );
 }
 
 require_once( LIBS_DIR .'/system-status.php' );
@@ -142,38 +142,38 @@ require_once( LIBS_DIR .'/plugins/visual-composer.php' );
 
 // WooCommerce specified functions
 if( function_exists( 'is_woocommerce' ) ){
-	require_once( LIBS_DIR .'/theme-woocommerce.php' );
+    require_once( LIBS_DIR .'/theme-woocommerce.php' );
 }
 
 // Disable responsive images in WP 4.4+ if Retina.js enabled
 if( mfn_opts_get( 'retina-js' ) ){
-	add_filter( 'wp_calculate_image_srcset', '__return_false' );
+    add_filter( 'wp_calculate_image_srcset', '__return_false' );
 }
 
 // Hide activation and update specific parts ------------------------------------
 
 // Slider Revolution
 if( ! mfn_opts_get( 'plugin-rev' ) ){
-	if( function_exists( 'set_revslider_as_theme' ) ){
-		set_revslider_as_theme();
-	}
+    if( function_exists( 'set_revslider_as_theme' ) ){
+        set_revslider_as_theme();
+    }
 }
 
 // LayerSlider
 if( ! mfn_opts_get( 'plugin-layer' ) ){
-	add_action('layerslider_ready', 'mfn_layerslider_overrides');
-	function mfn_layerslider_overrides() {
-		// Disable auto-updates
-		$GLOBALS['lsAutoUpdateBox'] = false;
-	}
+    add_action('layerslider_ready', 'mfn_layerslider_overrides');
+    function mfn_layerslider_overrides() {
+        // Disable auto-updates
+        $GLOBALS['lsAutoUpdateBox'] = false;
+    }
 }
 
 // Visual Composer 
 if( ! mfn_opts_get( 'plugin-visual' ) ){
-	add_action( 'vc_before_init', 'mfn_vcSetAsTheme' );
-	function mfn_vcSetAsTheme() {
-		vc_set_as_theme();
-	}
+    add_action( 'vc_before_init', 'mfn_vcSetAsTheme' );
+    function mfn_vcSetAsTheme() {
+        vc_set_as_theme();
+    }
 }
 
 /* Khởi tạo session */
@@ -457,57 +457,21 @@ function ranking_team() {
 <!--                    <tr>-->
 <!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
 <!--                    </tr>-->
-
+                    <?php  
+                    global $wpdb;
+                    $table_team = $wpdb->prefix."team";
+                    $table_statistical = "statistical";
+                    $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
+                    $data_statistical = $wpdb->get_results($query_statistical);
+                    $rank = 1;
+                    foreach($data_statistical as $statistical){ 
+                    ?>
                     <tr>
-                        <td class="text-danger" style="vertical-align: middle; text-align: center">1</td>
-                        <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
-                        <td style="vertical-align: middle; text-align: center">180</td>
+                        <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
+                        <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;<?php echo $statistical->ten_nhom; ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?php echo floor($statistical->sum_no_ship/1000) ?></td>
                     </tr>
-                    <tr>
-                        <td class="text-success" style="vertical-align: middle; text-align: center">2</td>
-                        <td class="text-success" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Supper Ship</td>
-                        <td style="vertical-align: middle; text-align: center">170</td>
-                    </tr>
-                    <tr>
-                        <td class="text-primary" style="vertical-align: middle; text-align: center">3</td>
-                        <td class="text-primary" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Fly</td>
-                        <td style="vertical-align: middle; text-align: center">160</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">4</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Fish</td>
-                        <td style="vertical-align: middle; text-align: center">150</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">5</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Shark</td>
-                        <td style="vertical-align: middle; text-align: center">140</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">6</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Angel</td>
-                        <td style="vertical-align: middle; text-align: center">130</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">7</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
-                        <td style="vertical-align: middle; text-align: center">120</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">8</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
-                        <td style="vertical-align: middle; text-align: center">110</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">9</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
-                        <td style="vertical-align: middle; text-align: center">100</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: center">10</td>
-                        <td style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;Nhanh Nhẹn</td>
-                        <td style="vertical-align: middle; text-align: center">90</td>
-                    </tr>
+                    <?php $rank++; } ?>
                     </tbody>
                 </table>
     <?php
@@ -754,3 +718,65 @@ add_action('init', function() {
         }
     }
 });
+
+add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
+  
+function my_custom_dashboard_widgets() {
+    global $wp_meta_boxes; 
+    wp_add_dashboard_widget('custom_help_widget', 'Ranking Dashboard', 'custom_dashboard_help');
+}
+ 
+function ranking_dashboard_admin(){
+    ?>
+    <style>
+        #wpbody-content #dashboard-widgets #postbox-container-1 { width: 50% !important; }
+        .table-dashboard>thead>tr>th{ vertical-align: middle !important; text-align: center !important; }
+    </style>
+    <?php
+    global $wpdb;
+    $table_team = $wpdb->prefix."team";
+    $table_statistical = "statistical";
+    $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC";
+    $data_statistical = $wpdb->get_results($query_statistical);
+    ob_start();
+    $rank = 1;
+    ?>
+    <table class="table table-responsive table-hover table-striped table-bordered table-dashboard">
+        <thead>
+            <tr>
+                <th>Hạng</th>
+                <th>Tên nhóm</th>
+                <th>Số tiền</th>
+                <th>Số điểm</th>
+                <th>Số đơn <br> thành công</th>
+                <th>Số đơn huỷ</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            <?php
+            foreach($data_statistical as $statistical){
+            ?>
+            <tr>
+                <td><?php echo $rank; ?></td>
+                <td><?php echo $statistical->ten_nhom ?></td>
+                <td><?php if($statistical->sum_no_ship != null){ echo number_format($statistical->sum_no_ship)."đ"; }else{ echo "0đ"; } ?></td>
+                <td><?php if($statistical->sum_no_ship != null){ echo floor($statistical->sum_no_ship / 1000); }else{ echo "0"; } ?></td>
+                <td><?php if($statistical->count_success != null){ echo $statistical->count_success; }else{ echo "0"; } ?></td>
+                <td><?php if($statistical->count_cancel != null){ echo $statistical->count_cancel; }else{ echo "0"; } ?></td>
+            </tr>
+            <?php
+            $rank++;
+            }
+            ?>
+        </tbody>
+    </table>
+    <?php
+    $data = ob_get_contents();
+    ob_end_clean();
+    return $data;
+}
+add_shortcode('ranking_dashboard', 'ranking_dashboard_admin');
+
+function custom_dashboard_help() {
+echo do_shortcode('[ranking_dashboard]');
+}
