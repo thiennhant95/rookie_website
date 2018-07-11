@@ -145,6 +145,26 @@
     #background .textbox{margin-top: -48px; }
     #background:hover .textbox{margin-top: 0px; z-index:9999;}
     .checkbox-products{ width: 20px; height: 20px;  filter: invert(150%) hue-rotate(50deg) brightness(1.9); }
+    .font-size{ font-size: 16px }
+    @media only screen and (max-width: 500px){
+       .font-size, .shop-items .item .item-dtls .price{ font-size: 12px !important}
+       .shop-items .item img{ height: 70px !important; }
+       .shop-items { padding: 0; }
+       .myborder{ padding: 5px; }
+    }
+    @media only screen and (min-width: 501px) and (max-width: 600px){
+        .shop-items .item img{ height: 100px !important; }
+        .font-size, .shop-items .item .item-dtls .price{ font-size: 13px !important}
+        .shop-items { padding: 0; }
+       .myborder{ padding: 5px; }
+    }
+     @media only screen and (min-width: 601px) and (max-width: 800px){
+        .shop-items .item img{ height: 160px !important; }
+        .font-size, .shop-items .item .item-dtls .price{ font-size: 15px !important}
+        .shop-items { padding: 0; }
+       .myborder{ padding: 5px; }
+    }
+    .table-responsive table { display: inline-table; }
 </style>
 <div id="Content">
     <div class="content_wrapper clearfix">
@@ -311,6 +331,7 @@
 				  <li class="menu-tab" data-id="menu2"><a>Đổi mật khẩu</a></li>
 				  <li class="menu-tab" data-id="menu3"><a>Sản phẩm nhóm</a></li>
 				  <li class="menu-tab" data-id="menu4"><a>Đơn đặt hàng</a></li>
+                  <li class="menu-tab" data-id="menu8"><a>Doanh thu</a></li>
                   <li class="menu-tab" data-id="menu6"><a>Bài viết</a></li>
                   <li class="menu-tab" data-id="menu7"><a>Tạo bài viết</a></li>
                   <li class="menu-tab"><a href="<?php echo home_url('dang-xuat') ?>">Đăng xuất</a></li>
@@ -435,11 +456,18 @@
                             <div class="container-fluid">
                                 <div class="row">
                                 <?php
+                                $count_foreach_product = 0;
                                 $images_url = home_url()."/wp-content/uploads/image-product/";
                                 foreach ($data_products as $row):
                                     $arr_image_products =json_decode($row->product_images);
+                                    if($count_foreach_product % 3 == 0){
                                     ?>
-                                    <div class="col-md-3 col-sm-6">
+                                    <div class="clearfix"></div>
+                                    <?php
+                                    }
+                                    $count_foreach_product++;
+                                    ?>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
                                         <!-- Restaurant Item -->
                                         <div class="item">
                                             <?php if(!empty($arr_team_product)){ ?>
@@ -462,7 +490,7 @@
                                             <!-- Item details -->
                                             <div class="item-dtls">
                                                 <!-- product title -->
-                                                <h4><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></h4>
+                                                <span class="font-size"><a href="<?php echo home_url()."/".$row->product_slug ?>"><?php echo $row->product_name ?></a></span>
                                                 <!-- price -->
                                                 <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
                                             </div>
@@ -478,6 +506,89 @@
                         </div>
                     </form>
                     <form method="post" id="register-form3" class="form-manage" action="" data-id="menu4" style="display:none">
+                        <div class="btn btn-default col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-6 col-xs-6 col-sm-6"><strong>Họ Tên</strong></div>
+                            <div class="col-md-6 col-xs-6 col-sm-6"><strong>Trạng Thái</strong></div>
+                        </div>
+                        <?php 
+                            $table_order = $wpdb->prefix."order";
+                            $query_order = $wpdb->prepare("SELECT * FROM $table_order WHERE team_id = %d ORDER BY $table_order.id",$data_team->id);
+                            $data_order = $wpdb->get_results($query_order);
+                            foreach($data_order as $order){
+                        ?>
+                        <div class="btn btn-info col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
+                            <div class="col-md-6 col-xs-6 col-sm-6"><?php echo $order->order_name; ?></div>
+                            <div class="col-md-6 col-xs-6 col-sm-6">
+                                <strong>
+                                <?php 
+                                if($order->order_status == 0){
+                                    echo "Chưa xử lý";
+                                } 
+                                else if($order->order_status == 1){
+                                    echo "Thành công";
+                                } 
+                                else if($order->order_status == 2){
+                                    echo "Đang giao";
+                                } 
+                                else if($order->order_status == 3){
+                                    echo "Huỷ đơn hàng";
+                                } 
+                                else if($order->order_status == 4){
+                                    echo "Trả về";
+                                } 
+                                ?>
+                                </strong>
+                            </div>
+                        </div>
+                        <div id="order<?php echo $order->id ?>" class="collapse">
+                            <table class="table table-bordered table-condensed table-responsive table-striped table-hover">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <p><strong>Email : </strong><a href="mailto:<?php echo $order->order_email ?>"><?php echo $order->order_email ?></a></p>
+                                    <p><strong>Số điện thoại :</strong><a href="tel:<?php echo $order->order_phone ?>"> <?php echo $order->order_phone ?></a></p>
+                                </div>
+                                <caption><h3>Chi Tiết Đơn Đặt Hàng</h3></caption>
+                                <thead>
+                                    <tr>
+                                        <th>Sản Phẩm</th>
+                                        <th>Số Lượng</th>
+                                        <th>Đơn Giá</th>
+                                        <th>Tổng Tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                        $table_order_detail = $wpdb->prefix."order_detail";
+                                        $table_products = $wpdb->prefix."products";
+                                        $query_order_detail = $wpdb->prepare("SELECT * FROM $table_order_detail WHERE order_id = %d AND team_id = %d",$order->id,$order->team_id);
+                                        $data_order_detail = $wpdb->get_results($query_order_detail);
+                                        foreach($data_order_detail as $order_detail){
+                                            $query_product = $wpdb->prepare("SELECT * FROM $table_products WHERE id = %d",$order_detail->product_id);
+                                            $product = $wpdb->get_row($query_product);
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $product->product_name ?></td>
+                                        <td><?php echo $order_detail->amount ?></td>
+                                        <td><?php echo $order_detail->price ?></td>
+                                        <td><?php echo $order_detail->detail_total_price ?></td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                                <tfoot class="text-center">
+                                    <tr>
+                                        <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo $order->total_price ?></strong></td>
+                                    </tr>
+                                    <?php if($order->order_status == 0){ ?>
+                                    <tr>
+                                        <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger" name="btn-cancel">Huỷ đơn hàng</button></td>
+                                    </tr>
+                                    <?php } ?>
+                                </tfoot>
+                                
+                            </table>
+                        </div>
+                        <?php
+                            }
+                        ?>
                     </form>
                     <form method="post" id="register-form4" class="form-manage" action="<?php echo home_url("change-description-group") ?>" data-id="menu5" style="display:none">
                         <div class="margin-bottom-20">
@@ -589,6 +700,52 @@
                             </div>
                         </div>
                     </form>
+                    <form method="post" id="register-form7" class="form-manage" data-id="menu8" style="display:none">
+                        <h3><strong>Doanh Thu :</strong></h3>
+                        <div class="col-md-12">
+                        <table class="table table-responsive table-hover table-condensed table-striped table-bordered">
+                            <?php 
+                                $table_statistical = "statistical";
+                                $query_statistical = $wpdb->prepare("SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical INNER JOIN $table_team ON $table_statistical.team_id = $table_team.id WHERE $table_statistical.team_id = %d",$data_team->id);
+                                $statistical = $wpdb->get_row($query_statistical);
+                            ?>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Tổng doanh thu :</strong></td>
+                                    <td colspan="3"><?php echo number_format($statistical->sum_no_ship)."đ"; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Đơn hàng thành công :</strong></td>
+                                    <td><?php echo $statistical->count_success; ?></td>
+                                    <td><strong>Đơn hành huỷ :</strong></td>
+                                    <td><?php echo $statistical->count_cancel; ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><strong>Sản phẩm</strong></td>
+                                    <td colspan="2"><strong>Tổng tiền</strong></td>
+                                </tr>
+                                <?php
+                                   foreach($data_order as $order){
+                                   $query_order_detail = $wpdb->prepare("SELECT * FROM $table_order_detail WHERE order_id = %d AND team_id = %d",$order->id,$order->team_id);
+                                   $data_order_detail = $wpdb->get_results($query_order_detail);
+                                   foreach($data_order_detail as $order_detail){
+                                    $query_product = $wpdb->prepare("SELECT * FROM $table_products WHERE id = %d",$order_detail->product_id);
+                                    $product = $wpdb->get_row($query_product);
+                                    $data_query_detail = $wpdb->prepare("SELECT SUM(detail_total_price) as total_renueve FROM $table_order_detail WHERE product_id = %d AND team_id = %d",$order_detail->product_id,$order->team_id);
+                                    $product_detail = $wpdb->get_row($data_query_detail);
+                                ?>
+                                <tr>
+                                    <td colspan="2"><?php echo $product->product_name ?></td>
+                                    <td colspan="2"><?php echo number_format($product_detail->total_renueve)."đ" ?></td>
+                                </tr>
+                                <?php 
+                                        } 
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -694,6 +851,11 @@
             {
                 $(".form-manage").css({"display":"none"});
                 $("#register-form6").css({"display":"block"});
+            }
+            if(data == "menu8")
+            {
+                $(".form-manage").css({"display":"none"});
+                $("#register-form7").css({"display":"block"});
             }
 		});
 	});

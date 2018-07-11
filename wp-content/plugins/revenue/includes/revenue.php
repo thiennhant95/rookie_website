@@ -173,10 +173,7 @@ function show_revenue_view()
             });
         });
     </script>
-    <?php
-}
-?>
-<style>
+    <style>
 
     .panel.with-nav-tabs .panel-heading{
         padding: 5px 5px 0 5px;
@@ -512,3 +509,6 @@ function show_revenue_view()
         font-weight: bold;
     }
 </style>
+    <?php
+}
+?>

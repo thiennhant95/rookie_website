@@ -44,7 +44,26 @@
 {	
 	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
 }
-
+.font-size{ font-size: 16px }
+@media only screen and (max-width: 500px){
+   .font-size, .shop-items .item .item-dtls .price{ font-size: 12px !important}
+   .shop-items .item img{ height: 70px !important; }
+   .shop-items { padding: 0; }
+   .myborder{ padding: 5px; }
+}
+@media only screen and (min-width: 501px) and (max-width: 600px){
+    .shop-items .item img{ height: 100px !important; }
+    .font-size, .shop-items .item .item-dtls .price{ font-size: 13px !important}
+    .shop-items { padding: 0; }
+   .myborder{ padding: 5px; }
+}
+ @media only screen and (min-width: 601px) and (max-width: 800px){
+    .shop-items .item img{ height: 160px !important; }
+    .font-size, .shop-items .item .item-dtls .price{ font-size: 15px !important}
+    .shop-items { padding: 0; }
+   .myborder{ padding: 5px; }
+}
+.table-responsive table { display: inline-table; }
 </style>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
@@ -191,7 +210,7 @@
 								        		<?php if($i%3==1){ ?>
 								        		<div class="clearfix"></div>
 								        		<?php } ?>
-										        <div class="col-md-4 col-sm-6">
+										        <div class="col-md-4 col-sm-4 col-xs-4">
 										            <!-- Restaurant Item -->
 										            <div class="item">
 										                <!-- Item's image -->
@@ -199,7 +218,7 @@
 										                <!-- Item details -->
 										                <div class="item-dtls">
 										                    <!-- product title -->
-										                    <h5><strong><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></strong></h5>
+										                    <span class="font-size"><strong><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></strong></span>
 										                    <!-- price -->
 										                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
 										                </div>
