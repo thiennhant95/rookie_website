@@ -71,7 +71,7 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 
 		<div class="section section-post-header">
 			<div class="section_wrapper clearfix">
-								
+							
 				<?php 
 					// single post navigation | header
 					if( ! $single_post_nav['hide-header'] ){
@@ -203,12 +203,59 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 	<?php endif; ?>
 
 	<div class="post-wrapper-content">
-
+		<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url().'/'.$post->post_name."/"; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+		<?php if(isset($_SESSION["branch_id"]) && isset($_SESSION["branch_slug"])){ ?>
+		<div class="btn btn-xs btn-primary" data-toggle="modal" data-target="#sharetowall<?php echo $post->ID ?>" style="z-index: 1; float: right; margin-right: 15px">Chia sẽ về trang của bạn</div>
+						<div id="sharetowall<?php echo $post->ID ?>" class="modal fade" role="dialog" >
+								<div class="modal-dialog">
+								  <form action="" id="FormShare<?php echo $post->ID ?>">
+								  	<input type="hidden" value="<?php echo $post->ID ?>" class="sharetowall">
+								    <div class="modal-content">
+								      <div class="modal-body">
+								        <p><textarea class="form-control share-status" placeholder="Nói gì đó về nội dung này..."></textarea></p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="submit" class="btn btn-primary share-button">Chia sẽ</button>
+								        <p class="notice-share"></p>
+								      </div>
+								    </div>
+								  </form>
+							  	</div>
+							</div>
+							<script>
+						jQuery(document).ready(function($) {
+							$("#FormShare<?php echo $post->ID ?>").on("submit",(function(e) {
+				            e.preventDefault();
+				            var share = $(this).find(".sharetowall").val();
+				            var status = $(this).find(".share-status").val();
+				            console.log(share);
+				            var url = "'.home_url().'/share-to-wall";
+				            $(".share-button").attr("disabled","disabled");
+				            $.ajax({
+				                url: url,
+				                dataType: "text",
+				                type: "post",
+				                contentType: "application/x-www-form-urlencoded",  
+				                data: { share: share, status: status },
+				                success: function( data, textStatus, jQxhr ){
+				                	$(".notice-share").html(data);
+				                	setTimeout(function(){ 
+				                		$(".share-button").removeAttr("disabled");
+				                	}, 3000);
+				                },
+				                error: function( jqXhr, textStatus, errorThrown ){
+				                    console.log( errorThrown );
+				                }
+				            });    
+				       	 }));
+				       	});
+						</script>
+		<?php } ?>	
 		<?php
 			// Content Builder & WordPress Editor Content
 			mfn_builder_print( $post->ID );	
 		?>
-
+		
 		<div class="section section-post-footer">
 			<div class="section_wrapper clearfix">
 			
@@ -338,11 +385,58 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 											echo '</div>';
 											
 										}
-										
+
 										echo '<div class="date_label">'. get_the_date() .'</div>';
 									
 										echo '<div class="desc">';
 											if( get_post_format() != 'quote') echo '<h4><a href="'. get_permalink() .'">'. get_the_title() .'</a></h4>';
+											if(isset($_SESSION["branch_id"]) && isset($_SESSION["branch_slug"])){
+											echo '<div class="btn btn-xs btn-primary" data-toggle="modal" data-target="#sharetowall'.get_the_ID().'">Chia sẽ về trang của bạn</div>';
+										echo '<div id="sharetowall'.get_the_ID().'" class="modal fade" role="dialog" >
+												<div class="modal-dialog">
+												  <form action="" id="FormShare'.get_the_ID().'">
+												  	<input type="hidden" value="'.get_the_ID().'" class="sharetowall">
+												    <div class="modal-content">
+												      <div class="modal-body">
+												        <p><textarea class="form-control share-status" placeholder="Nói gì đó về nội dung này..."></textarea></p>
+												      </div>
+												      <div class="modal-footer">
+												        <button type="submit" class="btn btn-primary share-button">Chia sẽ</button>
+												        <p class="notice-share"></p>
+												      </div>
+												    </div>
+												  </form>
+											  	</div>
+											</div>';
+										echo '<script>
+										jQuery(document).ready(function($) {
+											$("#FormShare'.get_the_ID().'").on("submit",(function(e) {
+								            e.preventDefault();
+								            var share = $(this).find(".sharetowall").val();
+								            var status = $(this).find(".share-status").val();
+								            console.log(share);
+								            var url = "'.home_url().'/share-to-wall";
+								            $(".share-button").attr("disabled","disabled");
+								            $.ajax({
+								                url: url,
+								                dataType: "text",
+								                type: "post",
+								                contentType: "application/x-www-form-urlencoded",  
+								                data: { share: share, status: status },
+								                success: function( data, textStatus, jQxhr ){
+								                	$(".notice-share").html(data);
+								                	setTimeout(function(){ 
+								                		$(".share-button").removeAttr("disabled");
+								                	}, 3000);
+								                },
+								                error: function( jqXhr, textStatus, errorThrown ){
+								                    console.log( errorThrown );
+								                }
+								            });    
+								       	 }));
+								       	});
+										</script>';
+										}
 											echo '<hr class="hr_color" />';
 											echo '<a href="'. get_permalink() .'" class="button button_left button_js"><span class="button_icon"><i class="icon-layout"></i></span><span class="button_label">'. $translate['readmore'] .'</span></a>';
 										echo '</div>';

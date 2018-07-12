@@ -780,3 +780,59 @@ add_shortcode('ranking_dashboard', 'ranking_dashboard_admin');
 function custom_dashboard_help() {
 echo do_shortcode('[ranking_dashboard]');
 }
+
+function post_page_frontend(){
+    $category = array(6);
+    ?>
+    <style>
+        .custom-show-post img{ height: 250px !important; }
+    </style>
+    <div class="column_filters">
+        <div class="blog_wrapper isotope_wrapper clearfix">
+            <div class="posts_group lm_wrapper col-4 grid hide-more">
+    <?php
+    foreach($category as $cat)
+    {
+        $args_news = array( 'post_status' => 'publish', 'category' => $cat, 'order' => 'DESC', 'numberposts' => 4 );
+        $data_news=get_posts($args_news);
+        $term = get_term_by('id', $cat, 'category');
+        ob_start();
+        foreach($data_news as $news){
+    ?>
+        <div class="post-item isotope-item clearfix author-admin post-<?php echo $news->ID; ?> post type-post status-publish format-standard has-post-thumbnail hentry category-rookiers-sharing-post">
+            <div class="date_label"><?php echo get_the_date('d/m/Y',$news->ID); ?></div>
+            <div class="image_frame post-photo-wrapper scale-with-grid image">
+                <div class="image_wrapper custom-show-post">
+                    <a href="<?php echo get_permalink($news->ID); ?>">
+                        <div class="mask"></div>
+                        <?php echo get_the_post_thumbnail( $news->ID); ?>
+                    </a>
+                    <div class="image_links">
+                        <a href="<?php echo get_permalink($news->ID); ?>" class="link">
+                            <i class="icon-link"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="desc">
+                <h4><a href="<?php echo get_permalink($data_news[0]->ID); ?>"><?php echo get_the_title($data_news[0]->ID); ?></a></h4>
+            </div>
+            <div class="post-excerpt home-excerpt" style="color: #737E86">
+                <?php $excerpt = wp_trim_words(get_post_field('post_content', $news->ID), 26,' [...]');
+                    echo $excerpt;                                  
+                 ?>
+            </div>
+        </div>
+    <?php
+        }
+    }
+    ?>
+            </div>
+        </div>
+    </div>
+    <?php
+    $data = ob_get_contents();
+    ob_end_clean();
+    return $data;
+}
+add_shortcode('shortcode_postpage', 'post_page_frontend');

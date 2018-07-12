@@ -224,12 +224,15 @@ if( ! function_exists('mfn_content_post') ){
 									
 								$output .= '</div>';
 							}
-							
+							$output .= '<iframe src="https://www.facebook.com/plugins/share_button.php?href='.get_permalink().'&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>';
+							if(isset($_SESSION["branch_id"]) && isset($_SESSION["branch_slug"])){
 							$output .= '<div class="btn btn-xs btn-primary" data-toggle="modal" data-target="#sharetowall'.get_the_ID().'">Chia sẽ về trang của bạn</div>';
+							}
 						$output .= '</div>';
 					$output .= '</div>';
 				
 				$output .= '</div>';
+				if(isset($_SESSION["branch_id"]) && isset($_SESSION["branch_slug"])){
 				$output .= '<div id="sharetowall'.get_the_ID().'" class="modal fade" role="dialog" >
 								<div class="modal-dialog">
 								  <form action="" id="FormShare'.get_the_ID().'">
@@ -274,6 +277,7 @@ if( ! function_exists('mfn_content_post') ){
 					       	 }));
 					       	});
 							</script>';
+				}
 			}
 		}
 		return $output;
