@@ -469,40 +469,56 @@ add_action('init', function() {
 });
 
 function ranking_team() {
+    $date_competition_start = "2018-09-15";
+    $date_competition_end = "2018-10-15";
+    $date_current = date("Y-m-d");
     ob_start();
     ?>
-                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px;display: inline-table">
-                    <thead>
-                    <tr>
-                        <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
-                    </tr>
-                    <tr>
-                        <th width="15%"><strong>Hạng</strong></th>
-                        <th><strong>Nhóm</strong></th>
-                        <th width="20%"><strong>Điểm</strong></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-<!--                    <tr>-->
-<!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
-<!--                    </tr>-->
-                    <?php  
-                    global $wpdb;
-                    $table_team = $wpdb->prefix."team";
-                    $table_statistical = "statistical";
-                    $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
-                    $data_statistical = $wpdb->get_results($query_statistical);
-                    $rank = 1;
-                    foreach($data_statistical as $statistical){ 
-                    ?>
-                    <tr>
-                        <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
-                        <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;<?php echo $statistical->ten_nhom; ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?php echo floor($statistical->sum_no_ship/1000) ?></td>
-                    </tr>
-                    <?php $rank++; } ?>
-                    </tbody>
-                </table>
+    <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px;">
+        <?php if($date_current >= $date_competition_start && $date_current <= $date_competition_end ){ ?>
+            <thead>
+            <tr>
+                <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
+            </tr>
+            <tr>
+                <th width="15%"><strong>Hạng</strong></th>
+                <th><strong>Nhóm</strong></th>
+                <th width="20%"><strong>Điểm</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--                    <tr>-->
+            <!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
+            <!--                    </tr>-->
+            <?php
+            global $wpdb;
+            $table_team = $wpdb->prefix."team";
+            $table_statistical = "statistical";
+            $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
+            $data_statistical = $wpdb->get_results($query_statistical);
+            $rank = 1;
+            foreach($data_statistical as $statistical){
+                ?>
+                <tr>
+                    <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
+                    <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;<?php echo $statistical->ten_nhom; ?></td>
+                    <td style="vertical-align: middle; text-align: center"><?php echo floor($statistical->sum_no_ship/1000) ?></td>
+                </tr>
+                <?php $rank++; } ?>
+            </tbody>
+        <?php }
+        else{
+            ?>
+            <tr>
+                <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
+            </tr>
+            <tr style="height: 395px">
+                <td>Dữ liệu đang cập nhật</td>
+            </tr>
+            <?php
+        }
+        ?>
+    </table>
     <?php
     $list_post = ob_get_contents(); //Lấy toàn bộ nội dung phía trên bỏ vào biến $list_post để return
 
@@ -754,7 +770,7 @@ function my_custom_dashboard_widgets() {
     global $wp_meta_boxes; 
     wp_add_dashboard_widget('custom_help_widget', 'Ranking Dashboard', 'custom_dashboard_help');
 }
- 
+
 function ranking_dashboard_admin(){
     ?>
     <style>
@@ -769,9 +785,13 @@ function ranking_dashboard_admin(){
     $data_statistical = $wpdb->get_results($query_statistical);
     ob_start();
     $rank = 1;
+    $date_competition_start = "2018-09-15";
+    $date_competition_end = "2018-10-15";
+    $date_current = date("Y-m-d");
     ?>
     <table class="table table-responsive table-hover table-striped table-bordered table-dashboard">
-        <thead>
+        <?php if($date_current >= $date_competition_start && $date_current <= $date_competition_end ){ ?>
+            <thead>
             <tr>
                 <th>Hạng</th>
                 <th>Tên nhóm</th>
@@ -780,24 +800,34 @@ function ranking_dashboard_admin(){
                 <th>Số đơn <br> thành công</th>
                 <th>Số đơn huỷ</th>
             </tr>
-        </thead>
-        <tbody class="text-center">
+            </thead>
+            <tbody class="text-center">
             <?php
             foreach($data_statistical as $statistical){
-            ?>
-            <tr>
-                <td><?php echo $rank; ?></td>
-                <td><?php echo $statistical->ten_nhom ?></td>
-                <td><?php if($statistical->sum_no_ship != null){ echo number_format($statistical->sum_no_ship)."đ"; }else{ echo "0đ"; } ?></td>
-                <td><?php if($statistical->sum_no_ship != null){ echo floor($statistical->sum_no_ship / 1000); }else{ echo "0"; } ?></td>
-                <td><?php if($statistical->count_success != null){ echo $statistical->count_success; }else{ echo "0"; } ?></td>
-                <td><?php if($statistical->count_cancel != null){ echo $statistical->count_cancel; }else{ echo "0"; } ?></td>
-            </tr>
-            <?php
-            $rank++;
+                ?>
+                <tr>
+                    <td><?php echo $rank; ?></td>
+                    <td><?php echo $statistical->ten_nhom ?></td>
+                    <td><?php if($statistical->sum_no_ship != null){ echo number_format($statistical->sum_no_ship)."đ"; }else{ echo "0đ"; } ?></td>
+                    <td><?php if($statistical->sum_no_ship != null){ echo floor($statistical->sum_no_ship / 1000); }else{ echo "0"; } ?></td>
+                    <td><?php if($statistical->count_success != null){ echo $statistical->count_success; }else{ echo "0"; } ?></td>
+                    <td><?php if($statistical->count_cancel != null){ echo $statistical->count_cancel; }else{ echo "0"; } ?></td>
+                </tr>
+                <?php
+                $rank++;
             }
             ?>
-        </tbody>
+            </tbody>
+            <?php
+        }
+        else{
+            ?>
+            <tr>
+                <td>Dữ liệu đang cập nhật</td>
+            </tr>
+            <?php
+        }
+        ?>
     </table>
     <?php
     $data = ob_get_contents();

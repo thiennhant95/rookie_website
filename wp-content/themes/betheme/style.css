@@ -313,3 +313,5 @@ aside#text-6 >.textwidget{
         font-size: 9px!important;
     }
 }
+.the_content_wrapper .image_frame, .the_content_wrapper .wp-caption { margin-bottom: 10px !important }
+.post-desc { padding : 0 10px !important; }
