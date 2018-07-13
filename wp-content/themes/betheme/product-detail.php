@@ -1,4 +1,7 @@
 <?php
+get_header();
+?>
+<?php
 $search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 $replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
     $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
@@ -10,13 +13,10 @@ $replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
     $data_products = $wpdb->get_row($data_prepare_products);
     if(!empty($data_products)){
 ?>
-<?php
-get_header();
-?>
 <style>
-    body{margin-top:20px;
-        background:#eee;
-    }
+    /*body{margin-top:20px;*/
+        /*background:#eee;*/
+    /*}*/
 
     /*panel*/
     .panel {
@@ -159,8 +159,8 @@ get_header();
     }
 
     .pro-img-list img {
-        margin: 10px 0 0 -15px;
-        width: 90px !important;
+        /*margin: 10px 0 0 -15px;*/
+        width: 84px !important;
         height: auto;
         display: inline-block;
     }
@@ -175,6 +175,13 @@ get_header();
         font-size: 18px;
         font-weight: 300;
     }
+    .pro-img-list{ cursor: pointer }
+    .active-image { border: 3px solid #29E2D7; }
+    .pro-img-list {
+        width: 90px;
+        display: inline-block;
+    }
+    .gallery li{ float: left; margin-left: 15px }
 </style>
 <div class="container">
     <div class="row">
@@ -184,8 +191,8 @@ get_header();
             <div class="col-md-6">
                 <?php
                 $i=1;
-                $images_url = home_url()."/wp-content/uploads/image-product/"; 
-                $arr_image_product = json_decode($data_products->product_images); 
+                $images_url = home_url()."/wp-content/uploads/image-product/";
+                $arr_image_product = json_decode($data_products->product_images);
                 if(!empty($arr_image_product))
                 {
                     $start = 0;
@@ -193,18 +200,27 @@ get_header();
                     if($key == $start){
                 ?>
                 <div class="pro-img-details">
-                    <img src="<?php echo $images_url.$image_product ?>" alt="">
+                    <img src="<?php echo $images_url.$image_product ?>" alt="" id="product-select">
                 </div>
-                <?php 
+                <?php
                     }
+                        if($key == $start){
+                            ?>
+                            <div class="pro-img-list active-image" style="margin-right: 5px">
+                                <span class="thumbnail-img">
+                                    <img src="<?php echo $images_url.$image_product ?>" alt="">
+                                </span>
+                            </div>
+                            <?php
+                        }
                     else{
                 ?>
-                <div class="pro-img-list">
-                    <a href="#">
-                        <img src="<?php echo $images_url.$image_product ?>" alt="">
-                    </a>
+                <div class="pro-img-list" style="margin-right: 5px">
+                     <span class="thumbnail-img">
+                         <img src="<?php echo $images_url.$image_product ?>" alt="">
+                     </span>
                 </div>
-                <?php 
+                <?php
                         }
                     }
                 }
@@ -233,7 +249,7 @@ get_header();
                 <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
                 <div class="form-group">
                     <label>Số Lượng</label>
-                    <input type="quantiy" placeholder="1" class="form-control quantity" name="product_qty">
+                    <input type="quantiy" placeholder="1" min="1" class="form-control quantity" name="product_qty">
                 </div>
                 <p>
                     <div>
@@ -244,7 +260,7 @@ get_header();
                         <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
                         <input type="hidden" name="type" value="add">
                         <button class="btn btn-round btn-danger ecom bg-lblue" type="button" onclick="document.getElementById('product-<?php echo $i?>').submit()" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</button>
-                    </div>                                              
+                    </div>
                 </p>
                 </form>
             </div>
@@ -285,7 +301,7 @@ get_header();
 <?php
 get_footer();
 ?>
-<?php 
+<?php
     }
     else
     {
@@ -293,7 +309,7 @@ get_footer();
         $wp_query->set_404();
         status_header( 404 );
         get_template_part( 404 );
-    } 
+    }
 ?>
 <style>
     #product_name:hover{
@@ -303,3 +319,14 @@ get_footer();
         display: none;
     }
 </style>
+<script>
+    jQuery(function($){
+        $(".pro-img-list").click(function(){
+            $(".pro-img-list").removeClass("active-image");
+            $("#product-select").removeAttr("src");
+            $(this).addClass("active-image");
+            var src = $(this).find("img").attr('src');
+            $("#product-select").attr('src',src);
+        })
+    })
+</script>
