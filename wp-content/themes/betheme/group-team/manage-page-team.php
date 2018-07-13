@@ -151,12 +151,14 @@
        .shop-items .item img{ height: 70px !important; }
        .shop-items { padding: 0; }
        .myborder{ padding: 5px; }
+       .menu-mobile { display:  none !important; }
     }
     @media only screen and (min-width: 501px) and (max-width: 600px){
         .shop-items .item img{ height: 100px !important; }
         .font-size, .shop-items .item .item-dtls .price{ font-size: 13px !important}
         .shop-items { padding: 0; }
-       .myborder{ padding: 5px; }
+        .myborder{ padding: 5px; }
+        .menu-mobile { display:  none !important; }
     }
      @media only screen and (min-width: 601px) and (max-width: 800px){
         .shop-items .item img{ height: 160px !important; }
@@ -165,6 +167,7 @@
        .myborder{ padding: 5px; }
     }
     .table-responsive table { display: inline-table; }
+    .menu-tab { cursor: pointer; }
 </style>
 <div id="Content">
     <div class="content_wrapper clearfix">
@@ -324,8 +327,8 @@
             <div class="col-md-12" style="display:none" id="notice-upload-avatar"></div>
             <div class="clearfix"></div>
             <div class="col-md-2" style="margin-bottom: 30px">
-            	<ul class="nav nav-pills nav-stacked">
-				  <li class="active"><a href="#">Quản Lý</a></li>
+                <button class="btn btn-block" style="background-color: #C2C2C2; font-size: 16px; color: #fff; margin-bottom: 10px" id="display-mobile"><strong>Quản Lý</strong></button>
+            	<ul class="nav nav-pills nav-stacked menu-mobile" id="menu-manage">
 				  <li class="menu-tab active" data-id="menu1"><a>Thông tin nhóm</a></li>
                   <li class="menu-tab" data-id="menu5"><a>Thông tin trang</a></li>
 				  <li class="menu-tab" data-id="menu2"><a>Đổi mật khẩu</a></li>
@@ -594,7 +597,8 @@
                         <div class="margin-bottom-20">
                             <span><strong>Slogan :</strong></span>
                             <?php
-                                remove_action( 'media_buttons', 'media_buttons' ); 
+                                remove_action( 'media_buttons', 'media_buttons' );
+
                                 $content_slogan = str_replace('\"', '"', $data_team->slogan);
                                 $editor_slogan = 'slogan_group';
                                 $settings =   array(
@@ -751,6 +755,14 @@
 </div>
 <script>
     jQuery(function($){
+        $("#display-mobile").click(function(){
+            if($("#menu-manage").hasClass('menu-mobile')){
+                $("#menu-manage").removeClass('menu-mobile');
+            }
+            else{
+                $("#menu-manage").addClass('menu-mobile');
+            }
+        })
         $(".checkbox-products").change(function(){
             if($(this).hasClass('checked-product'))
             {

@@ -487,38 +487,39 @@ function ranking_team() {
             </tr>
             </thead>
             <tbody>
-            <!--                    <tr>-->
-            <!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
-            <!--                    </tr>-->
-            <?php
+<!--                    <tr>-->
+<!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
+<!--                    </tr>-->
+            <?php  
             global $wpdb;
             $table_team = $wpdb->prefix."team";
             $table_statistical = "statistical";
-            $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
+            $table_statistical_point = "statistical_point";
+            $query_statistical = "SELECT $table_statistical.*, $table_statistical_point.point,$table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id INNER JOIN $table_statistical_point ON $table_statistical_point.team_id = $table_team.id ORDER BY $table_statistical_point.point DESC, sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
             $data_statistical = $wpdb->get_results($query_statistical);
             $rank = 1;
-            foreach($data_statistical as $statistical){
-                ?>
-                <tr>
-                    <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
-                    <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;<?php echo $statistical->ten_nhom; ?></td>
-                    <td style="vertical-align: middle; text-align: center"><?php echo floor($statistical->sum_no_ship/1000) ?></td>
-                </tr>
-                <?php $rank++; } ?>
-            </tbody>
-        <?php }
-        else{
+            foreach($data_statistical as $statistical){ 
             ?>
             <tr>
-                <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
+                <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
+                <td class="text-danger" style="vertical-align: middle; text-align: center"><img class="images-logo pull-left" src="<?php echo home_url('wp-content/uploads/2016/09/logo1.png')?>">&nbsp;<?php echo $statistical->ten_nhom; ?></td>
+                <td style="vertical-align: middle; text-align: center"><?php echo $statistical->point ?></td>
             </tr>
-            <tr style="height: 395px">
-                <td>Dữ liệu đang cập nhật</td>
-            </tr>
-            <?php
-        }
-        ?>
-    </table>
+            <?php $rank++; } ?>
+            </tbody>
+            <?php }
+                else{
+                    ?>
+                    <tr>
+                        <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
+                    </tr>
+                    <tr style="height: 395px">
+                        <td>Dữ liệu đang cập nhật</td>
+                    </tr>
+                    <?php
+                }
+            ?>
+	    </table>
     <?php
     $list_post = ob_get_contents(); //Lấy toàn bộ nội dung phía trên bỏ vào biến $list_post để return
 
@@ -781,7 +782,9 @@ function ranking_dashboard_admin(){
     global $wpdb;
     $table_team = $wpdb->prefix."team";
     $table_statistical = "statistical";
-    $query_statistical = "SELECT $table_statistical.*, $table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id ORDER BY sum_no_ship DESC, count_success DESC, count_cancel DESC";
+    $table_statistical_point = "statistical_point";
+    $query_statistical = "SELECT $table_statistical.*, $table_statistical_point.point,$table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id INNER JOIN $table_statistical_point ON $table_statistical_point.team_id = $table_team.id ORDER BY $table_statistical_point.point DESC, sum_no_ship DESC, count_success DESC, count_cancel DESC";
+
     $data_statistical = $wpdb->get_results($query_statistical);
     ob_start();
     $rank = 1;
@@ -795,26 +798,26 @@ function ranking_dashboard_admin(){
             <tr>
                 <th>Hạng</th>
                 <th>Tên nhóm</th>
-                <th>Số tiền</th>
                 <th>Số điểm</th>
+                <th>Số tiền</th>            
                 <th>Số đơn <br> thành công</th>
                 <th>Số đơn huỷ</th>
             </tr>
-            </thead>
+        </thead>
             <tbody class="text-center">
             <?php
             foreach($data_statistical as $statistical){
                 ?>
-                <tr>
-                    <td><?php echo $rank; ?></td>
-                    <td><?php echo $statistical->ten_nhom ?></td>
-                    <td><?php if($statistical->sum_no_ship != null){ echo number_format($statistical->sum_no_ship)."đ"; }else{ echo "0đ"; } ?></td>
-                    <td><?php if($statistical->sum_no_ship != null){ echo floor($statistical->sum_no_ship / 1000); }else{ echo "0"; } ?></td>
-                    <td><?php if($statistical->count_success != null){ echo $statistical->count_success; }else{ echo "0"; } ?></td>
-                    <td><?php if($statistical->count_cancel != null){ echo $statistical->count_cancel; }else{ echo "0"; } ?></td>
-                </tr>
-                <?php
-                $rank++;
+               <tr>
+                <td><?php echo $rank; ?></td>
+                <td><?php echo $statistical->ten_nhom ?></td>
+                <td><?php if($statistical->point != null){ echo $statistical->point; }else{ echo "0"; } ?></td>
+                <td><?php if($statistical->sum_no_ship != null){ echo number_format($statistical->sum_no_ship)."đ"; }else{ echo "0đ"; } ?></td>
+                <td><?php if($statistical->count_success != null){ echo $statistical->count_success; }else{ echo "0"; } ?></td>
+                <td><?php if($statistical->count_cancel != null){ echo $statistical->count_cancel; }else{ echo "0"; } ?></td>
+            </tr>
+            <?php
+            $rank++;
             }
             ?>
             </tbody>

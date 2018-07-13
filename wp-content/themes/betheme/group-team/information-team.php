@@ -40,9 +40,9 @@
 }
 .style-simple table:not(.recaptchatable) th { background: gainsboro; }
 .list-team td, .list-team th{ border: 1px solid #fff !important; }
-@media screen (max-width: 680px)
+@media only screen and (max-width: 680px)
 {	
-	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
+	.bg-lblue .btn{ padding: 6px 0px !important; font-size: 12px !important}
 }
 .font-size{ font-size: 16px }
 @media only screen and (max-width: 500px){
@@ -63,7 +63,11 @@
     .shop-items { padding: 0; }
    .myborder{ padding: 5px; }
 }
+.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
 .table-responsive table { display: inline-table; }
+.col-sm-1, .col-sm-10, .col-sm-11,.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding-left: 5px; padding-right: 5px }
+.col-xs-4{ padding-left: 1px; padding-right: 1px }
+
 </style>
 	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
