@@ -895,3 +895,16 @@ function post_page_frontend(){
     return $data;
 }
 add_shortcode('shortcode_postpage', 'post_page_frontend');
+
+/* Xử lý chia sẽ bài viết */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'mini-game';
+    if($path[0] == $templatename){
+        $load = locate_template('mini_game.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});

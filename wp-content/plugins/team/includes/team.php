@@ -61,12 +61,13 @@ function team_view_function()
                         <th>Trường</th>
                         <th>Số điện thoại</th>
                         <th>Trạng Thái</th>
-                        <th>Điểm</th>
+                        <th>Điểm Mini Game</th>
                         <th>Chức Năng</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
+                    $i=1;
                     foreach ($product_list as $row)
                     {
                         ?>
@@ -77,7 +78,7 @@ function team_view_function()
                             <td><?php echo $row->truong_truong_nhom?></td>
                             <td><?php echo $row->sdt_truong_nhom ?></td>
                             <td id="status<?php echo $row->id ?>"><?php echo $row->team_status==1?'<span class="badge bg-green">Đang hoạt động</span>':'<span class="badge bg-red">Bị khóa</span>'?></td>
-                            <td><?php echo $row->diem ?></td>
+                            <td><form method="post" id="mini-game"><input team-id="<?php echo $row->id ?>" id="mini-game-<?php echo $i?>" type="number" style="width: 50%" name="mini_game" value="<?php  echo $row->diem ?>">&nbsp;<a href="<?php echo home_url('mini-game') ?>" data-id="<?php echo $i?>" class="btn btn-warning update-mini"><span class="glyphicon glyphicon-check"></span></a> <span class="mini-status-<?php echo $i?>"></span></form></td>
                             <td>
                                 <input type="submit" name="lock" href="<?php echo home_url('admin-team?lock-team=1&id='.$row->id) ?>" class="btn <?php
                                 if($row->team_status==1)
@@ -94,6 +95,7 @@ function team_view_function()
                             </td>
                         </tr>
                         <?php
+                        $i++;
                     }
                     ?>
                     </tbody>
@@ -175,6 +177,36 @@ function team_view_function()
                     })
             })
         });
+        $("#team-table").on("click", ".update-mini", function(event){
+            event.preventDefault();
+            var href = $(this).attr("href");
+            var id = $(this).attr("data-id");
+            var diem =$('#mini-game-'+id).val();
+            var team_id =$('#mini-game-'+id).attr("team-id");
+            $.ajax({
+                type: "POST",
+                url: href,
+                dataType : "json",
+                data:{team_id:team_id,diem:diem}
+            })
+                .done(function(data){
+                    if (data.status==1)
+                    {
+                        $(".mini-status-"+id).addClass('glyphicon glyphicon-ok');
+                        setTimeout(function () {
+                            $(".mini-status-"+id).removeClass('glyphicon glyphicon-ok');
+                        }, 3000);
+                    }
+                    else
+                    {
+                        $(".mini-status-"+id).addClass('glyphicon glyphicon-remove');
+                        setTimeout(function () {
+                            $(".mini-status-"+id).removeClass('glyphicon glyphicon-remove');
+                        }, 3000);
+                    }
+                })
+
+        })
 
 
     </script>
@@ -292,6 +324,11 @@ function team_view_function()
                                     <span class="input-group-addon"></span>
                                     <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="lead_birthday" id="lead_birthday" type="text">
                                 </div>
+                                <br/>
+                                <div class="input-group margin-bottom-20">
+                                    <span class="input-group-addon"></span>
+                                    <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="lead_facebook" id="lead_facebook" type="text">
+                                </div>
                                 <hr/>
 
                                 <span class="title-group"><i class="glyphicon glyphicon-user"></i> THÔNG TIN THÀNH VIÊN 1</span>
@@ -320,6 +357,11 @@ function team_view_function()
                                     <span class="input-group-addon"></span>
                                     <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u1_birthday" id="u1_birthday" type="text">
                                 </div>
+                                <br/>
+                                <div class="input-group margin-bottom-20">
+                                    <span class="input-group-addon"></span>
+                                    <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="u1_facebook" id="u1_facebook" type="text">
+                                </div>
                                 <hr/>
 
                                 <span class="title-group"><i class="glyphicon glyphicon-user"></i> THÔNG TIN THÀNH VIÊN 2</span>
@@ -347,6 +389,11 @@ function team_view_function()
                                 <div class="input-group margin-bottom-20">
                                     <span class="input-group-addon"></span>
                                     <input required  size="60" maxlength="255" class="form-control" placeholder="Ngày tháng năm sinh" name="u2_birthday" id="u2_birthday" type="text">
+                                </div>
+                                <br/>
+                                <div class="input-group margin-bottom-20">
+                                    <span class="input-group-addon"></span>
+                                    <input required  size="60" maxlength="255" class="form-control" placeholder=" Link Facebook" name="u2_facebook" id="u2_facebook" type="text">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
