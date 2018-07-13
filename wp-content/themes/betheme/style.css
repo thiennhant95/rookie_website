@@ -307,6 +307,11 @@ aside#text-6 >.textwidget{
     a.btn.btn-gio-hang {
         font-size: 12px!important;
     }
+    a.btn.btn-gio-hang1 {
+        font-size: 10px!important;
+        display: block;
+        padding-left: 5%;
+    }
 }
 @media only screen and (max-width: 365px){
     a.btn.btn-gio-hang {
@@ -315,37 +320,3 @@ aside#text-6 >.textwidget{
 }
 .the_content_wrapper .image_frame, .the_content_wrapper .wp-caption { margin-bottom: 10px !important }
 .post-desc { padding : 0 10px !important; }
-
-.red-button {
-    background-color:#bc3315;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    border-radius:3px;
-    border:none;
-    color: #fff;
-    display:inline-block;
-    cursor:pointer;
-    padding:10px 30px;
-    text-decoration:none;
-}
- 
-.red-button:hover {
-    background-color: #e53f19;
-}
- 
-.content-block {
-    border:1px solid #eee;
-    padding:10px;
-    background:#ccc;
-    float:left;
-    margin-bottom:1.75em;
-    text-align:center;
-}
- 
-.content-block:after {
-    clear:both;
-} 
- 
-.highlighter {
-    background-color:#ffff66;
-}

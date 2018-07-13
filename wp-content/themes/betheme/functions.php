@@ -423,8 +423,7 @@ function create_shortcode_randompost() {
                     ?>
                     <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
                     <input type="hidden" name="type" value="add">
-                    <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
-
+                    <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn btn-gio-hang1" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
                 </div>
             </div>
         </div>
