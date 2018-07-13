@@ -327,6 +327,13 @@ get_header();
     }
 </style>
 <?php
+$ts_by_url = array();
+foreach($_SESSION['products'] as $data) {
+    if(!array_key_exists($data['id_team'], $ts_by_url))
+        $ts_by_url[ $data['id_team'] ] = 0;
+    $ts_by_url[ $data['id_team'] ] += $data['price']*$data['qty'];
+}
+$_SESSION['price_list']=$ts_by_url;
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
@@ -443,17 +450,16 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                             ?>
                             <div class="col-md-6 col-xs-12">
                                 <strong>Tỉnh/ Thành Phố:</strong>
-                                <select class="form-control" name="order_city" required>
-                                    <option>Chọn Tỉnh/ Thành phố</option>
-                                    <option value="TP HCM">TP HCM</option>
+                                <select class="form-control" name="order_city" id="order_city" required>
+                                    <option value="">Chọn Tỉnh/ Thành phố</option>
                                     <?php
-//                                    foreach ($tinh_list as $row)
-//                                    {
-//                                        ?>
-<!--                                    <option value="--><?php //echo $row->matp?><!--">--><?php //echo $row->name ?><!--</option>-->
-<!--                                    --><?php
-//                                    }
-//                                    ?>
+                                    foreach ($tinh_list as $row)
+                                    {
+                                        ?>
+                                    <option data-id="<?php echo $row->matp?>" value="<?php echo $row->name?>"><?php echo $row->name ?></option>
+                                    <?php
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="span1"></div>
@@ -464,42 +470,41 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 $huyen_list =$wpdb->get_results($data_huyen);
                                 ?>
                                 <strong>Quận/ Huyện:</strong>
-                                <select class="form-control"  name="order_district" required>
-                                    <option>Chọn Quận/ Huyện</option>
-                                    <option value="Quận 5">Quận 5</option>
+                                <select class="form-control"  name="order_district" id="order_district" required>
+                                    <option value="">Chọn Quận/ Huyện</option>>
                                     <?php
-//                                    foreach ($huyen_list as $row_huyen)
-//                                    {
-//                                        ?>
-<!--                                        <option value="--><?php //echo $row_huyen->name?><!--">--><?php //echo $row_huyen->name ?><!--</option>-->
-<!--                                        --><?php
-//                                    }
+                                    foreach ($huyen_list as $row_huyen)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $row_huyen->name?>" class="car-<?php echo $row_huyen->matp ?> car" style="display: none"><?php echo $row_huyen->name ?></option>
+                                        <?php
+                                    }
 //                                    ?>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-xs-12">
-                                <?php
-                                $table_xa = $wpdb->prefix."xaphuongthitran";
-                                $data_xa = "SELECT * FROM $table_xa";
-                                $xa_list =$wpdb->get_results($data_xa);
-                                ?>
-                                <strong>Phường/ Xã:</strong>
-                                <select class="form-control"  name="order_ward" required>
-                                    <option>Chọn Phường/ Xã</option>
-                                    <option>Phường 7</option>
-                                    <?php
+<!--                        <div class="form-group">-->
+<!--                            <div class="col-md-6 col-xs-12">-->
+<!--                                --><?php
+//                                $table_xa = $wpdb->prefix."xaphuongthitran";
+//                                $data_xa = "SELECT * FROM $table_xa";
+//                                $xa_list =$wpdb->get_results($data_xa);
+//                                ?>
+<!--                                <strong>Phường/ Xã:</strong>-->
+<!--                                <select class="form-control"  name="order_ward" required>-->
+<!--                                    <option>Chọn Phường/ Xã</option>-->
+<!--                                    <option>Phường 7</option>-->
+<!--                                    --><?php
 //                                    foreach ($xa_list as $row_xa)
 //                                    {
 //                                        ?>
 <!--                                        <option value="--><?php //echo $row_xa->name?><!--">--><?php //echo $row_xa->name ?><!--</option>-->
 <!--                                        --><?php
 //                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
+//                                    ?>
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="form-group">
                             <div class="col-md-12"><strong>Ghi chú:</strong></div>
                             <div class="col-md-12">
@@ -550,17 +555,22 @@ get_footer();
                 order_address:{required:true,noSpace:true},
                 order_city:{required:true},
                 order_district:{required:true},
-                order_ward:{required:true}
+                // order_ward:{required:true}
             },
             messages: {
             }
         });
     });
-    // jQuery(document).ready(function($) {
-    //     $('#order_city').click(function (e) {
-    //         var id_city = $('#order_city').val();
-    //
-    //     })
-    // });
+    jQuery(document).ready(function($) {
+        $("#order_city").change(function()
+        {
+            // var car = $(this).attr('data-id');
+            var car = $('option:selected', this).attr('data-id');
+            console.log(car);
+            $(".car").css("display","none");
+            $(".car-"+car).css("display","block");
+            $("#order_district").val('');
+        })
+    });
 
 </script>

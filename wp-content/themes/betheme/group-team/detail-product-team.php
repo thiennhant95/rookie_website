@@ -304,6 +304,16 @@
 							</div>
 							<div class="col-md-7 row size-custom" style="margin-top: 15px">
 								<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+                                    <?php
+                                    if (isset($_SESSION['message_qty']) && $_SESSION['message_qty']==1):
+                                        ?>
+                                        <div class="alert alert-danger">
+                                            Số lượng sản phẩm đặt hàng phải lớn hơn 0
+                                        </div>
+                                    <?php
+                                    endif;
+                                    $_SESSION['message_qty']=0;
+                                    ?>
 									<h2><strong>Chi Tiết Sản Phẩm</strong></h2>
 									<div class="col-md-12 row">
 										<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/group-team/".$team_slug."/san-pham/".$data_products->product_slug; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
@@ -313,6 +323,7 @@
 									        <div class="panel-body">
 									            <div class="col-md-6">
 									            	<?php
+                                                    $i=1;
 									            	$images_url = home_url()."/wp-content/uploads/image-product/"; 
 									        		$arr_image_product = json_decode($data_products->product_images); 
 									        		if(!empty($arr_image_product))

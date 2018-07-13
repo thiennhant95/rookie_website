@@ -33,24 +33,26 @@ get_header();
         color: #0a0a0a;
     }
 </style>
+<!---->
 <?php
-$curl = curl_init('https://sandbox.dhlecommerce.asia/rest/v1/OAuth/AccessToken?clientId=LTEwMjA5MTQ2Njk=&password=MjAzMDI5MTU&returnFormat=json');
+// var_dump($_SESSION['products']);
+function group_assoc($array, $key) {
+    $return = array();
+    foreach($array as $v) {
+        $return[$v[$key]][] = $v;
+    }
+    return $return;
+}
 
-curl_setopt_array($curl, array(
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_HTTPHEADER => array('Accept: application/json'),
-));
-
-$response = curl_exec($curl);
-curl_close($curl);
-
-echo 'Response: ' . $response;
-?>
-
-<?php
-
-die();
+//Group the requests by their account_id
+if (isset($_SESSION['products'])):
+$account_requests = group_assoc($_SESSION['products'], 'id_team');
+foreach ($account_requests as $key=>$requests_row)
+{
+    $team_id[]=$key;
+}
+$_SESSION['team_list']=$team_id;
+endif;
 $table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
@@ -85,14 +87,12 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 </thead>
                                 <tbody>
                                 <?php
-                                print_r($_SESSION['products']);
-                                die();
                                 if (!isset($_SESSION['products']) || count($_SESSION['products'])==0)
                                 {
                                     echo "<td colspan='4'>Không có sản phẩm nào trong giỏ hàng.</td>";
                                 }
                                 else
-                                    foreach ($_SESSION['products'] as $row):
+                                    foreach ($_SESSION['products'] as $key=>$row):
                                         foreach ($product_list as $row_product):
                                             if ($row_product->id==$row['id']):
                                                 $arr_image_products =json_decode($row_product->product_images);
@@ -103,7 +103,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                         <input class="form-control input-soluong" name="amount[]" type="number" min="1" value="<?php echo $row['qty']?>">
                                     </td>
                                     <td><?php echo number_format($row['price']).'đ' ?></td>
-                                    <td><?php echo number_format($row['price']*$row['qty']).'đ' ?> <a href="<?php echo home_url('shopping/')?><?php echo '?removep='.$row['id'].'&return_url='.base64_encode($_SERVER['REQUEST_URI'])?>" class="btn btn-primary thanhtoan"><i class="fa fa-trash-o"></i></td>
+                                    <td><?php echo number_format($row['price']*$row['qty']).'đ' ?> <a href="<?php echo home_url('shopping/')?><?php echo '?removep='.$key.'&return_url='.base64_encode($_SERVER['REQUEST_URI'])?>" class="btn btn-primary thanhtoan"><i class="fa fa-trash-o"></i></td>
                                 </tr>
                                                 <input type="hidden" name="product[]" value="<?php echo $row_product->id?>" />
                                                 <?php

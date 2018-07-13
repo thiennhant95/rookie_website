@@ -29,7 +29,7 @@ get_header();
                 $arr_image_products =json_decode($row->product_images)
                 ?>
                 <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
-                <div class="col-md-3 col-sm-6">
+                <div class="col-md-3 col-sm-6 col-xs-3">
                     <!-- Restaurant Item -->
                     <div class="item">
                             <!-- Item's image -->
@@ -49,7 +49,7 @@ get_header();
                             ?>
                             <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
                             <input type="hidden" name="type" value="add">
-                            <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+                            <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn btn-gio-hang" style="white-space: normal;" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
                         </div>
                     </div>
                 </div>
@@ -94,3 +94,32 @@ get_header();
 <?php
 get_footer();
 ?>
+<style>
+    @media only screen and (max-width: 500px){
+        .col-xs-3{
+            padding: 3px;
+        }
+        .font-size, .shop-items .item .item-dtls .price,.item-dtls > h4 > a { font-size: 8px !important}
+        .shop-items .item img{ height: 70px !important; }
+        .shop-items { padding: 0; }
+        .myborder{ padding: 5px; }
+    }
+    @media only screen and (min-width: 501px) and (max-width: 600px){
+        .col-xs-3{
+            padding: 3px;
+        }
+        .shop-items .item img{ height: 100px !important; }
+        .font-size, .shop-items .item .item-dtls .price,.item-dtls > h4 > a{ font-size: 12px !important}
+        .shop-items { padding: 0; }
+        .myborder{ padding: 5px; }
+    }
+    @media only screen and (min-width: 601px) and (max-width: 800px){
+        .col-xs-3{
+            padding: 3px;
+        }
+        .shop-items .item img{ height: 160px !important; }
+        .font-size, .shop-items .item .item-dtls .price,.item-dtls > h4 > a{ font-size: 11px !important}
+        .shop-items { padding: 0; }
+        .myborder{ padding: 5px; }
+    }
+</style>

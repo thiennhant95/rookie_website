@@ -183,6 +183,7 @@ get_header();
         <div class="panel-body">
             <div class="col-md-6">
                 <?php
+                $i=1;
                 $images_url = home_url()."/wp-content/uploads/image-product/"; 
                 $arr_image_product = json_decode($data_products->product_images); 
                 if(!empty($arr_image_product))
@@ -210,6 +211,16 @@ get_header();
                 ?>
             </div>
             <div class="col-md-6">
+                <?php
+                if (isset($_SESSION['message_qty']) && $_SESSION['message_qty']==1):
+                    ?>
+                    <div class="alert alert-danger">
+                        Số lượng sản phẩm đặt hàng phải lớn hơn 0
+                    </div>
+                <?php
+                endif;
+                $_SESSION['message_qty']=0;
+                ?>
                 <h2>
                     <strong>
                         <?php echo $data_products->product_name; ?>

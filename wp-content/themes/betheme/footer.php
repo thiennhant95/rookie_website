@@ -202,7 +202,7 @@ if( $back_to_top_class == 'hide' ){
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 <div id="cfacebook">
-    <a href="javascript:;" class="chat_fb hidden-xs" onclick="return:false;"><i class="fa fa-facebook-square"></i> Hỗ trợ trực tuyến</a>
+    <a href="javascript:void(0);" class="chat_fb hidden-xs"><i class="fa fa-facebook-square"></i> Hỗ trợ trực tuyến</a>
     <div class="fchat">
         <div class="fb-page" data-href="https://www.facebook.com/rookie.marketing2018/" data-height="300" data-width="250" data-tabs="messages" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="false">Rookie Marketing</div>
     </div>
@@ -212,6 +212,8 @@ if( $back_to_top_class == 'hide' ){
         jQuery('.fchat').toggle('slow');
     });
     jQuery(function($){
+        $("#menu-main-menu").append('<li id="menu-item-101" class="menu-item menu-item-type-post_type menu-item-object-post last menu-register"><a href="/dang-ky-thanh-vien/">Đăng ký</span></a></li>');
+        $("#menu-main-menu").append('<li id="menu-item-102" class="menu-item menu-item-type-post_type menu-item-object-post last menu-login"><a href="/dang-nhap/">Đăng nhập</span></a></li>');
         $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span style="font-size:30px" class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty')); else echo '0'?></span>' +
             '</a></li>');
     });
@@ -230,6 +232,13 @@ if( $back_to_top_class == 'hide' ){
 	<?php
 } ?>
 </script>
+<style>
+    @media only screen and (max-width: 767px) {
+        #Top_bar {
+            background: #ffffff !important;
+        }
+    }
+</style>
 </div>
 </body>
 </html>

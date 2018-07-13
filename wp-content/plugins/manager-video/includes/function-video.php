@@ -222,12 +222,18 @@ function plugin_shortcode_video(){
     ob_start();
     ?>
     <style>
-    	.load_video iframe{ width: 100%; height: 430px !important }
+    	.load_video iframe{ width: 100%; height: 430px }
+        @media only screen and (max-width: 693px) {
+            .load_video iframe {
+                width: 100%;
+                height: 100px
+            }
+        }
     </style>
     <?php
     foreach($data_video as $video){
     ?>
-    <div class="wpb_column vc_column_container vc_col-sm-6 load_video">
+    <div class="wpb_column vc_column_container vc_col-sm-6 vc_col-xs-6 load_video">
     	<div class="vc_column-inner ">
     		<div class="wpb_wrapper">
 				<div class="wpb_text_column wpb_content_element ">

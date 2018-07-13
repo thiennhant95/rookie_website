@@ -174,6 +174,14 @@ get_header();
                         <?php
                         $_SESSION['thongbaoloi']='0';
                     endif;
+                    if (isset($_SESSION['thongbaoloi']) && $_SESSION['thongbaoloi']=='7'):
+                        ?>
+                        <div class="alert alert-danger alert-autocloseable-danger">
+                           Tên nhóm của bạn đã được đăng ký. Vui lòng đăng ký với tên khác.
+                        </div>
+                        <?php
+                        $_SESSION['thongbaoloi']='0';
+                    endif;
                     ?>
                     <form method="post" id="register-form" action="<?php echo home_url('xu-ly')?>" enctype="multipart/form-data">
                     <div class="input-group margin-bottom-20">

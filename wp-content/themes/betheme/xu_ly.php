@@ -38,6 +38,17 @@
                 wp_redirect($url);
                 exit;
             }
+            $replaced = preg_replace('/\s\s+/', ' ', $_POST['ten_nhom']);
+            $data_prepare_name = $wpdb->prepare("SELECT * FROM $table_team WHERE ten_nhom = %s",$replaced);
+            $data_team_name = $wpdb->get_row($data_prepare_name);
+            if ($data_team_name)
+            {
+                $_SESSION['thongbaoloi'] =7;
+                $url = home_url('dang-ky-thanh-vien');
+                wp_redirect($url);
+                exit;
+            }
+
             $data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE email_truong_nhom = %s",$_POST['lead_email']);
             $data_team = $wpdb->get_row($data_prepare);
             if ($data_team)

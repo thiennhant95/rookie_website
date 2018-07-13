@@ -363,6 +363,35 @@ function create_shortcode_randompost() {
 
     ob_start();
     ?>
+    <style>
+        @media only screen and (max-width: 500px){
+            .col-xs-3{
+                padding: 2px;
+            }
+            .font-size, .shop-items .item .item-dtls .price,.shop-items .item .item-dtls h4 { font-size: 10px !important}
+            .shop-items .item img{ height: 70px !important; }
+            .shop-items { padding: 0; }
+            .myborder{ padding: 5px; }
+        }
+        @media only screen and (min-width: 501px) and (max-width: 600px){
+            .col-xs-3{
+                padding: 2px;
+            }
+            .shop-items .item img{ height: 100px !important; }
+            .font-size, .shop-items .item .item-dtls .price{ font-size: 13px !important}
+            .shop-items { padding: 0; }
+            .myborder{ padding: 5px; }
+        }
+        @media only screen and (min-width: 601px) and (max-width: 800px){
+            .col-xs-3{
+                padding: 2px;
+            }
+            .shop-items .item img{ height: 160px !important; }
+            .font-size, .shop-items .item .item-dtls .price{ font-size: 15px !important}
+            .shop-items { padding: 0; }
+            .myborder{ padding: 5px; }
+        }
+    </style>
     <div class="shop-items">
     <div class="container-fluid">
     <div class="row">
@@ -373,7 +402,7 @@ function create_shortcode_randompost() {
         $arr_image_products =json_decode($row->product_images)
         ?>
         <form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-3 col-sm-6 col-xs-3">
             <!-- Restaurant Item -->
             <div class="item">
                 <!-- Item's image -->
@@ -442,7 +471,7 @@ add_action('init', function() {
 function ranking_team() {
     ob_start();
     ?>
-                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px">
+                <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px;display: inline-table">
                     <thead>
                     <tr>
                         <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
