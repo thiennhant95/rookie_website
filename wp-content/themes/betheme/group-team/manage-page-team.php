@@ -725,13 +725,12 @@
                                     <td colspan="2"><strong>Tổng tiền</strong></td>
                                 </tr>
                                 <?php
-                                   foreach($data_order as $order){
-                                   $query_order_detail = $wpdb->prepare("SELECT * FROM $table_order_detail WHERE order_id = %d AND team_id = %d",$order->id,$order->team_id);
+                                   $query_order_detail = $wpdb->prepare("SELECT * FROM $table_order_detail WHERE status = 1 AND team_id = %d GROUP BY product_id",$data_team->id);
                                    $data_order_detail = $wpdb->get_results($query_order_detail);
                                    foreach($data_order_detail as $order_detail){
                                     $query_product = $wpdb->prepare("SELECT * FROM $table_products WHERE id = %d",$order_detail->product_id);
                                     $product = $wpdb->get_row($query_product);
-                                    $data_query_detail = $wpdb->prepare("SELECT SUM(detail_total_price) as total_renueve FROM $table_order_detail WHERE product_id = %d AND team_id = %d",$order_detail->product_id,$order->team_id);
+                                    $data_query_detail = $wpdb->prepare("SELECT SUM(detail_total_price) as total_renueve FROM $table_order_detail WHERE status = 1 AND product_id = %d AND team_id = %d",$order_detail->product_id,$data_team->team_id);
                                     $product_detail = $wpdb->get_row($data_query_detail);
                                 ?>
                                 <tr>
@@ -739,7 +738,6 @@
                                     <td colspan="2"><?php echo number_format($product_detail->total_renueve)."đ" ?></td>
                                 </tr>
                                 <?php 
-                                        } 
                                     }
                                 ?>
                             </tbody>
