@@ -305,7 +305,7 @@ aside#text-6 >.textwidget{
 }
 @media only screen and (max-width: 450px) and (min-width: 366px){
     a.btn.btn-gio-hang {
-        font-size: 12px!important;
+        font-size: 10px!important;
     }
     a.btn.btn-gio-hang1 {
         font-size: 10px!important;

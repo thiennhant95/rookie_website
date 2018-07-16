@@ -910,3 +910,65 @@ add_action('init', function() {
         }
     }
 });
+
+function get_token()
+{
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    global $wpdb;
+    $table_products ="token_api";
+    $data = "SELECT * FROM $table_products";
+    $product_list =$wpdb->get_results($data);
+    if (count($product_list)==null){
+        $curl = curl_init('https://sandbox.dhlecommerce.asia/rest/v1/OAuth/AccessToken?clientId=LTEwMjA5MTQ2Njk=&password=MjAzMDI5MTU&returnFormat=json');
+
+        curl_setopt_array($curl, array(
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => array( 'Content-Type: application/json'),
+        ));
+
+        $reponse = curl_exec($curl);
+        curl_close($curl);
+        $token = json_decode($reponse)->accessTokenResponse->token;
+        $insert = $wpdb->insert($table_products, array(
+                'token'=>$token,
+                'latest'=>date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s') . ' +' . 24 . ' hours')),
+        ));
+      return true;
+    }
+    else{
+       if ($product_list['0']->latest<=date('Y-m-d H:i:s'))
+       {
+           $curl = curl_init('https://sandbox.dhlecommerce.asia/rest/v1/OAuth/AccessToken?clientId=LTEwMjA5MTQ2Njk=&password=MjAzMDI5MTU&returnFormat=json');
+
+           curl_setopt_array($curl, array(
+               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+               CURLOPT_RETURNTRANSFER => true,
+               CURLOPT_HTTPHEADER => array( 'Content-Type: application/json'),
+           ));
+
+           $reponse = curl_exec($curl);
+           curl_close($curl);
+           $token = json_decode($reponse)->accessTokenResponse->token;
+           $insert = $wpdb->update($table_products, array(
+               'token'=>$token,
+               'latest'=>date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s') . ' +' . 24 . ' hours')),
+           ),array('id'=>$product_list[0]->id));
+       }
+        return true;
+    }
+}
+get_token();
+
+
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'xu-ly-don-hang';
+    if($path[0] == $templatename){
+        $load = locate_template('xu_ly_don_hang.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});

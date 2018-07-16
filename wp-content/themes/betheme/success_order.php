@@ -6,10 +6,9 @@ get_header();
         <div class="container">
             <div class="col-md-12 well well-lg message-xacnhan text-center"><h4>Bạn đã đặt hàng thành công. Chúng tôi đã gửi mail cho bạn về thông tin của đơn hàng. <br/><p style="color: red">Cảm ơn bạn đã mua hàng tại Rookie!</p></h4>
                 <br/>
-                <h4>
-                Mã đơn hàng của bạn là: <span id="order-code">123456 <i class="fa fa-angle-right"></i></span>
-
-                </h4>
+<!--                <h4>-->
+<!--                Mã đơn hàng của bạn là: <span id="order-code">123456 <i class="fa fa-angle-right"></i></span>-->
+<!--                </h4>-->
             </div>
         </div>
     </div>

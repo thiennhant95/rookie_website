@@ -99,7 +99,7 @@ get_footer();
         .col-xs-3{
             padding: 3px;
         }
-        .font-size, .shop-items .item .item-dtls .price,.item-dtls > h4 > a { font-size: 8px !important}
+        .font-size, .shop-items .item .item-dtls .price,.item-dtls > h4 > a { font-size: 7px !important}
         .shop-items .item img{ height: 70px !important; }
         .shop-items { padding: 0; }
         .myborder{ padding: 5px; }

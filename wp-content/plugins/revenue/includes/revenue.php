@@ -210,11 +210,15 @@ function show_revenue_view()
                             <div class="tab-pane fade" id="tab2primary">
                                 <?php
                                 $team_table ='order_team';
-                                $query = "SELECT *, SUM(total_price) as sum_ship FROM $team_table GROUP BY $team_table.team_id ORDER BY $team_table.team_id";
+                                $query = "SELECT *, SUM(total_price) as sum_ship FROM $team_table WHERE $team_table.order_status='1' GROUP BY $team_table.team_id ORDER BY $team_table.team_id";
                                 $sum_ship_team =$wpdb->get_results($query);
 
-                                $query1 = "SELECT *, SUM(total_no_ship) as sum_no_ship,COUNT(IF(order_status='3',1,null)) as count_cancel,COUNT(IF(order_status='1',1,null)) as count_success FROM $team_table GROUP BY $team_table.team_id";
+                                $query1 = "SELECT *, SUM(total_no_ship) as sum_no_ship FROM $team_table WHERE $team_table.order_status='1' GROUP BY $team_table.team_id";
                                 $sum_ship_team1 =$wpdb->get_results($query1);
+
+                                $query2 = "SELECT *, COUNT(IF(order_status='3',1,null)) as count_cancel,COUNT(IF(order_status='1',1,null)) as count_success FROM $team_table GROUP BY $team_table.team_id";
+                                $sum_ship_team2 =$wpdb->get_results($query2);
+
                                 ?>
                                 <table id="team-table" class="table table-bordered table-striped">
                                     <thead>
@@ -231,24 +235,28 @@ function show_revenue_view()
                                     <?php
                                     foreach ($sum_ship_team as $row) {
                                         foreach ($sum_ship_team1 as $row1) {
-                                            if ($row->team_id==$row1->team_id):
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $row->team_id ?></td>
-                                                <td><?php echo $row->ten_nhom ?></td>
-                                                <td><?php echo number_format($row->sum_ship) ?></td>
-                                                <td><?php echo number_format($row1->sum_no_ship) ?></td>
-                                                <td><?php echo ($row1->count_success) ?></td>
-                                                <td><?php echo ($row1->count_cancel) ?></td>
-                                            </tr>
-                                    <?php
-                                    endif;
+                                            foreach ($sum_ship_team2 as $row2) {
+                                                if ($row->team_id == $row1->team_id && $row->team_id ==$row2->team_id):
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row->team_id ?></td>
+                                                        <td><?php echo $row->ten_nhom ?></td>
+                                                        <td><?php echo number_format($row->sum_ship) ?></td>
+                                                        <td><?php echo number_format($row1->sum_no_ship) ?></td>
+                                                        <td><?php echo($row2->count_success) ?></td>
+                                                        <td><?php echo($row2->count_cancel) ?></td>
+                                                    </tr>
+                                                <?php
+                                                endif;
+                                            }
                                         }
                                     }
                                     ?>
                                     </tbody>
                                     <tfoot>
                                     <tr>
+                                        <th></th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>

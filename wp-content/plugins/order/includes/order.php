@@ -112,14 +112,14 @@ function show_order_view()
                                                                 <tr>
                                                                     <td><?php echo $product->product_name ?></td>
                                                                     <td><?php echo $order_detail->amount ?></td>
-                                                                    <td><?php echo $order_detail->price ?></td>
-                                                                    <td><?php echo $order_detail->detail_total_price ?></td>
+                                                                    <td><?php echo number_format($order_detail->price).'đ' ?></td>
+                                                                    <td><?php echo number_format($order_detail->detail_total_price).'đ' ?></td>
                                                                 </tr>
                                                             <?php } ?>
                                                             </tbody>
                                                             <tfoot class="text-center">
                                                             <tr>
-                                                                <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo $order->total_price ?></strong></td>
+                                                                <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo number_format($order->total_price).'đ' ?></strong></td>
                                                             </tr>
 <!--                                                            --><?php //if($order->order_status == 0){ ?>
 <!--                                                                <tr>-->
@@ -159,7 +159,7 @@ function show_order_view()
                                                 }
                                                 foreach($data_order1 as $order1){
                                                     ?>
-                                                    <div class="btn btn-<?php
+                                                    <div id=order-<?php echo $order1->id ?>" class="btn btn-<?php
                                                     if($order1->order_status == 0){
                                                         echo "danger";
                                                     }
@@ -228,18 +228,18 @@ function show_order_view()
                                                                 <tr>
                                                                     <td><?php echo $product1->product_name ?></td>
                                                                     <td><?php echo $order_detail1->amount ?></td>
-                                                                    <td><?php echo $order_detail1->price ?></td>
-                                                                    <td><?php echo $order_detail1->detail_total_price ?></td>
+                                                                    <td><?php echo number_format($order_detail1->price).'đ' ?></td>
+                                                                    <td><?php echo number_format($order_detail1->detail_total_price).'đ' ?></td>
                                                                 </tr>
                                                             <?php } ?>
                                                             </tbody>
                                                             <tfoot class="text-center">
                                                             <tr>
-                                                                <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo $order1->total_price ?></strong></td>
+                                                                <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo number_format($order1->total_price).'đ' ?></strong></td>
                                                             </tr>
                                                             <?php if($order1->order_status == 0){ ?>
                                                                 <tr>
-                                                                    <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger" name="btn-cancel">Huỷ đơn hàng</button></td>
+                                                                    <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><a href="<?php echo home_url('xu-ly-don-hang')?>" data-id="<?php echo $order1->id ?>" class="btn btn-danger order-cancel">Huỷ đơn hàng</a></td>
                                                                 </tr>
                                                             <?php } ?>
                                                             </tfoot>
@@ -261,6 +261,27 @@ function show_order_view()
 
     </div>
     <script>
+        $(document).ready(function(){
+            $(".order-cancel").click(function (e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                var id   = '#order-' + $(this).attr('data-id');
+                var order_id =$(this).attr('data-id');
+                $.ajax({
+                    type: "POST",
+                    url: href,
+                    dataType : "json",
+                    data:{order_id:order_id,type:3}
+                })
+                    .done(function(data){
+                        if (data.status==1)
+                        {
+                            $(id).removeClass( "btn-danger" ).addClass( "btn-default");
+                        }
+                    })
+            })
+
+        });
         $(document).ready(function(){
             $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
                 e.preventDefault();
@@ -550,7 +571,7 @@ function show_order_view()
             -moz-border-radius: 4px;
             border:1px solid #ddd;
             margin-top: 20px;
-            margin-left: 50px;
+            margin-left: 0px;
             -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
             box-shadow: 0 6px 12px rgba(0,0,0,.175);
             -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);

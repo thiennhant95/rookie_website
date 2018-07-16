@@ -1,11 +1,11 @@
-_<?php
+<?php
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $table_team = $wpdb->prefix . "team";
     $table_order = $wpdb->prefix . "order";
     $table_order_detail = $wpdb->prefix . "order_detail";
     if ($_POST['order_name']==null || $_POST['order_phone']==null || $_POST['order_name']==null || $_POST['order_mail']==null ||
-    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null | $_POST['order_ward']==null)
+    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null)
     {
         $_SESSION['loidathang'] =2;
         wp_redirect(home_url('thanh-toan'));
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             require ("PHPMailer/src/mail_dathang.php");
             $noidung ="
                     <h4 style='color:#d53239'><b>Cảm ơn quý khách ".$_POST['order_name']." đã đặt hàng tại Rookie!</b></h4>
-                    <p>Rookie rất vui thông báo đơn hàng #479916884 của quý khách đã được tiếp nhận và đang trong quá trình xử lý. Rookie sẽ thông báo đến quý khách ngay khi hàng chuẩn bị được giao.</p>          
+                    <p>Rookie rất vui thông báo đơn hàng của quý khách đã được tiếp nhận và đang trong quá trình xử lý. Rookie sẽ thông báo đến quý khách ngay khi hàng chuẩn bị được giao.</p>          
                     ";
             $owner_noidung = "
                     <h4 style='color:#d53239'><b>Bạn có đơn đặt hàng mới từ ".$_POST['order_name']."</b></h4>
@@ -84,24 +84,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $query_team = "SELECT * FROM $table_team ORDER BY id DESC";
             $data_team = $wpdb->get_results($query_team);
-
-//            foreach ($_SESSION['team_list'] as $row_send)
-//            {
-//                foreach ($data_team as $row_team)
-//                {
-//                    if ($row_team->id==$row_send)
-//                    {
-//                        sendmail1($row_team->email_truong_nhom,$owner_noidung);
-//                    }
-//                    if ($row_send==0)
-//                    {
-//                        sendmail1("anhduy.bui1995@gmail.com",$owner_noidung);
-//                    }
-//                }
-//            }
-
+            foreach ($_SESSION['team_list'] as $row_send)
+            {
+                foreach ($data_team as $row_team)
+                {
+                    if ($row_team->id==$row_send)
+                    {
+                        sendmail1($row_team->email_truong_nhom,$owner_noidung);
+                    }
+                }
+                if ($row_send==0)
+                {
+                    sendmail1("thiennhant95@yahoo.com",$owner_noidung);
+                    break;
+                }
+            }
             sendmail($_POST['order_mail'],$noidung);
             unset($_SESSION['products']);
+            unset($_SESSION['team_list']);
             wp_redirect(home_url('dat-hang-thanh-cong'));
             exit;
         }

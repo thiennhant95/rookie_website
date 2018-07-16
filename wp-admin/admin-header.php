@@ -176,6 +176,11 @@ if ( is_network_admin() )
 $admin_body_class .= ' no-customize-support no-svg';
 
 ?>
+    <style>
+        #menu-comments,#menu-posts-client,#menu-posts-offer,#menu-posts-slide,#menu-posts-testimonial,#menu-posts-portfolio{
+            display: none!important;
+        }
+    </style>
 </head>
 <?php
 /**
