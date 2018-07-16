@@ -23,6 +23,13 @@
     $data_post_share = $wpdb->get_results($query_prepare_post_share);
 	if($data_team != null && $group_team_slug == "group-team"){
 ?>
+<?php 
+    $table_products = $wpdb->prefix."products";
+    $query_products = "SELECT * FROM $table_products";
+    $data_products = $wpdb->get_results($query_products);
+    $arr_team_product = json_decode($data_team->san_pham_nhom);
+    $i = 1;
+?>
 <?php get_header(); ?>
 <style>
 .gioi-thieu ul{
@@ -40,6 +47,8 @@
 }
 .style-simple table:not(.recaptchatable) th { background: gainsboro; }
 .list-team td, .list-team th{ border: 1px solid #fff !important; }
+.info-mobile{ display: none; }
+.info-normal{ display: block; }
 @media only screen and (max-width: 680px)
 {	
 	.bg-lblue .btn{ padding: 6px 0px !important; font-size: 12px !important}
@@ -63,8 +72,17 @@
     .shop-items { padding: 0; }
    .myborder{ padding: 5px; }
 }
-.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
-.table-responsive table { display: inline-table; }
+@media only screen and (max-width: 600px){
+    .size-custom{ padding-left: 0 !important; padding-right: 0 !important; }
+    .size-custom-mobile{ padding-right: 30px !important; }
+}
+@media only screen and (max-width: 991px){
+    .info-mobile{ display: block; margin-right: 0 !important; margin-left: 0 !important }
+    .info-normal{ display: none; }
+}
+@media only screen and (max-width: 767px) and (min-width: 510px){
+    table { display: inline-table !important; }
+}
 .col-sm-1, .col-sm-10, .col-sm-11,.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding-left: 5px; padding-right: 5px }
 .col-xs-4{ padding-left: 1px; padding-right: 1px }
 
@@ -108,6 +126,94 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
+							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px;">
+								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
+								<div class="col-md-12 col-xs-12 col-sm-12">
+									<table class="table table-striped table-bordered list-team table-reponsive" style="font-size: 13px">
+										<thead>
+											<tr>
+												<th>Họ Tên</th>
+												<th>Email</th>
+												<th>Chức vụ</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="success">
+												<td><?php echo $data_team->ten_truong_nhom ?></td>
+												<td><?php echo $data_team->email_truong_nhom ?></td>
+												<td>Trưởng nhóm</td>
+											</tr>
+											<tr class="info">
+												<td><?php echo $data_team->ten_member_1 ?></td>
+												<td><?php echo $data_team->email_member_1 ?></td>
+												<td>Thành viên</td>
+											</tr>
+											<tr class="warning">
+												<td><?php echo $data_team->ten_member_2 ?></td>
+												<td><?php echo $data_team->email_member_2 ?></td>
+												<td>Thành viên</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px;margin-top: 15px">
+								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
+								<div class="col-md-12 row">
+									<div class="shop-items">
+								    	<div class="container-fluid">
+								    		<div class="row">
+									    <?php
+										    $images_url = home_url()."/wp-content/uploads/image-product/";
+										    foreach ($data_products as $row):
+									        $arr_image_products =json_decode($row->product_images);
+									        if(!empty($data_team->san_pham_nhom)){
+									        if(in_array($row->id,$arr_team_product)){
+								        ?>
+								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
+								        		<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
+								        		<?php if($i%3==1){ ?>
+								        		<div class="clearfix"></div>
+								        		<?php } ?>
+										        <div class="col-md-4 col-sm-4 col-xs-4">
+										            <!-- Restaurant Item -->
+										            <div class="item">
+										                <!-- Item's image -->
+										                <a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt=""></a>
+										                <!-- Item details -->
+										                <div class="item-dtls">
+										                    <!-- product title -->
+										                    <span class="font-size"><strong><a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><?php echo $row->product_name ?></a></strong></span>
+										                    <!-- price -->
+										                    <span class="price lblue"><?php echo number_format($row->product_price)."đ" ?></span>
+										                </div>
+										                <!-- add to cart btn -->
+										                <div class="ecom bg-lblue">
+
+										                    <input type="hidden" name="product_id" value="<?php echo $row->id; ?>" />
+										                    <?php
+										                    	$current_url = base64_encode($_SERVER['REQUEST_URI']);
+										                    ?>
+										                    <input type="hidden" name="return_url" value="<?php echo $current_url ?>" />
+										                    <input type="hidden" name="type" value="add">
+										                    <a href="javascript:void()" onclick="document.getElementById('product-<?php echo $i?>').submit()" class="btn" href="/shoping-car/"><i class="fa fa-shopping-cart"></i> Giỏ Hàng</a>
+									                	</div>
+									            	</div>
+									        	</div>
+									        </form>
+						        		<?php
+						        		$i++; 
+							        		}
+							        	}
+							        		endforeach 
+						        		?>
+    									</div>
+    								</div>
+								</div>
+							</div>
+							</div>
+							<div class="clearfix"></div>
 							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
 								<div class="col-md-12 row" style="margin-top: 15px">
@@ -116,7 +222,7 @@
                                 		foreach($data_post_group as $post_group){
                                 ?>
                                 <div class="col-md-4">
-                                	<img src="<?php echo $post_group->post_group_feature ?>" style="width: 100px !important">
+                                	<img src="<?php echo $post_group->post_group_feature ?>">
                                 </div>
                                 <div class="col-md-8">
                                 	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?>"><span style="font-size: 18px"><strong><?php echo $post_group->post_group_title ?></strong></span></a>
@@ -158,7 +264,7 @@
 							</div>
 						</div>
 						<div class="col-md-7 col-xs-12 col-sm-12 row size-custom" style="margin-top: 15px; ">	
-							<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
+							<div class="col-md-12 row info-normal" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
 								<div class="col-md-12 col-xs-12 col-sm-12">
 									<table class="table table-striped table-bordered list-team table-reponsive" style="font-size: 13px">
@@ -189,16 +295,9 @@
 									</table>
 								</div>
 							</div>
-							<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 15px">
+							<div class="col-md-12 row info-normal" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
 								<div class="col-md-12 row">
-									<?php 
-			                            $table_products = $wpdb->prefix."products";
-			                            $query_products = "SELECT * FROM $table_products";
-			                            $data_products = $wpdb->get_results($query_products);
-			                            $arr_team_product = json_decode($data_team->san_pham_nhom);
-			                            $i = 1;
-			                        ?>
 									<div class="shop-items">
 								    	<div class="container-fluid">
 								    		<div class="row">
@@ -218,7 +317,7 @@
 										            <!-- Restaurant Item -->
 										            <div class="item">
 										                <!-- Item's image -->
-										                <img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt="">
+										                <a href="<?php echo home_url()."/group-team/".$data_team->slug.'/san-pham/'.$row->product_slug ?>"><img class="img-responsive" src="<?php echo $images_url.$arr_image_products[0] ?>" alt=""></a>
 										                <!-- Item details -->
 										                <div class="item-dtls">
 										                    <!-- product title -->

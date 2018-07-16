@@ -972,3 +972,29 @@ add_action('init', function() {
         }
     }
 });
+
+/* Xử lý huỷ đơn hàng */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'check-status-order';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/check-status-order.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Xử lý xoá bài viết của nhóm */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'delete-your-post';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/includes/delete-your-post.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});

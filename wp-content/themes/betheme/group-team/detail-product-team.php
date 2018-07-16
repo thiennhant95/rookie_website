@@ -264,7 +264,7 @@
                                 		foreach($data_post_group as $post_group){
                                 ?>
                                 <div class="col-md-4">
-                                	<img src="<?php echo $post_group->post_group_feature ?>" style="width: 100px !important">
+                                	<img src="<?php echo $post_group->post_group_feature ?>">
                                 </div>
                                 <div class="col-md-8">
                                 	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?>"><span style="font-size: 18px"><strong><?php echo $post_group->post_group_title ?></strong></span></a>

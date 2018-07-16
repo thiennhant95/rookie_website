@@ -326,6 +326,28 @@
             <?php } ?>
             <div class="col-md-12" style="display:none" id="notice-upload-avatar"></div>
             <div class="clearfix"></div>
+            <?php 
+                $table_products = $wpdb->prefix."products";
+                $query_products = "SELECT * FROM $table_products";
+                $data_products = $wpdb->get_results($query_products);
+                $arr_team_product = json_decode($data_team->san_pham_nhom);
+            ?>
+            <?php 
+            foreach($data_products as $product){
+                if(in_array($product->id,$arr_team_product)){
+                    if($product->warehouse_amount < 10){
+                    ?>
+                    <div class="col-md-12 alert alert-warning">
+                    <?php
+                        echo 'Hiện tại sản phẩm '.'<a href="'.home_url().'/chi-tiet-san-pham/'.$product->product_slug.'">'.$product->product_name.'</a>'." còn ".$product->warehouse_amount." sản phẩm trong kho"."<br>";
+                    ?>
+                    </div>
+                    <?php
+                    }       
+                }
+            }
+            ?>
+            <div class="clearfix"></div>
             <div class="col-md-2" style="margin-bottom: 30px">
                 <button class="btn btn-block" style="background-color: #C2C2C2; font-size: 16px; color: #fff; margin-bottom: 10px" id="display-mobile"><strong>Quản Lý</strong></button>
             	<ul class="nav nav-pills nav-stacked menu-mobile" id="menu-manage">
@@ -448,13 +470,6 @@
                         </div>
                     </form>
                     <form method="post" id="register-form2" class="form-manage" action="" data-id="menu3" style="display:none">
-                        <?php 
-                            $table_products = $wpdb->prefix."products";
-                            $query_products = "SELECT * FROM $table_products";
-                            $data_products = $wpdb->get_results($query_products);
-                            $arr_team_product = json_decode($data_team->san_pham_nhom);
-                            $count_arr_team_product = count($arr_team_product);
-                        ?>
                         <div class="shop-items">
                             <div class="container-fluid">
                                 <div class="row">
@@ -519,7 +534,23 @@
                             $data_order = $wpdb->get_results($query_order);
                             foreach($data_order as $order){
                         ?>
-                        <div class="btn btn-info col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
+                        <div class="btn btn-<?php
+                                        if($order->order_status == 0){
+                                            echo "danger";
+                                        }
+                                        else if($order->order_status == 1){
+                                            echo "success";
+                                        }
+                                        else if($order->order_status == 2){
+                                            echo "warning";
+                                        }
+                                        else if($order->order_status == 3){
+                                            echo "default";
+                                        }
+                                        else if($order->order_status == 4){
+                                            echo "default";
+                                        }
+                                        ?> col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
                             <div class="col-md-6 col-xs-6 col-sm-6"><?php echo $order->order_name; ?></div>
                             <div class="col-md-6 col-xs-6 col-sm-6">
                                 <strong>
@@ -548,6 +579,8 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <p><strong>Email : </strong><a href="mailto:<?php echo $order->order_email ?>"><?php echo $order->order_email ?></a></p>
                                     <p><strong>Số điện thoại :</strong><a href="tel:<?php echo $order->order_phone ?>"> <?php echo $order->order_phone ?></a></p>
+                                    <p><strong>Địa chỉ :</strong> <?php echo $order->order_address.",".$order->order_district.",".$order->order_city ?></p>
+                                    <p><strong>Ngày đặt hàng :</strong> <?php echo $order->order_date ?></p>
                                 </div>
                                 <caption><h3>Chi Tiết Đơn Đặt Hàng</h3></caption>
                                 <thead>
@@ -582,7 +615,7 @@
                                     </tr>
                                     <?php if($order->order_status == 0){ ?>
                                     <tr>
-                                        <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger" name="btn-cancel">Huỷ đơn hàng</button></td>
+                                        <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger btn-cancel-order" name="btn-cancel" data-button-id="<?php echo $order->id ?>">Huỷ đơn hàng</button></td>
                                     </tr>
                                     <?php } ?>
                                 </tfoot>
@@ -638,17 +671,21 @@
                         <?php 
                             $table_post_group = $wpdb->prefix."post_group";
                             $table_team_post = $wpdb->prefix."team_post";
-                            $query_prepare_post_group = $wpdb->prepare("SELECT * FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE id_team = %d",$_SESSION["branch_id"]);
+                            $table_post = $wpdb->prefix."posts";
+                            $query_prepare_post_group = $wpdb->prepare("SELECT $table_team_post.*, $table_post_group.post_group_title, $table_post_group.post_group_slug, $table_post_group.post_group_content, $table_post_group.post_group_feature, $table_post_group.post_group_status, $table_post_group.post_group_date FROM $table_post_group INNER JOIN $table_team_post ON $table_post_group.id = $table_team_post.id_post WHERE post_type = 1 AND id_team = %d",$_SESSION["branch_id"]);
                             $data_post_group = $wpdb->get_results($query_prepare_post_group);
+                            $query_prepare_post_share = $wpdb->prepare("SELECT * FROM $table_team_post INNER JOIN $table_post ON $table_team_post.id_post = $table_post.ID WHERE $table_team_post.post_type = 2 AND id_team = %d",$_SESSION["branch_id"]);
+                            $data_post_share = $wpdb->get_results($query_prepare_post_share);
                         ?>
+                        <div class="col-md-12" style="margin: 15px 0px"><strong><span style="font-size: 20px">Bài Viết Của Bạn</span></strong></div>
                         <table id="your-list-post" class="table table-responsive table-hover table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Ảnh đại diện</th>
                                     <th>Tiêu đề</th>
                                     <th>Nội dung tóm tắt</th>
-                                    <th>Trạng thái</th>
                                     <th>URL</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -659,9 +696,38 @@
                                 <tr>
                                     <td><img src="<?php echo $post_group->post_group_feature ?>" style="width: 100px !important"></td>
                                     <td><?php echo $post_group->post_group_title ?></td>
-                                    <td><?php echo $post_group->post_group_content?></td>
-                                    <td><?php echo $post_group->post_group_status ?></td>
+                                    <td><?php $wptrim = wp_trim_words($post_group->post_group_content,20,"..."); echo $wptrim; ?></td>
                                     <td><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?>"><?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_group->post_group_slug; ?></a></td>
+                                    <td><button type="button" class="btn btn-danger" name="btnXoa" data-btn-xoa="<?php echo $post_group->id_post ?>" data-type="1" data-post="<?php echo $post_group->id ?>">Xoá</button></td>
+                                </tr>
+                            <?php 
+                                } 
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                        <div class="col-md-12" style="margin: 15px 0px"><strong><span style="font-size: 20px">Bài Viết Đã Chia Sẽ</span></strong></div>
+                        <table id="your-list-share" class="table table-responsive table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Ảnh đại diện</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Nội dung tóm tắt</th>
+                                    <th>URL</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                            if(!empty($data_post_share)){ 
+                                foreach($data_post_share as $post_share){
+                            ?>
+                                <tr>
+                                    <td><?php echo get_the_post_thumbnail($post_share->ID,'thumbnail') ?></td>
+                                    <td><?php echo $post_share->post_title ?></td>
+                                    <td><?php $wptrim = wp_trim_words($post_share->post_content,20,"..."); echo $wptrim; ?></td>
+                                    <td><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/".$post_share->post_name."/"; ?>"><?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_share->post_name; ?></a></td>
+                                    <td><button type="button" class="btn btn-danger" name="btnXoa" data-btn-xoa="<?php echo $post_share->id_post ?>" data-type="2" data-post="<?php echo $post_share->id ?>">Xoá</button></td>
                                 </tr>
                             <?php 
                                 } 
@@ -920,6 +986,15 @@
             'autoWidth'   : true,
             "pageLength"  : 10
         });
+         $("#your-list-share").DataTable({
+            'paging'      : true,
+            'lengthChange': true,
+            'searching'   : true,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : true,
+            "pageLength"  : 10
+        });
         $.validator.addMethod("noSpace", function(value, element) {
             return value == '' || value.trim().length != 0;
         }, "Vui lòng không nhập khoảng trắng.");
@@ -1069,6 +1144,53 @@
                 reader.readAsDataURL($(this)[0].files[0]);
             }
         });
+        $(".btn-cancel-order").on('click',function(e){
+            e.preventDefault();
+            if (confirm("Bạn có chắc muốn huỷ đơn hàng")) {
+                var button_id = $(this).attr("data-button-id");
+                var url = '<?php echo home_url()."/check-status-order" ?>';
+                $.ajax({
+                    url: url,
+                    dataType: 'text',
+                    type: 'post',
+                    contentType: 'application/x-www-form-urlencoded',                
+                    data: { button_id: button_id },
+                    success: function( data, textStatus, jQxhr ){
+                        alert("Huỷ đơn hàng thành công !")
+                        window.location = '<?php echo home_url()."/manage-group/".$team_slug ?>';
+                    },
+                    error: function( jqXhr, textStatus, errorThrown ){
+                        console.log( errorThrown );
+                    }
+                });
+            }    
+        })
+        $("button[name=btnXoa]").click(function(){
+            if(confirm("Bạn có chắc muốn xoá bài viết này ?")){
+                var post = $(this).attr("data-btn-xoa");
+                var type = $(this).attr("data-type");
+                var your_post = '';
+                if($(this).attr('data-post') != null){
+                    your_post = $(this).attr('data-post');
+                }
+                var url = '<?php echo home_url()."/delete-your-post"; ?>';
+                if(post != null && type != null){
+                    $.ajax({
+                        url: url,
+                        dataType: 'text',
+                        type: 'post',
+                        contentType: 'application/x-www-form-urlencoded',                
+                        data: { post: post, type: type, your_post: your_post },
+                        success: function( data, textStatus, jQxhr ){
+                            
+                        },
+                        error: function( jqXhr, textStatus, errorThrown ){
+                            console.log( errorThrown );
+                        }
+                    });
+                } 
+            }
+        })
     });
 </script>
 <?php get_footer(); ?>
