@@ -228,8 +228,7 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 				            e.preventDefault();
 				            var share = $(this).find(".sharetowall").val();
 				            var status = $(this).find(".share-status").val();
-				            console.log(share);
-				            var url = "'.home_url().'/share-to-wall";
+				            var url = "<?php echo home_url(); ?>/share-to-wall";
 				            $(".share-button").attr("disabled","disabled");
 				            $.ajax({
 				                url: url,
@@ -414,7 +413,6 @@ $translate['readmore'] 		= mfn_opts_get('translate') ? mfn_opts_get('translate-r
 								            e.preventDefault();
 								            var share = $(this).find(".sharetowall").val();
 								            var status = $(this).find(".share-status").val();
-								            console.log(share);
 								            var url = "'.home_url().'/share-to-wall";
 								            $(".share-button").attr("disabled","disabled");
 								            $.ajax({
