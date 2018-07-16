@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				array("id" => $your_post),
 				array("%d")
 			);
-			if($delete){
+			if($delete && $type == 1){
 				$delete_post_group = $wpdb->delete($table_post_group,
 					array("id" => $post),
 					array("%d")
