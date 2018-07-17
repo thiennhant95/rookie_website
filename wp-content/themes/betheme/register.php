@@ -183,6 +183,7 @@ get_header();
                         $_SESSION['thongbaoloi']='0';
                     endif;
                     ?>
+                    <p class="text-right"><a target="_blank" class="btn btn-info" style="font-size: 15px;font-weight: 400" href="<?php echo home_url('the-le-cuoc-thi/')?>">Xem thể lệ cuộc thi</a></p>
                     <form method="post" id="register-form" action="<?php echo home_url('xu-ly')?>" enctype="multipart/form-data">
                     <div class="input-group margin-bottom-20">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user mycolor"></i></span>
