@@ -232,13 +232,6 @@ if( $back_to_top_class == 'hide' ){
 	<?php
 } ?>
 </script>
-<style>
-    @media only screen and (max-width: 767px) {
-        #Top_bar {
-            background: #ffffff !important;
-        }
-    }
-</style>
 </div>
 </body>
 </html>
