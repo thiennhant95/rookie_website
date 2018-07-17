@@ -28,7 +28,6 @@
     $query_products = "SELECT * FROM $table_products";
     $data_products = $wpdb->get_results($query_products);
     $arr_team_product = json_decode($data_team->san_pham_nhom);
-    $i = 1;
 ?>
 <?php get_header(); ?>
 <style>
@@ -83,7 +82,7 @@
 @media only screen and (max-width: 767px) and (min-width: 510px){
     table { display: inline-table !important; }
 }
-.col-sm-1, .col-sm-10, .col-sm-11,.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding-left: 5px; padding-right: 5px }
+.col-sm-1, .col-sm-10, .col-sm-11,.col-sm-2, .col-sm-3, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding-left: 5px; padding-right: 5px }
 .col-xs-4{ padding-left: 1px; padding-right: 1px }
 
 </style>
@@ -168,12 +167,13 @@
 										    $images_url = home_url()."/wp-content/uploads/image-product/";
 										    foreach ($data_products as $row):
 									        $arr_image_products =json_decode($row->product_images);
+									        $i = 1;
 									        if(!empty($data_team->san_pham_nhom)){
 									        if(in_array($row->id,$arr_team_product)){
 								        ?>
 								        	<form id="product-<?php echo $i?>" method="post" action="<?php echo home_url('shopping')?>">
 								        		<input type="hidden" name="id_team" value="<?php echo $data_team->id ?>">
-								        		<?php if($i%3==1){ ?>
+								        		<?php if($i%3==0){ ?>
 								        		<div class="clearfix"></div>
 								        		<?php } ?>
 										        <div class="col-md-4 col-sm-4 col-xs-4">
@@ -302,6 +302,7 @@
 								    	<div class="container-fluid">
 								    		<div class="row">
 									    <?php
+									   	 	$i = 1;
 										    $images_url = home_url()."/wp-content/uploads/image-product/";
 										    foreach ($data_products as $row):
 									        $arr_image_products =json_decode($row->product_images);
