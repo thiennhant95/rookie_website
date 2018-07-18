@@ -998,3 +998,16 @@ add_action('init', function() {
         }
     }
 });
+
+/* Xử lý upload hình */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'upload-image-slogan';
+    if($path[0] == $templatename){
+        $load = locate_template('group-team/infor/upload-image-slogan.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});

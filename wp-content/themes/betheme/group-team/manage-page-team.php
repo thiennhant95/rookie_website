@@ -168,11 +168,14 @@
     }
     .table-responsive table { display: inline-table; }
     .menu-tab { cursor: pointer; }
+    table .cke_dialog_image_url, .cke_button__easyimageupload, .cke_dialog_tabs a:nth-child(2), #Subheader { display: none !important;visibility: hidden !important }
 </style>
+<script src="<?php echo home_url()."/wp-content/themes/betheme/js/ckeditor/ckeditor.js" ?>"></script>
+<script src="<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.js" ?>"></script>
 <div id="Content">
     <div class="content_wrapper clearfix">
         <div class="container">
-            <div class="col-md-12" style="margin-bottom: 50px; padding-right: 0">
+            <div class="col-md-12" style="margin-bottom: 30px; padding-right: 0">
                 <div class="col-md-12" style="position: relative; padding: 0">
                     <form name="photo" id="imagebackgroundForm" enctype="multipart/form-data" method="post">
                     <div class="col-md-12" style="background-color:#000; background-image: url('<?php echo $data_team->background; ?>'); background-position: center center; background-repeat: no-repeat; background-size: cover; overflow: hidden; height: 250px; padding: 0px" id="background">
@@ -332,21 +335,58 @@
                 $data_products = $wpdb->get_results($query_products);
                 $arr_team_product = json_decode($data_team->san_pham_nhom);
             ?>
-            <?php 
-            foreach($data_products as $product){
-                if(in_array($product->id,$arr_team_product)){
-                    if($product->warehouse_amount < 10){
-                    ?>
+            <div class="col-md-12" style="margin-bottom: 20px; display: none" id="btn-thongbao" >
+                <button data-toggle="collapse" data-target="#thongbao">Thông Báo</button>
+                <div id="thongbao" class="collapse">
                     <div class="col-md-12 alert alert-warning">
                     <?php
-                        echo 'Hiện tại sản phẩm '.'<a href="'.home_url().'/chi-tiet-san-pham/'.$product->product_slug.'">'.$product->product_name.'</a>'." còn ".$product->warehouse_amount." sản phẩm trong kho"."<br>";
+                    $thongbao = 0; 
+                    foreach($data_products as $product){
+                        if(in_array($product->id,$arr_team_product)){
+                            if($product->warehouse_amount < 10){
+                                $thongbao = 1;
+                                echo 'Hiện tại sản phẩm '.'<a href="'.home_url().'/chi-tiet-san-pham/'.$product->product_slug.'">'.$product->product_name.'</a>'." còn ".$product->warehouse_amount." sản phẩm trong kho"."<br>";
+                            }       
+                        }
+                    }
                     ?>
                     </div>
-                    <?php
-                    }       
+                </div>
+            </div>
+            <script>
+            jQuery(function($){
+                var thongbao = <?php echo $thongbao; ?>;
+                if(thongbao == 1){
+                    $("#btn-thongbao").css({"display":"block"});
                 }
-            }
-            ?>
+            })
+            </script>
+            <div class="col-md-12 text-center alert alert-info" style="margin-bottom: 20px; font-size: 16px" id="xephang">
+                <?php
+                    $rank = 1;
+                    $date_competition_start = "2018-09-15";
+                    $date_competition_end = "2018-10-15";  
+                    $table_statistical_point = "statistical_point";
+                    $query_statistical = "SELECT * FROM $table_statistical_point ORDER BY point DESC";
+                    $data_statistical = $wpdb->get_results($query_statistical);
+                    if(!empty($data_statistical) && $date_current >= $date_competition_start && $date_current <= $date_competition_end){
+                        foreach($data_statistical as $statistical_rank){
+                            if($statistical_rank->team_id == $_SESSION["branch_id"]){
+                                if($statistical_rank->point != NULL){
+                                echo "Hiện tại bạn đang xếp hạng <span style='color: red'><strong>".$rank."</strong></span> với số điểm <span style='color: red'><strong>".$statistical_rank->point."</strong></span>";
+                                }
+                                else{
+                                    echo "Hiện tại bạn chưa có hạng";
+                                }
+                            }
+                            $rank++;
+                        }
+                    }
+                    else{
+                        echo "Hiện tại chưa có dữ liệu bảng xếp hạng";
+                    }
+                ?>
+            </div>
             <div class="clearfix"></div>
             <div class="col-md-2" style="margin-bottom: 30px">
                 <button class="btn btn-block" style="background-color: #C2C2C2; font-size: 16px; color: #fff; margin-bottom: 10px" id="display-mobile"><strong>Quản Lý</strong></button>
@@ -376,7 +416,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Tên Trường" name="lead_school" id="lead_school" type="text" value="<?php echo $data_team->truong_truong_nhom ?>">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Tên Trường" name="lead_school" type="text" value="<?php echo $data_team->truong_truong_nhom ?>">
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone mycolor"></i></span>
@@ -388,7 +428,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook trưởng nhóm" name="facebook_truong_nhom" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_truong_nhom ?>">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook trưởng nhóm" name="facebook_truong_nhom" type="text" value="<?php echo $data_team->facebook_truong_nhom ?>">
                         </div>
                         <hr/>
 
@@ -403,7 +443,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-home mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Tên Trường" name="u1_school" id="lead_school" type="text" value="<?php echo $data_team->truong_member_1; ?>">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Tên Trường" name="u1_school" type="text" value="<?php echo $data_team->truong_member_1; ?>">
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-phone mycolor"></i></span>
@@ -415,7 +455,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 1" name="facebook_u1" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_u1 ?>">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 1" name="facebook_u1" type="text" value="<?php echo $data_team->facebook_u1 ?>">
                         </div>
                         <hr/>
 
@@ -442,7 +482,7 @@
                         </div>
                         <div class="input-group margin-bottom-20">
                             <span class="input-group-addon"><i class="fa fa-birthday-cake mycolor"></i></span>
-                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 2" name="facebook_u2" id="facebook_captain" type="text" value="<?php echo $data_team->facebook_u2 ?>">
+                            <input required size="60" maxlength="255" class="form-control" placeholder="Facebook thành viên 2" name="facebook_u2" type="text" value="<?php echo $data_team->facebook_u2 ?>">
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -629,37 +669,49 @@
                     <form method="post" id="register-form4" class="form-manage" action="<?php echo home_url("change-description-group") ?>" data-id="menu5" style="display:none">
                         <div class="margin-bottom-20">
                             <span><strong>Slogan :</strong></span>
-                            <?php
-                                remove_action( 'media_buttons', 'media_buttons' );
-
-                                $content_slogan = str_replace('\"', '"', $data_team->slogan);
-                                $editor_slogan = 'slogan_group';
-                                $settings =   array(
-                                    'wpautop' => true,
-                                    'media_buttons' => false,
-                                    'textarea_name' => $editor_slogan,
-                                    'textarea_rows' => get_option('default_post_edit_rows', 7),
-                                    'quicktags' => true
-                                );
-                                wp_editor( $content_slogan, $editor_slogan, $settings = array() ); 
-                                
-                            ?>
+                           
+                            <textarea id="slogan_group" rows="10" name="slogan_group"><?php echo str_replace('\"', '"', $data_team->slogan); ?></textarea>
+                            <script>
+                            jQuery(function($){
+                                    $(function() {
+                                    var editor = CKEDITOR.replace('slogan_group',
+                                        {
+                                            filebrowserBrowseUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html"; ?>',
+                                            filebrowserImageBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Images";?>',
+                                            filebrowserFlashBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Flash" ?>',
+                                            filebrowserUploadUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files"?>',
+                                            filebrowserImageUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images";?>',
+                                            filebrowserFlashUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash";?>',
+                                            filebrowserWindowWidth : '600',
+                                            filebrowserWindowHeight : '150'
+                                        });
+                                    CKFinder.setupCKEditor( editor, "<?php  echo home_url().'/wp-content/themes/betheme/js/ckfinder/'?>" );
+                                });
+                            });
+                            </script>
                         </div>
                         <hr>
                         <div class="margin-bottom-20">
                             <span><strong>Mô tả :</strong></span>
-                            <?php 
-                                $content_description = str_replace('\"', '"', $data_team->mo_ta);
-                                $editor_description = 'description_group';
-                                $settings =   array(
-                                    'wpautop' => true,
-                                    'media_buttons' => false,
-                                    'textarea_name' => $editor_description,
-                                    'textarea_rows' => get_option('default_post_edit_rows', 7),
-                                    'quicktags' => true
-                                );
-                                wp_editor( $content_description, $editor_description, $settings = array() ); 
-                            ?>
+                            <textarea id="description_group" rows="10" name="description_group"><?php echo str_replace('\"', '"', $data_team->mo_ta); ?></textarea>
+                            <script>
+                            jQuery(function($){
+                                    $(function() {
+                                    var editor = CKEDITOR.replace('description_group',
+                                        {
+                                            filebrowserBrowseUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html"; ?>',
+                                            filebrowserImageBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Images";?>',
+                                            filebrowserFlashBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Flash" ?>',
+                                            filebrowserUploadUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files"?>',
+                                            filebrowserImageUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images";?>',
+                                            filebrowserFlashUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash";?>',
+                                            filebrowserWindowWidth : '600',
+                                            filebrowserWindowHeight : '150'
+                                        });
+                                    CKFinder.setupCKEditor( editor, "<?php  echo home_url().'/wp-content/themes/betheme/js/ckfinder/'?>" );
+                                });
+                            });
+                            </script>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -743,18 +795,25 @@
                         </div>
                         <div class="margin-bottom-20">
                             <span><strong>Nội dung :</strong></span>
-                            <?php 
-                                $content_post = "";
-                                $editor_post = 'description_post';
-                                $settings =   array(
-                                    'wpautop' => true,
-                                    'media_buttons' => false,
-                                    'textarea_name' => $editor_post,
-                                    'textarea_rows' => get_option('default_post_edit_rows', 7),
-                                    'quicktags' => true
-                                );
-                                wp_editor( $content_post, $editor_post, $settings = array() ); 
-                            ?>
+                            <textarea id="description_post" rows="10" name="description_post"></textarea>
+                            <script>
+                            jQuery(function($){
+                                    $(function() {
+                                    var editor = CKEDITOR.replace('description_post',
+                                        {
+                                            filebrowserBrowseUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html"; ?>',
+                                            filebrowserImageBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Images";?>',
+                                            filebrowserFlashBrowseUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/ckfinder.html?Type=Flash" ?>',
+                                            filebrowserUploadUrl : '<?php echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files"?>',
+                                            filebrowserImageUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images";?>',
+                                            filebrowserFlashUploadUrl : '<?php  echo home_url()."/wp-content/themes/betheme/js/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash";?>',
+                                            filebrowserWindowWidth : '600',
+                                            filebrowserWindowHeight : '150'
+                                        });
+                                    CKFinder.setupCKEditor( editor, "<?php  echo home_url().'/wp-content/themes/betheme/js/ckfinder/'?>" );
+                                });
+                            });
+                            </script>
                         </div>
                         <div class="margin-bottom-20">
                             <span><strong>Ảnh đại diện :</strong></span>
