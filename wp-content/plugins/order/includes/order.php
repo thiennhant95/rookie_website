@@ -139,9 +139,9 @@ function show_order_view()
 <!--                                </div>-->
                             </div>
                             <div class="tab-pane fade" id="tab2primary">
-                                <div class="box-body">
-                                    <div class="container">
-                                        <div class="row">
+<!--                                <div class="box-body">-->
+<!--                                    <div class="container">-->
+<!--                                        <div class="row">-->
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
                                                 <div class="btn btn-default col-md-12 col-sm-12 col-xs-12">
                                                     <div class="col-md-6 col-xs-6 col-sm-6"><strong>Họ Tên</strong></div>
@@ -256,10 +256,10 @@ function show_order_view()
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-    </div>
+<!--            </div>-->
+<!--        </div>-->
+<!---->
+<!--    </div>-->
     <script>
         $(document).ready(function(){
             $(".order-cancel").click(function (e) {
