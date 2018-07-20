@@ -740,7 +740,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="post-group">
                             <?php 
                             if(!empty($data_post_group)){ 
                                 foreach($data_post_group as $post_group){
@@ -769,7 +769,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="post-share">
                             <?php 
                             if(!empty($data_post_share)){ 
                                 foreach($data_post_share as $post_share){
@@ -1224,7 +1224,7 @@
                 });
             }    
         })
-        $("button[name=btnXoa]").click(function(){
+        $("table").on('click','button[name=btnXoa]',function(){
             if(confirm("Bạn có chắc muốn xoá bài viết này ?")){
                 var post = $(this).attr("data-btn-xoa");
                 var type = $(this).attr("data-type");
@@ -1241,7 +1241,13 @@
                         contentType: 'application/x-www-form-urlencoded',                
                         data: { post: post, type: type, your_post: your_post },
                         success: function( data, textStatus, jQxhr ){
-                            
+                            var data_decode = JSON.parse(data);
+                            if(data_decode[0] == 1){
+                                $("#post-group").html(data_decode[1]);
+                            }
+                            if(data_decode[0] == 0){
+                                $("#post-share").html(data_decode[1]);
+                            }
                         },
                         error: function( jqXhr, textStatus, errorThrown ){
                             console.log( errorThrown );
