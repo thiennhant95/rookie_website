@@ -30,7 +30,7 @@ if( $back_to_top_class == 'hide' ){
                 <div class="wpb_wrapper">
                     <div class="wpb_text_column wpb_content_element ">
                         <div class="wpb_wrapper">
-                            <a href="http://vinacacao.com.vn/" target="_blank"><img class="image-tai-tro" src="<?php echo home_url('wp-content/uploads/image-company/logo.png')?>"> </a>
+                            <?php echo do_shortcode('[shortcode_logo_partner]'); ?>
                         </div>
                     </div>
                 </div>
@@ -42,8 +42,18 @@ if( $back_to_top_class == 'hide' ){
     .image-tai-tro{
         width: 50% !important;
     }
+    .slick-arrow { background-color: #cccccc }
 </style>
-
+<script>
+jQuery(document).ready(function($) {
+	$('.autoplay').slick({
+	  slidesToShow: 6,
+	  slidesToScroll: 1,
+	  autoplay: true,
+	  autoplaySpeed: 3000,
+	});
+});
+</script>
 <!-- #Footer -->		
 <footer id="Footer" class="clearfix">
 	
