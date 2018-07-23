@@ -26,16 +26,16 @@ function sendmail($mail_to,$url)
     $mail->IsHTML(true);
     $mail->Username = "thiennhant95@gmail.com";
     $mail->Password = "tiep290696";
-    $mail->SetFrom("thiennhant95@gmail.com",'Rookie Marketing 2018');
+    $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Xác nhân tài khoản đăng ký Rookie Marketing";
     $mail->Body = "Bạn đã đăng kí tài khoản thành công. Bạn vui lòng nhấn vào link dưới để xác nhận tài khoản đăng ký: <br><a href='$url'>$url</a>
 <br>
 <br/>
 <b>Rookie Marketing 2018</b><br/>
-<b>0984 580 548 </b>
+<b>028 2218 9739 </b>
 ";
     $mail->AddAddress($mail_to);
-    $mail->AddAddress('anhduy.bui1995@gmail.com');
+//    $mail->AddAddress('rookiemarketing2018@gmail.com');
 
     if(!$mail->Send()) {
         return false;
