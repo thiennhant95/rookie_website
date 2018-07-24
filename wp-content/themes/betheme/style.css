@@ -85,7 +85,7 @@ All css files are placed in /css/ folder
     color: #FFF6F6!important;
 }
 .section.section-post-header {
-    display: none!important;
+    display: block!important;
 }
 .post-title > .entry-title > a{
     font-size: 20px!important;
@@ -97,6 +97,9 @@ All css files are placed in /css/ folder
 }
 img.scale-with-grid.wp-post-image {
     height: 250px!important;
+}
+.single-photo-wrapper img.scale-with-grid.wp-post-image {
+    height: auto!important;
 }
 #Content img{
     width: 100%;
@@ -323,6 +326,9 @@ aside#text-6 >.textwidget{
 .group-logo { position: absolute !important; background-color: #fff; left: 5% !important; bottom:0 !important; height: 120px !important; padding:0 !important; width:120px !important }
 .group-name { position: absolute !important; right:10% !important; bottom: 2% !important; color: #000 !important; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff }
 .group-name span a{ font-size: 30px; color: #000 !important}
+.button-slide{
+    color: white;
+}
 @media only screen and (max-width: 420px){
     .group-logo {
          left: 3% !important;
