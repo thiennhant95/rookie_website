@@ -46,12 +46,39 @@ if( $back_to_top_class == 'hide' ){
 </style>
 <script>
 jQuery(document).ready(function($) {
-	$('.autoplay').slick({
-	  slidesToShow: 6,
-	  slidesToScroll: 1,
-	  autoplay: true,
-	  autoplaySpeed: 3000,
-	});
+	function createSlick(){
+		jQuery(".autoplay").not('.slick-initialized').slick({
+			autoplay: true,
+			arrows: true,
+			slidesToShow: 6,
+			slidesToScroll: 1,
+			responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+				slidesToShow: 5,
+				slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 992,
+				settings: {
+				slidesToShow: 3,
+				slidesToScroll: 1
+				}
+			},
+			{
+				breakpoint: 481,
+				settings: {
+				slidesToShow: 2,
+				slidesToScroll: 1
+				}
+			}
+			]
+		});
+	}
+	createSlick();
+	$(window).on( 'resize', createSlick);
 });
 </script>
 <!-- #Footer -->		

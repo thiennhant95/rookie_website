@@ -8,6 +8,7 @@ function list_manage_video()
 		$query_video = "SELECT * FROM $table_video ORDER BY id DESC";
 		$data_video = $wpdb->get_results($query_video);
 	?>
+	<div class="col-md-12 text-right" style="margin: 20px 0"><a href='<?php echo admin_url().'admin.php?page=add-video'; ?>'><button type="button" class="btn btn-primary"><strong><span class="glyphicon glyphicon-plus"></span> Tạo Video</strong></button></a></div>
 	<table id="video-list" class="table table-responsive table-hover table-bordered table-striped">
 		<thead>
 			<tr>
