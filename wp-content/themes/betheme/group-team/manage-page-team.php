@@ -651,7 +651,7 @@
                                 </tbody>
                                 <tfoot class="text-center">
                                     <tr>
-                                        <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo $order->total_price ?></strong></td>
+                                        <td colspan="4" class="text-right" style="padding-right: 15px"><strong>Tổng tiền : <?php echo number_format($order->total_price)."đ"; ?></strong></td>
                                     </tr>
                                     <?php if($order->order_status == 0){ ?>
                                     <tr>

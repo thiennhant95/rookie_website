@@ -420,7 +420,7 @@ html,body{overflow-x:hidden}
 	
 	.section_wrapper,
 	.container,
-	.four.columns .widget-area		{max-width:700px!important;padding:0 33px!important}
+	.four.columns .widget-area		{max-width:700px!important;padding:0 15px!important}
 
 	.left-sidebar .items_group,
 	.right-sidebar .items_group,
@@ -533,7 +533,7 @@ html,body{overflow-x:hidden}
 		body.minimalist-header.header-classic:not(.template-slider) #Header,body.minimalist-header.header-creative:not(.template-slider) #Header,body.minimalist-header.header-plain:not(.template-slider) #Header,body.minimalist-header.header-split:not(.template-slider) #Header{min-height:0}
 		body.minimalist-header.header-simple:not(.template-slider) #Header{min-height:90px}
 		body.minimalist-header.header-transparent #Header{min-height:0!important}
-		.minimalist-header-no #Subheader{padding:80px 0!important}
+		.minimalist-header-no #Subheader{padding:20px 0!important}
 		
 		/* Header | Overlay */
 		.header-overlay .overlay-menu-toggle{top:10px;right:5px}
@@ -573,7 +573,7 @@ html,body{overflow-x:hidden}
 		.mobile-header-mini #Top_bar .container{max-width:100%!important;}
 		.mobile-header-mini #Top_bar .top_bar_left{float:left;position:static;}
 		.mobile-header-mini #Top_bar .logo{width:auto;float:left;margin-left:15px;border:none;}
-		.mobile-header-mini #Top_bar #logo{height:60px!important;line-height:60px!important;margin:0}
+		.mobile-header-mini #Top_bar #logo{height:auto!important;line-height:60px!important;margin:0}
 		.mobile-header-mini #Top_bar a.responsive-menu-toggle{top:30px!important;left:auto;right:10px;margin-top:-17px;}
 		
 		.mobile-header-mini #Top_bar .top_bar_right{position:absolute;top:0;right:54px;background:none;padding:0;}

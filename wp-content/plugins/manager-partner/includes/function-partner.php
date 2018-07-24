@@ -68,7 +68,7 @@ function create_logo_partner(){
 			<input type="text" name="partner_url" class="form-control">
 		</div>
 		<div class="col-md-12 margin-top20" id="upload-logo">
-			<label>Upload Video</label>
+			<label>Upload Hình Ảnh ( Tỉ lệ đề nghị 4:3 )( Kích thước đề nghị 200 x 180 trở lên )</label>
 		<?php 
 			if(function_exists( 'wp_enqueue_media' )){
 			    wp_enqueue_media();
@@ -161,7 +161,7 @@ function detail_logo_partner(){
 			<input type="text" name="partner_url" class="form-control" value="<?php echo $logo_partner->partner_url ?>">
 		</div>
 		<div class="col-md-12 margin-top20" id="upload-logo">
-			<label>Upload Video</label>
+			<label>Upload Hình Ảnh ( Tỉ lệ đề nghị 4:3 )( Kích thước đề nghị 200 x 180 trở lên )</label>
 		<?php 
 			if(function_exists( 'wp_enqueue_media' )){
 			    wp_enqueue_media();
@@ -262,13 +262,13 @@ function plugin_shortcode_logo_partner(){
 	$replace = array('<br>','<br>','"','&amp;','&#039','"','<','>');
     ob_start();
     ?>
-    <div class="col-md-12 col-xs-12 col-sm-12">
-	  <div class="col-md-12 col-sm-12 col-xs-12 autoplay">
+    <div style="margin-bottom: 0">
+	  <div class="autoplay">
     <?php
     foreach($data_logo_partner as $logo_partner){
     ?>
-	  	<div class="col-md-2 col-sm-4 col-xs-6">
-	  		<img src="<?php echo $logo_partner->partner_image; ?>" width="100%">
+	  	<div>
+	  		<a href="<?php echo $logo_partner->partner_url ?>"><img src="<?php echo $logo_partner->partner_image; ?>" style="width: 180px; height: 150px; padding: 5px; border: 1px solid #E2E2E2"></a>
 	  	</div>
     <?php
    	}

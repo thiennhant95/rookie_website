@@ -28,8 +28,8 @@ if( $back_to_top_class == 'hide' ){
         <div class="wpb_column vc_column_container vc_col-sm-12">
             <div class="vc_column-inner ">
                 <div class="wpb_wrapper">
-                    <div class="wpb_text_column wpb_content_element ">
-                        <div class="wpb_wrapper">
+                    <div class="wpb_text_column wpb_content_element" style="margin-bottom: 15px !important">
+                        <div class="wpb_wrapper" style="padding-top: 15px">
                             <?php echo do_shortcode('[shortcode_logo_partner]'); ?>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ if( $back_to_top_class == 'hide' ){
     .image-tai-tro{
         width: 50% !important;
     }
-    .slick-arrow { background-color: #cccccc }
+    .slick-arrow { display: none !important; }
 </style>
 <script>
 jQuery(document).ready(function($) {

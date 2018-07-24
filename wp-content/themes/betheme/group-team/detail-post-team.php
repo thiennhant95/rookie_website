@@ -48,6 +48,7 @@
 @media only screen and (max-width: 600px){
 	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
     .size-custom-mobile{ padding-right: 30px !important; }
+    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 5px !important; padding-left: 5px !important }
 }
 </style>
 <?php
@@ -55,21 +56,21 @@
 	{
 ?>
 <?php get_header(); ?>
-	<div id="Content" style="background: #e9ebee !important; padding-top: 0 !important">
+	<div id="Content" style="background: #32C8DE !important; padding-top: 0 !important">
 		<div class="content_wrapper clearfix">
 			<div class="sections_group">
 				<div class="col-md-12" style="margin-bottom: 20px">
-					<div class="col-md-offset-1 col-md-10">
+					<div class="col-md-offset-1 col-md-10 col-xs-12 col-sm-12">
 						<div class="col-md-12" style="position: relative; padding: 0">
 							<div class="col-md-12" style="background-color:#000; background-image: url('<?php echo $data_team->background; ?>'); background-position: center center; background-repeat: no-repeat; background-size: cover; overflow: hidden; height: 250px; padding: 0px">
 							</div>
-							<div class="col-md-2 col-xs-4 col-sm-4" style="position: absolute; background-color: #fff; left: 5%; bottom:0; height: 120px; padding:0; width:120px">
+							<div class="col-md-2 col-xs-4 col-sm-4 group-logo">
 								<?php  ?>
 									<img src="<?php echo $data_team->logo ?>" style="height: 120px !important; width: 120px !important">
 								<?php  ?>
 							</div>
-							<div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-								<h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></h3>
+							<div class="col-md-8 col-xs-6 col-sm-6 group-name">
+								<span><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>"><?php echo $data_team->ten_nhom ?></a></strong></span>
 							</div>
 						</div>
 						<div class="clearfix"></div>
@@ -77,7 +78,7 @@
 							<div class="col-md-5 size-custom" style="margin-top: 15px">
 							<div class="col-md-12 gioi-thieu" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px">
 								<h4><span class="glyphicon glyphicon-globe" style="padding-right: 15px; color: #0CBDE3"></span><strong>Giới thiệu</strong></h4>
-								<div class="col-md-12 row">
+								<div class="col-md-12">
 									<?php
 									$trim_mo_ta = wp_trim_words( $data_team->mo_ta, 50);
 									echo str_replace($search, $replace,$data_team->mo_ta);
@@ -87,7 +88,7 @@
 							<div class="clearfix"></div>
 							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
-								<div class="col-md-12 row">
+								<div class="col-md-12">
 									<?php
 									echo str_replace($search, $replace, $data_team->slogan);
 									?>
@@ -96,12 +97,12 @@
 							<div class="clearfix"></div>
 							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
-								<div class="col-md-12 row" style="margin-top: 15px">
+								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_group)){ 
                                 		foreach($data_post_group as $post_group){
                                 ?>
-                                <div class="col-md-4">
+                                <div class="col-md-4 row">
                                 	<img src="<?php echo $post_group->post_group_feature ?>">
                                 </div>
                                 <div class="col-md-8">
@@ -120,13 +121,13 @@
 							<div class="clearfix"></div>
 							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẽ</a></strong></h4>
-								<div class="col-md-12 row" style="margin-top: 15px">
+								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_share)){ 
                                 		foreach($data_post_share as $post_share){
                                 ?>
                                 <div class="col-md-12" style="border: 1px solid #D9D9D9; border-radius: 10px; margin-bottom: 10px; padding: 15px"><?php echo $post_share->status_share ?></div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 row">
                                 	<?php echo get_the_post_thumbnail($post_share->ID,'thumbnail') ?>
                                 </div>
                                 <div class="col-md-8">
@@ -147,10 +148,10 @@
 							<div class="col-md-7 row size-custom size-custom-mobile" style="margin-top: 15px">
 								<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 									<h2><strong><?php echo $data_detail_post_group->post_group_title; ?></strong></h2>
-									<div class="col-md-12 row">
+									<div class="col-md-12">
 										<iframe src="https://www.facebook.com/plugins/share_button.php?href=<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$data_detail_post_group->post_group_slug; ?>&layout=button_count&size=small&mobile_iframe=true&width=111&height=20&appId" width="111" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
 									</div>
-									<div class="col-md-12 row">
+									<div class="col-md-12">
 										<?php echo str_replace($search, $replace,$data_detail_post_group->post_group_content); ?>
 									</div>
 									<div class="col-md-12 fb-comments" data-width="100%" data-href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/".$post_slug ?>" data-numposts="5"></div>
@@ -163,7 +164,7 @@
     								$data_all_post_group = $wpdb->get_results($query_all_post_group);
     								if(!empty($data_all_post_group)){
     								?>
-    								<div class="col-md-7 row size-custom" style="margin-top: 15px">
+    								<div class="col-md-7 row size-custom size-custom-mobile" style="margin-top: 15px">
 										<div class="col-md-12 row" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px;">
 											<h3><strong>Tất cả bài viết</strong></h3>
 											<?php foreach($data_all_post_group as $all_post_group){ ?>

@@ -30,7 +30,7 @@ All css files are placed in /css/ folder
     }
     #Top_bar #logo img {
         width: 150px!important;
-        height: 60px!important;
+        height: auto!important;
     }
 }
 @media only screen and (max-width: 768px) and (min-width: 694px){
@@ -78,7 +78,7 @@ All css files are placed in /css/ folder
     background-color: #20bcf6!important;
 }
 #Subheader{
-    padding:43px 0!important;
+    padding:20px 0!important;
 }
 #Subheader .title {
     font-size: 30px!important;
@@ -277,7 +277,7 @@ aside#text-6 >.textwidget{
     vertical-align: middle;
      max-height: 130%!important;
     width: 170px;
-    height: 75px;
+    height: auto;
 }
 .tai-tro{
     background: #F9F9F9;
@@ -320,3 +320,17 @@ aside#text-6 >.textwidget{
 }
 .the_content_wrapper .image_frame, .the_content_wrapper .wp-caption { margin-bottom: 10px !important }
 .post-desc { padding : 0 10px !important; }
+.group-logo { position: absolute !important; background-color: #fff; left: 5% !important; bottom:0 !important; height: 120px !important; padding:0 !important; width:120px !important }
+.group-name { position: absolute !important; right:10% !important; bottom: 2% !important; color: #000 !important; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff }
+.group-name span a{ font-size: 30px; color: #000 !important}
+@media only screen and (max-width: 420px){
+    .group-logo {
+         left: 3% !important;
+    }
+    .group-name {
+         right:6% !important;
+    }
+    .group-name span a{ font-size: 22px;}
+}
+#Top_bar #logo { height: auto !important; }
+#Top_bar #logo img { height: 100px}
