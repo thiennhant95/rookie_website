@@ -606,7 +606,9 @@ function admin_styles(){
     wp_enqueue_script( 'am_admin_validate_tooltips', get_template_directory_uri() . '/js/jquery-validate.bootstrap-tooltip.js' );
     wp_enqueue_script( 'am_admin_jquery_validate', get_template_directory_uri() . '/js/jquery.validate-1.14.0.min.js' );
     wp_enqueue_script( 'am_admin_jquery_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js');
-    wp_enqueue_script( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.min.js');  
+    wp_enqueue_script( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap.min.js');
+    wp_enqueue_script( 'am_admin_notify', get_template_directory_uri() . '/js/bootstrap-notify.js' );
+
     wp_enqueue_style( 'am_admin_bootstrap');
     wp_enqueue_style( 'am_admin_darktooltip');
     wp_enqueue_style( 'am_admin_slick');
@@ -1014,3 +1016,123 @@ add_action('init', function() {
         }
     }
 });
+
+/* Xử lý upload hình */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'shipment-api';
+    if($path[0] == $templatename){
+        $load = locate_template('shipment_api.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Xử lý upload hình */
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'shipment-api-team';
+    if($path[0] == $templatename){
+        $load = locate_template('shipment_api_team.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+function update_tracking()
+{
+    global $wpdb;
+
+    $table_token ="token_api";
+    $query_token = "SELECT * FROM $table_token";
+    $last_time_tracking = ($wpdb->get_results($query_token))[0]->last_time_tracking;
+    $data_token =$wpdb->get_results($query_token);
+    $date = new DateTime();
+    $date->modify('+4 hours');
+    if ($last_time_tracking < date('Y-m-d H:i:s'))
+    {
+    $table_order = $wpdb->prefix . "order";
+    $query_order = "SELECT * FROM $table_order WHERE order_status<>0 AND order_status<>3 AND  order_status<>1 AND order_status<>4 ";
+    $data_order = $wpdb->get_results($query_order);
+    $array_code = [];
+    foreach ($data_order as $row){
+        $array_code[]=$row->order_code;
+    }
+    $array_code_a = '"'.implode('","', $array_code).'"';
+    $order = <<<HTTP_BODY
+{
+    "trackItemRequest": {
+        "hdr": {
+            "messageType": "TRACKITEM",
+            "accessToken": "750ebac0d11d17bcb2b8ffffbf4f4525",
+            "messageDateTime": "2016-01-12T11:20:27+08:00",
+            "messageVersion": "1.0",
+            "messageLanguage": "vi_VN"
+        },
+        "bd": {
+            "customerAccountId": 12233441,
+            "soldToAccountId": "5000000002",
+            "pickupAccountId": "5000000002",
+            "trackingReferenceNumber": [
+                   $array_code_a
+            ]
+        }
+    }
+}
+
+HTTP_BODY;
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://sandbox.dhlecommerce.asia/rest/v3/Tracking",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => $order,
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+        ),
+    ));
+    $response = curl_exec($curl);
+    curl_close($curl);
+    $response_data =json_decode($response,true);
+    foreach ($response_data['trackItemResponse']['bd']['shipmentItems'] as $row_response)
+    {
+        foreach ($data_order as $row_1){
+            if ($row_response['shipmentID']==$row_1->order_code){
+                if ($row_response['events']['0']['status']==77090)
+                {
+                    $wpdb->update($table_order, array(
+                        'order_status'=>2,
+                    ),array('id'=>$row_1->id)
+                    );
+                }
+                if ($row_response['events']['0']['status']==77173)
+                {
+                    $wpdb->update($table_order, array(
+                        'order_status'=>1,
+                    ),array('id'=>$row_1->id)
+                    );
+                }
+                if ($row_response['events']['0']['status']==77117)
+                {
+                    $wpdb->update($table_order, array(
+                        'order_status'=>4,
+                    ),array('id'=>$row_1->id)
+                    );
+                }
+            }
+
+        }
+    }
+        $update_last_shipment_id = $wpdb->update($table_token, array(
+            'last_time_tracking'=>$date->format('Y-m-d H:i:s'),
+        ),array('id'=>$data_token[0]->id)
+        );
+    }
+}
+update_tracking();

@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'is_delete'=>0,
         'status'=>$_POST['status_product'],
         'category_product_id'=>$_POST['category_product_id'],
+        'weight'=>$_POST['weight']
         ),array('id'=>$_GET['id'])
     );
     if($insert){

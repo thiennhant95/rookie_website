@@ -230,6 +230,7 @@ jQuery(document).ready(function($) {
 <!-- wp_footer() -->
 <?php wp_footer(); ?>
 <script src="<?php bloginfo('template_directory') ?>/js/custom_js_nhan.js"></script>
+<script src="<?php bloginfo('template_directory') ?>/js/bootstrap-notify.js"></script>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];

@@ -43,7 +43,7 @@ function show_order_view()
                                                 $data_order = $wpdb->get_results($query_order);
                                                 foreach($data_order as $order){
                                                     ?>
-                                                    <div class="btn btn-<?php
+                                                    <div id='div-<?php echo $order->id ?>' class="btn btn-<?php
                                                     if($order->order_status == 0){
                                                         echo "danger";
                                                     }
@@ -59,11 +59,14 @@ function show_order_view()
                                                     else if($order->order_status == 4){
                                                         echo "default";
                                                     }
+                                                    else if($order->order_status == 0.1){
+                                                        echo "warning";
+                                                    }
                                                     ?>
-                                                    col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
+                                                    col-md-12 col-sm-12 col-xs-12 text-center order1-div-<?php echo $order->id ?>" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
                                                         <div class="col-md-6 col-xs-6 col-sm-6"><?php echo $order->order_name."(".$order->id.")"; ?></div>
                                                         <div class="col-md-6 col-xs-6 col-sm-6">
-                                                            <strong>
+                                                            <strong class="text-status1-<?php echo $order->id ?>">
                                                                 <?php
                                                                 if($order->order_status == 0){
                                                                     echo "Chưa xử lý";
@@ -80,6 +83,9 @@ function show_order_view()
                                                                 else if($order->order_status == 4){
                                                                     echo "Trả về";
                                                                 }
+                                                                else if($order->order_status == 0.1){
+                                                                    echo "DHL đã tiếp nhận đơn hàng";
+                                                                }
                                                                 ?>
                                                             </strong>
                                                         </div>
@@ -89,6 +95,8 @@ function show_order_view()
                                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                                 <p><strong>Email : </strong><a href="mailto:<?php echo $order->order_email ?>"><?php echo $order->order_email ?></a></p>
                                                                 <p><strong>Số điện thoại :</strong><a href="tel:<?php echo $order->order_phone ?>"> <?php echo $order->order_phone ?></a></p>
+                                                                <p><strong>Địa chỉ :</strong> <?php echo $order->order_address.",".$order->order_district.",".$order->order_city ?></p>
+                                                                <p><strong>Ngày đặt hàng :</strong> <?php echo $order->order_date ?></p>
                                                             </div>
                                                             <caption><h3>Chi Tiết Đơn Đặt Hàng</h3></caption>
                                                             <thead>
@@ -159,7 +167,7 @@ function show_order_view()
                                                 }
                                                 foreach($data_order1 as $order1){
                                                     ?>
-                                                    <div id=order-<?php echo $order1->id ?>" class="btn btn-<?php
+                                                    <div id=order-div-<?php echo $order1->id ?>" class="btn btn-<?php
                                                     if($order1->order_status == 0){
                                                         echo "danger";
                                                     }
@@ -175,11 +183,14 @@ function show_order_view()
                                                     else if($order1->order_status == 4){
                                                         echo "default";
                                                     }
+                                                    else if($order1->order_status == 0.1){
+                                                        echo "warning";
+                                                    }
                                                     ?>
-                                                    col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order1<?php echo $order1->id ?>">
+                                                    col-md-12 col-sm-12 col-xs-12 text-center order-div-<?php echo $order1->id ?>" data-toggle="collapse" data-target="#order1<?php echo $order1->id ?>">
                                                         <div class="col-md-6 col-xs-6 col-sm-6"><?php echo $order->order_name."(".$order1->id.")"; ?></div>
                                                         <div class="col-md-6 col-xs-6 col-sm-6">
-                                                            <strong>
+                                                            <strong class="text-status-<?php echo $order1->id ?>">
                                                                 <?php
                                                                 if($order1->order_status == 0){
                                                                     echo "Chưa xử lý";
@@ -196,6 +207,9 @@ function show_order_view()
                                                                 else if($order1->order_status == 4){
                                                                     echo "Trả về";
                                                                 }
+                                                                else if($order1->order_status == 0.1){
+                                                                    echo "DHL đã tiếp nhận đơn hàng";
+                                                                }
                                                                 ?>
                                                             </strong>
                                                         </div>
@@ -205,6 +219,8 @@ function show_order_view()
                                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                                 <p><strong>Email : </strong><a href="mailto:<?php echo $order1->order_email ?>"><?php echo $order1->order_email ?></a></p>
                                                                 <p><strong>Số điện thoại :</strong><a href="tel:<?php echo $order1->order_phone ?>"> <?php echo $order1->order_phone ?></a></p>
+                                                                <p><strong>Địa chỉ :</strong> <?php echo $order1->order_address.",".$order1->order_district.",".$order1->order_city ?></p>
+                                                                <p><strong>Ngày đặt hàng :</strong> <?php echo $order1->order_date ?></p>
                                                             </div>
                                                             <caption><h3>Chi Tiết Đơn Đặt Hàng</h3></caption>
                                                             <thead>
@@ -219,9 +235,18 @@ function show_order_view()
                                                             <?php
                                                             $table_order_detail1 = $wpdb->prefix."order_detail";
                                                             $table_products1 = $wpdb->prefix."products";
+                                                            $query_product12 = "SELECT * FROM $table_products1";
+                                                            $data_product = $wpdb->get_results($query_product12);
+                                                            $totalweight =0;
+
                                                             $query_order_detail1 = $wpdb->prepare("SELECT * FROM $table_order_detail1 WHERE order_id = %d AND team_id = %d",$order1->id,$order1->team_id);
                                                             $data_order_detail1 = $wpdb->get_results($query_order_detail1);
+
                                                             foreach($data_order_detail1 as $order_detail1){
+                                                                foreach ($data_product as $item) {
+                                                                    if ($order_detail1->product_id == $item->id)
+                                                                    $totalweight += $item->weight*$order_detail1->amount;
+                                                                }
                                                                 $query_product1 = $wpdb->prepare("SELECT * FROM $table_products1 WHERE id = %d",$order_detail1->product_id);
                                                                 $product1 = $wpdb->get_row($query_product1);
                                                                 ?>
@@ -239,7 +264,7 @@ function show_order_view()
                                                             </tr>
                                                             <?php if($order1->order_status == 0){ ?>
                                                                 <tr>
-                                                                    <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><a href="<?php echo home_url('xu-ly-don-hang')?>" data-id="<?php echo $order1->id ?>" class="btn btn-danger order-cancel">Huỷ đơn hàng</a></td>
+                                                                    <td class="function-<?php echo $order1->id ?>" colspan="4"><button type="submit" class="btn btn-success api-submit" href="<?php echo home_url('shipment-api')?>" order-id="<?php echo $order1->id ?>" name="btn-success" style="margin-right: 15px">Xác nhận</button><a href="<?php echo home_url('xu-ly-don-hang')?>" data-id="<?php echo $order1->id ?>" class="btn btn-danger order-cancel">Huỷ đơn hàng</a></td>
                                                                 </tr>
                                                             <?php } ?>
                                                             </tfoot>
@@ -262,6 +287,39 @@ function show_order_view()
 <!--    </div>-->
     <script>
         $(document).ready(function(){
+            $(".api-submit").click(function (e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                var order_id =$(this).attr('order-id');
+                console.log(order_id);
+                var totalweight =<?php echo $totalweight ?>;
+                $.ajax({
+                    type: "POST",
+                    url: href,
+                    dataType : "json",
+                    data:{order_id:order_id,type:0,totalweight:totalweight}
+                })
+                    .done(function(data){
+                        if (data.status==1)
+                        {
+                            $.notify('Đơn hàng được xử lý thành công',{
+                                newest_on_top: true,
+                                type: 'success',
+                                timer: '2000'
+                            });
+                            $('.order-div-'+order_id).removeClass('btn-danger').addClass('btn-warning');
+                            $('.text-status-'+order_id).html('').html('DHL đã tiếp nhận đơn hàng');
+                            $('.order1-div-'+order_id).removeClass('btn-danger').addClass('btn-warning');
+                            $('.text-status1-'+order_id).html('').html('DHL đã tiếp nhận đơn hàng');
+                            $('.function-'+order_id).css('display','none');
+
+                        }
+                    })
+            })
+
+        });
+
+        $(document).ready(function(){
             $(".order-cancel").click(function (e) {
                 e.preventDefault();
                 var href = $(this).attr('href');
@@ -271,12 +329,21 @@ function show_order_view()
                     type: "POST",
                     url: href,
                     dataType : "json",
-                    data:{order_id:order_id,type:3}
+                    data:{order_id:order_id,type:0}
                 })
                     .done(function(data){
                         if (data.status==1)
                         {
-                            $(id).removeClass( "btn-danger" ).addClass( "btn-default");
+                            $.notify('Đã hủy thành công',{
+                                newest_on_top: true,
+                                type: 'success',
+                                timer: '2000'
+                            });
+                            $('.order-div-'+order_id).removeClass('btn-danger').addClass('btn-default');
+                            $('.text-status-'+order_id).html('').html('Đã hủy');
+                            $('.order1-div-'+order_id).removeClass('btn-danger').addClass('btn-default');
+                            $('.text-status1-'+order_id).html('').html('Đã hủy');
+                            $('.function-'+order_id).css('display','none');
                         }
                     })
             })

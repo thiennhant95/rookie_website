@@ -184,6 +184,12 @@ function show_company_view()
                                     <label>Đơn giá (VNĐ):</label>
                                     <input type="number" name="product_price" required="required" class="form-control">
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Cân nặng (Gam):</label>
+                                    <input type="number" name="weight" required="required" class="form-control">
+                                </div>
+
                                 <div class="form-group">
                                     <label>Số lượng tồn kho:</label>
                                     <input type="number" name="warehouse_amount" required="required" class="form-control">
@@ -310,6 +316,12 @@ function show_company_view()
                                     <label>Đơn giá (VNĐ):</label>
                                     <input type="number" name="product_price" value="<?php echo $data_team->product_price ?>" required="required" class="form-control">
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Cân nặng (Gam):</label>
+                                    <input type="number" name="weight" value="<?php echo $data_team->weight ?>" required="required" class="form-control">
+                                </div>
+
                                 <div class="form-group">
                                     <label>Số lượng tồn kho:</label>
                                     <input type="number" name="warehouse_amount" value="<?php echo $data_team->warehouse_amount ?>" required="required" class="form-control">

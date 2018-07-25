@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 "order_address" => htmlspecialchars($_POST['order_address']),
                                 "order_city" => htmlspecialchars($_POST['order_city']),
                                 "order_district" => htmlspecialchars($_POST['order_district']),
-                                "order_ward" => htmlspecialchars($_POST['order_ward']),
+//                                "order_ward" => htmlspecialchars($_POST['order_ward']),
                                 "order_content" => htmlspecialchars($_POST['order_content']),
                                 "total_no_ship" => htmlspecialchars($row_price),
                                 "total_price"=>htmlspecialchars($row_price),
@@ -81,6 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h4 style='color:#d53239'><b>Bạn có đơn đặt hàng mới từ ".$_POST['order_name']."</b></h4>
                     <p>Bạn vui lòng kiểm tra và xác nhận giao hàng. Cám ơn!.</p>          
                     ";
+            $owner_noidung1 = "
+                    <h4 style='color:#d53239'><b>Đã có đơn hàng mới từ website Rookie!</b></h4>
+                    <p>Cám ơn!.</p>          
+                    ";
 
             $query_team = "SELECT * FROM $table_team ORDER BY id DESC";
             $data_team = $wpdb->get_results($query_team);
@@ -99,6 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     break;
                 }
             }
+            sendmail2("thiennhant95@yahoo.com",$owner_noidung1);
+
             sendmail($_POST['order_mail'],$noidung);
             unset($_SESSION['products']);
             unset($_SESSION['team_list']);

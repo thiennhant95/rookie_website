@@ -6,7 +6,9 @@ $time_fomat = $dt->format('Y-m-d\TH:i:s+07:00');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     global $wpdb;
-    if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==0){
+    if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==0 && isset($_SESSION['branch_id'])){
+
+        #team
         $order_id_post = $_POST['order_id'];
         $table_order = $wpdb->prefix . "order";
         $data_prepare_name = $wpdb->prepare("SELECT * FROM $table_order WHERE id = %d",$_POST['order_id']);
@@ -27,10 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ),array('id'=>$data_token[0]->id)
         );
 
-        $update_order_code= $wpdb->update($table_order, array(
-            'order_code'=>$shipment_id,
-        ),array('id'=>$order_id_post)
-        );
         $totalweight= $_POST['totalweight'];
 
         if ($data_order){
@@ -86,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                "incoterm":null,
                "codValue":$data_order->total_no_ship,
                "insuranceValue":null,
-               "freightCharge":null,
-               "totalValue":null,
+               "freightCharge":$data_order->ship_fee,
+               "totalValue":$data_order->total_price,
                "currency":"VND",
                "remarks":null,
                "valueAddedServices":{  
@@ -124,7 +122,7 @@ HTTP_BODY;
             $response = curl_exec($curl);
             curl_close($curl);
 
-             $response_data =json_decode($response,true);
+            $response_data =json_decode($response,true);
 //         $response= json_decode('{
 //  "manifestResponse" : {
 //    "hdr" : {
@@ -155,24 +153,24 @@ HTTP_BODY;
 //    }
 //  }
 //}',true);
-         if ($response_data['manifestResponse']['bd']['responseStatus']['code']==200)
-         {
-             $update_status_order = $wpdb->update($table_order, array(
-                 'order_status'=>0.1,
-             ),array('id'=>$_POST['order_id'])
-             );
-             if ($update_status_order){
-                 foreach ($data_order_detail as $row_detail)
-                 {
-                     $update_status_order_detail = $wpdb->update($table_order_detail, array(
-                         'status'=>0.1,
-                     ),array('order_id'=>$_POST['order_id'])
-                     );
-                 }
-                 echo json_encode(['status'=>1]);
-                 die();
-             }
-         }
+            if ($response_data['manifestResponse']['bd']['responseStatus']['code']==200)
+            {
+                $update_status_order = $wpdb->update($table_order, array(
+                    'order_status'=>0.1,
+                ),array('id'=>$_POST['order_id'])
+                );
+                if ($update_status_order){
+                    foreach ($data_order_detail as $row_detail)
+                    {
+                        $update_status_order_detail = $wpdb->update($table_order_detail, array(
+                            'status'=>0.1,
+                        ),array('order_id'=>$_POST['order_id'])
+                        );
+                    }
+                    echo json_encode(['status'=>1]);
+                    die();
+                }
+            }
         }
         else{
             echo json_encode(['status'=>0]);
