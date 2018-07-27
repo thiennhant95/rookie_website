@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $table_order = $wpdb->prefix . "order";
     $table_order_detail = $wpdb->prefix . "order_detail";
     if ($_POST['order_name']==null || $_POST['order_phone']==null || $_POST['order_name']==null || $_POST['order_mail']==null ||
-    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null || $_POST['order_district_id'] == null || $_POST['sum_weight'] == null || $_POST['sum_ship'])
+    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null || $_POST['order_district_id'] == null || $_POST['sum_weight'] == null || $_POST['sum_ship'] == null)
     {
         $_SESSION['loidathang'] =2;
         wp_redirect(home_url('thanh-toan'));
@@ -32,12 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 //                                "order_ward" => htmlspecialchars($_POST['order_ward']),
                                 "order_content" => htmlspecialchars($_POST['order_content']),
                                 "total_no_ship" => htmlspecialchars($row_price),
-                                "total_price"=>htmlspecialchars($row_price),
+                                "total_price"=>htmlspecialchars($row_price + $_POST['sum_ship']),
                                 "order_status" => 0,
                                 "order_date" => date('Y-m-d H:i:s'),
                                 "is_delete" => 0,
-                                'team_id' => $row_list
-                                'ship_fee' => htmlspecialchars($_POST['sum_ship']);
+                                'team_id' => $row_list,
+                                'ship_fee' => htmlspecialchars($_POST['sum_ship'])
                             )
                         );
                         if ($insert) {
