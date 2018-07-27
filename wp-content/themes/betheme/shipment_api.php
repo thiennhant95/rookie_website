@@ -106,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    }
 }
 HTTP_BODY;
-            print_r($order);
-            die();
+//            print_r($order);
+//            die();
             $curl = curl_init();
 
             curl_setopt_array($curl, array(

@@ -7,8 +7,6 @@ $time_fomat = $dt->format('Y-m-d\TH:i:s+07:00');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     global $wpdb;
     if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==0 && isset($_SESSION['branch_id'])){
-
-        #team
         $order_id_post = $_POST['order_id'];
         $table_order = $wpdb->prefix . "order";
         $data_prepare_name = $wpdb->prepare("SELECT * FROM $table_order WHERE id = %d",$_POST['order_id']);
@@ -29,6 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ),array('id'=>$data_token[0]->id)
         );
 
+        $update_order_code= $wpdb->update($table_order, array(
+            'order_code'=>$shipment_id,
+        ),array('id'=>$order_id_post)
+        );
         $totalweight= $_POST['totalweight'];
 
         if ($data_order){
@@ -84,8 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                "incoterm":null,
                "codValue":$data_order->total_no_ship,
                "insuranceValue":null,
-               "freightCharge":$data_order->ship_fee,
-               "totalValue":$data_order->total_price,
+               "freightCharge":null,
+               "totalValue":null,
                "currency":"VND",
                "remarks":null,
                "valueAddedServices":{  
@@ -104,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    }
 }
 HTTP_BODY;
-            print_r($order);
-            die();
+//            print_r($order);
+//            die();
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -123,6 +125,9 @@ HTTP_BODY;
             curl_close($curl);
 
             $response_data =json_decode($response,true);
+//            print_r($response_data);
+//            die();
+
 //         $response= json_decode('{
 //  "manifestResponse" : {
 //    "hdr" : {

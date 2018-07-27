@@ -1053,17 +1053,17 @@ function update_tracking()
     $data_token =$wpdb->get_results($query_token);
     $date = new DateTime();
     $date->modify('+4 hours');
-    if ($last_time_tracking < date('Y-m-d H:i:s'))
-    {
-    $table_order = $wpdb->prefix . "order";
-    $query_order = "SELECT * FROM $table_order WHERE order_status<>0 AND order_status<>3 AND  order_status<>1 AND order_status<>4 ";
-    $data_order = $wpdb->get_results($query_order);
-    $array_code = [];
-    foreach ($data_order as $row){
-        $array_code[]=$row->order_code;
-    }
-    $array_code_a = '"'.implode('","', $array_code).'"';
-    $order = <<<HTTP_BODY
+    if ($last_time_tracking < date('Y-m-d H:i:s')) {
+        $table_order = $wpdb->prefix . "order";
+        $query_order = "SELECT * FROM $table_order WHERE order_status<>0 AND order_status<>3 AND  order_status<>1 AND order_status<>4 ";
+        $data_order = $wpdb->get_results($query_order);
+        $array_code = [];
+        if ($data_order != null) {
+            foreach ($data_order as $row) {
+                $array_code[] = $row->order_code;
+            }
+            $array_code_a = '"' . implode('","', $array_code) . '"';
+            $order = <<<HTTP_BODY
 {
     "trackItemRequest": {
         "hdr": {
@@ -1085,54 +1085,51 @@ function update_tracking()
 }
 
 HTTP_BODY;
-    $curl = curl_init();
+            $curl = curl_init();
 
-    curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://sandbox.dhlecommerce.asia/rest/v3/Tracking",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => $order,
-        CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json"
-        ),
-    ));
-    $response = curl_exec($curl);
-    curl_close($curl);
-    $response_data =json_decode($response,true);
-    foreach ($response_data['trackItemResponse']['bd']['shipmentItems'] as $row_response)
-    {
-        foreach ($data_order as $row_1){
-            if ($row_response['shipmentID']==$row_1->order_code){
-                if ($row_response['events']['0']['status']==77090)
-                {
-                    $wpdb->update($table_order, array(
-                        'order_status'=>2,
-                    ),array('id'=>$row_1->id)
-                    );
-                }
-                if ($row_response['events']['0']['status']==77173)
-                {
-                    $wpdb->update($table_order, array(
-                        'order_status'=>1,
-                    ),array('id'=>$row_1->id)
-                    );
-                }
-                if ($row_response['events']['0']['status']==77117)
-                {
-                    $wpdb->update($table_order, array(
-                        'order_status'=>4,
-                    ),array('id'=>$row_1->id)
-                    );
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://sandbox.dhlecommerce.asia/rest/v3/Tracking",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => $order,
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json"
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $response_data = json_decode($response, true);
+            foreach ($response_data['trackItemResponse']['bd']['shipmentItems'] as $row_response) {
+                foreach ($data_order as $row_1) {
+                    if ($row_response['shipmentID'] == $row_1->order_code) {
+                        if ($row_response['events']['0']['status'] == 77090) {
+                            $wpdb->update($table_order, array(
+                                'order_status' => 2,
+                            ), array('id' => $row_1->id)
+                            );
+                        }
+                        if ($row_response['events']['0']['status'] == 77173) {
+                            $wpdb->update($table_order, array(
+                                'order_status' => 1,
+                            ), array('id' => $row_1->id)
+                            );
+                        }
+                        if ($row_response['events']['0']['status'] == 77117) {
+                            $wpdb->update($table_order, array(
+                                'order_status' => 4,
+                            ), array('id' => $row_1->id)
+                            );
+                        }
+                    }
+
                 }
             }
-
+            $update_last_shipment_id = $wpdb->update($table_token, array(
+                'last_time_tracking' => $date->format('Y-m-d H:i:s'),
+            ), array('id' => $data_token[0]->id)
+            );
         }
-    }
-        $update_last_shipment_id = $wpdb->update($table_token, array(
-            'last_time_tracking'=>$date->format('Y-m-d H:i:s'),
-        ),array('id'=>$data_token[0]->id)
-        );
     }
 }
 update_tracking();

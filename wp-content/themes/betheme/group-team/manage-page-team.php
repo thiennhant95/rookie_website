@@ -590,10 +590,13 @@
                                         else if($order->order_status == 4){
                                             echo "default";
                                         }
-                                        ?> col-md-12 col-sm-12 col-xs-12 text-center" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
+                                        else if($order->order_status == 0.1){
+                                            echo "warning";
+                                        }
+                                        ?> col-md-12 col-sm-12 col-xs-12 text-center order-div-<?php echo $order->id ?>" data-toggle="collapse" data-target="#order<?php echo $order->id ?>">
                             <div class="col-md-6 col-xs-6 col-sm-6"><?php echo $order->order_name; ?></div>
                             <div class="col-md-6 col-xs-6 col-sm-6">
-                                <strong>
+                                <strong class="text-status-<?php echo $order->id ?>">
                                 <?php 
                                 if($order->order_status == 0){
                                     echo "Chưa xử lý";
@@ -609,7 +612,10 @@
                                 } 
                                 else if($order->order_status == 4){
                                     echo "Trả về";
-                                } 
+                                }
+                                else if($order->order_status == 0.1){
+                                    echo "DHL đã tiếp nhận đơn hàng";
+                                }
                                 ?>
                                 </strong>
                             </div>
@@ -637,15 +643,20 @@
                                         $table_products = $wpdb->prefix."products";
                                         $query_order_detail = $wpdb->prepare("SELECT * FROM $table_order_detail WHERE order_id = %d AND team_id = %d",$order->id,$order->team_id);
                                         $data_order_detail = $wpdb->get_results($query_order_detail);
+                                        $totalweight =0;
                                         foreach($data_order_detail as $order_detail){
+                                            foreach ($data_products as $item) {
+                                                if ($order_detail->product_id == $item->id)
+                                                    $totalweight += $item->weight*$order_detail->amount;
+                                            }
                                             $query_product = $wpdb->prepare("SELECT * FROM $table_products WHERE id = %d",$order_detail->product_id);
                                             $product = $wpdb->get_row($query_product);
                                     ?>
                                     <tr>
                                         <td><?php echo $product->product_name ?></td>
                                         <td><?php echo $order_detail->amount ?></td>
-                                        <td><?php echo $order_detail->price ?></td>
-                                        <td><?php echo $order_detail->detail_total_price ?></td>
+                                        <td><?php echo number_format($order_detail->price)."VNĐ" ?></td>
+                                        <td><?php echo number_format($order_detail->detail_total_price)."VNĐ" ?></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -655,7 +666,7 @@
                                     </tr>
                                     <?php if($order->order_status == 0){ ?>
                                     <tr>
-                                        <td colspan="4"><button type="submit" class="btn btn-success" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger btn-cancel-order" name="btn-cancel" data-button-id="<?php echo $order->id ?>">Huỷ đơn hàng</button></td>
+                                        <td class="function-<?php echo $order->id ?>" colspan="4"><button href="<?php echo home_url('shipment-api-team')?>"  type="submit" class="btn btn-success api-submit" order-id="<?php echo $order->id ?>" name="btn-success" style="margin-right: 15px">Xác nhận</button><button type="submit" class="btn btn-danger btn-cancel-order" name="btn-cancel" data-id="<?php echo $order->id ?>" data-button-id="<?php echo $order->id ?>">Huỷ đơn hàng</button></td>
                                     </tr>
                                     <?php } ?>
                                 </tfoot>
@@ -1208,6 +1219,7 @@
             if (confirm("Bạn có chắc muốn huỷ đơn hàng")) {
                 var button_id = $(this).attr("data-button-id");
                 var url = '<?php echo home_url()."/check-status-order" ?>';
+                var order_id =$(this).attr('data-id');
                 $.ajax({
                     url: url,
                     dataType: 'text',
@@ -1215,8 +1227,18 @@
                     contentType: 'application/x-www-form-urlencoded',                
                     data: { button_id: button_id },
                     success: function( data, textStatus, jQxhr ){
-                        alert("Huỷ đơn hàng thành công !")
-                        window.location = '<?php echo home_url()."/manage-group/".$team_slug ?>';
+                            $.notify('Đã hủy thành công',{
+                                newest_on_top: true,
+                                type: 'success',
+                                timer: '2000'
+                            });
+                            $('.order-div-'+order_id).removeClass('btn-danger').addClass('btn-default');
+                            $('.text-status-'+order_id).html('').html('Đã hủy');
+                            $('.order1-div-'+order_id).removeClass('btn-danger').addClass('btn-default');
+                            $('.text-status1-'+order_id).html('').html('Đã hủy');
+                            $('.function-'+order_id).css('display','none');
+                        //alert("Huỷ đơn hàng thành công !")
+                        //window.location = '<?php //echo home_url()."/manage-group/".$team_slug ?>//';
                     },
                     error: function( jqXhr, textStatus, errorThrown ){
                         console.log( errorThrown );
@@ -1255,6 +1277,34 @@
                     });
                 } 
             }
+        });
+        $(".api-submit").click(function (e) {
+            e.preventDefault();
+            var href = $(this).attr('href');
+            var order_id =$(this).attr('order-id');
+            var totalweight =<?php echo $totalweight ?>;
+            $.ajax({
+                type: "POST",
+                url: href,
+                dataType : "json",
+                data:{order_id:order_id,type:0,totalweight:totalweight}
+            })
+                .done(function(data){
+                    if (data.status==1)
+                    {
+                        $.notify('Đơn hàng được xử lý thành công',{
+                            newest_on_top: true,
+                            type: 'success',
+                            timer: '2000'
+                        });
+                        $('.order-div-'+order_id).removeClass('btn-danger').addClass('btn-warning');
+                        $('.text-status-'+order_id).html('').html('DHL đã tiếp nhận đơn hàng');
+                        $('.order1-div-'+order_id).removeClass('btn-danger').addClass('btn-warning');
+                        $('.text-status1-'+order_id).html('').html('DHL đã tiếp nhận đơn hàng');
+                        $('.function-'+order_id).css('display','none');
+
+                    }
+                })
         })
     });
 </script>
