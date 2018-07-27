@@ -473,7 +473,13 @@ function ranking_team() {
     $date_current = date("Y-m-d");
     ob_start();
     ?>
-    <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table" style="color:#595959; margin-top: 30px;">
+    <style>
+        .ranking-table{ color:#595959; margin-top: 30px; }
+        @media only screen and (max-width: 693px) {
+            .table { margin-top: 0; display: inline-table !important;}
+        }
+    </style>
+    <table class="table table-reponsive table-condensed table-hover table-striped table-bordered ranking-table">
         <?php if($date_current >= $date_competition_start && $date_current <= $date_competition_end ){ ?>
             <thead>
             <tr>
@@ -512,7 +518,7 @@ function ranking_team() {
                     <tr>
                         <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
                     </tr>
-                    <tr style="height: 395px">
+                    <tr>
                         <td>Dữ liệu đang cập nhật</td>
                     </tr>
                     <?php

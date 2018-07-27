@@ -227,7 +227,7 @@ function plugin_shortcode_video(){
         @media only screen and (max-width: 693px) {
             .load_video iframe {
                 width: 100%;
-                height: 100px
+                height: 200px
             }
         }
     </style>
