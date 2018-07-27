@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $table_order = $wpdb->prefix . "order";
     $table_order_detail = $wpdb->prefix . "order_detail";
     if ($_POST['order_name']==null || $_POST['order_phone']==null || $_POST['order_name']==null || $_POST['order_mail']==null ||
-    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null)
+    $_POST['order_address']==null|| $_POST['order_city']==null || $_POST['order_district']==null || $_POST['order_district_id'] == null || $_POST['sum_weight'] == null || $_POST['sum_ship'])
     {
         $_SESSION['loidathang'] =2;
         wp_redirect(home_url('thanh-toan'));
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 "order_date" => date('Y-m-d H:i:s'),
                                 "is_delete" => 0,
                                 'team_id' => $row_list
+                                'ship_fee' => htmlspecialchars($_POST['sum_ship']);
                             )
                         );
                         if ($insert) {

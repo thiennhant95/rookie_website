@@ -1136,3 +1136,16 @@ HTTP_BODY;
     }
 }
 update_tracking();
+
+/* Xử lý ship*/
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'function-shipping-dhl';
+    if($path[0] == $templatename){
+        $load = locate_template('xu-ly-shipping.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});

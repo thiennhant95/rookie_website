@@ -327,14 +327,18 @@ get_header();
     }
 </style>
 <?php
+$table_products = $wpdb->prefix."products";
 $ts_by_url = array();
+$sum_weight = 0;
 foreach($_SESSION['products'] as $data) {
     if(!array_key_exists($data['id_team'], $ts_by_url))
         $ts_by_url[ $data['id_team'] ] = 0;
     $ts_by_url[ $data['id_team'] ] += $data['price']*$data['qty'];
+    $data_detail_product = $wpdb->prepare("SELECT * FROM $table_products WHERE id = %d",$data['id']);
+    $result_product = $wpdb->get_row($data_detail_product);
+    $sum_weight += $data['qty'] * $result_product->weight;
 }
 $_SESSION['price_list']=$ts_by_url;
-$table_products = $wpdb->prefix."products";
 $data = "SELECT * FROM $table_products";
 $product_list =$wpdb->get_results($data);
 $images_url = home_url()."/wp-content/uploads/image-product/";
@@ -389,7 +393,7 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                 <?php
                                 if (isset($_SESSION['products'])):
                                 ?>
-                                <strong>Tổng cộng</strong>
+                                <strong>Tổng tiền</strong>
                                 <div class="pull-right"><span><?php
                                         $sum = 0;
                                         foreach ($_SESSION['products']  as $item) {
@@ -402,6 +406,26 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                     echo "<span> Chưa có sản phẩm trong giỏ hàng</span>";
                                 endif;
                                 ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <strong>Tiền Ship</strong>
+                                <div class="pull-right">
+                                    <span id="shipping">
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <strong>Tổng cộng</strong>
+                                <div class="pull-right">
+                                    <span id="total_all">
+                                        
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -476,11 +500,14 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                                     foreach ($huyen_list as $row_huyen)
                                     {
                                         ?>
-                                        <option value="<?php echo $row_huyen->name?>" class="car-<?php echo $row_huyen->matp ?> car" style="display: none"><?php echo $row_huyen->name ?></option>
+                                        <option value="<?php echo $row_huyen->name?>" class="car-<?php echo $row_huyen->matp ?> car" attr-quan="<?php echo $row_huyen->maqh; ?>" style="display: none"><?php echo $row_huyen->name ?></option>
                                         <?php
                                     }
 //                                    ?>
                                 </select>
+                                <input type="hidden" name="order_district_id" id="order_district_id">
+                                <input type="hidden" name="sum_weight" id="sum_weight" value="<?php echo $sum_weight; ?>">
+                                <input type="hidden" name="sum_ship" id="sum_ship">
                             </div>
                         </div>
 <!--                        <div class="form-group">-->
@@ -562,6 +589,18 @@ get_footer();
         });
     });
     jQuery(document).ready(function($) {
+        function addCommas(nStr)
+        {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+            }
+            return x1 + x2;
+        }
         $("#order_city").change(function()
         {
             // var car = $(this).attr('data-id');
@@ -570,6 +609,27 @@ get_footer();
             $(".car").css("display","none");
             $(".car-"+car).css("display","block");
             $("#order_district").val('');
+        });
+        $("#order_district").change(function(){
+            var district = $('option:selected', this).attr('attr-quan');
+            $("#order_district_id").val(district);
+            var sum_weight = $("#sum_weight").val();
+            var url = '<?php echo home_url()."/function-shipping-dhl" ?>';
+            $.ajax({
+                url: url,
+                dataType: 'text',
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded',                
+                data: { district: district, sum_weight : sum_weight },
+                success: function( data, textStatus, jQxhr ){
+                    $("#sum_ship").val(data);
+                    $("#shipping").html(addCommas(data) + "đ");
+                    $("#total_all").html(addCommas(parseInt(data) + parseInt(<?php echo $sum; ?>))+"đ");
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
         })
     });
 
