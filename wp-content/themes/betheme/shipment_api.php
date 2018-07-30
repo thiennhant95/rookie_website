@@ -169,6 +169,8 @@ HTTP_BODY;
                      ),array('order_id'=>$_POST['order_id'])
                      );
                  }
+                 require ("PHPMailer/src/mail_api_donhang.php");
+                 send_mail_donhang_api($data_order->order_email,$shipment_id);
                  echo json_encode(['status'=>1]);
                  die();
              }

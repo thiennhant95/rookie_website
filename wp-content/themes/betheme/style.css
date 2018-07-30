@@ -341,3 +341,11 @@ aside#text-6 >.textwidget{
 }
 #Top_bar #logo { height: auto !important; }
 #Top_bar #logo img { height: 100px}
+@media only screen and (max-width: 767px){
+#Footer > .widgets_wrapper{
+    padding: 0px!important;
+}
+    #Footer .widgets_wrapper .widget{
+        padding: 0px!important;
+    }
+}

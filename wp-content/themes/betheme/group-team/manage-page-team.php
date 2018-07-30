@@ -331,7 +331,7 @@
             <div class="clearfix"></div>
             <?php 
                 $table_products = $wpdb->prefix."products";
-                $query_products = "SELECT * FROM $table_products";
+                $query_products = "SELECT * FROM $table_products WHERE status=1";
                 $data_products = $wpdb->get_results($query_products);
                 $arr_team_product = json_decode($data_team->san_pham_nhom);
             ?>
@@ -1282,7 +1282,7 @@
             e.preventDefault();
             var href = $(this).attr('href');
             var order_id =$(this).attr('order-id');
-            var totalweight =<?php echo $totalweight ?>;
+            var totalweight =<?php if (isset($totalweight)) echo $totalweight; else echo 0?>;
             $.ajax({
                 type: "POST",
                 url: href,

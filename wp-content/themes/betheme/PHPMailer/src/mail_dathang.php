@@ -70,10 +70,10 @@ function sendmail1($mail_to,$noidung)
 
     if(!$mail->Send()) {
         return false;
-        echo "Mailer Error: " . $mail->ErrorInfo;
+//        echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
         return true;
-        echo "Message has been sent";
+//        echo "Message has been sent";
     }
 }
 
@@ -106,10 +106,10 @@ function sendmail2($mail_to,$noidung)
 
     if(!$mail->Send()) {
         return false;
-        echo "Mailer Error: " . $mail->ErrorInfo;
+//        echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
         return true;
-        echo "Message has been sent";
+//        echo "Message has been sent";
     }
 }
 ?>
