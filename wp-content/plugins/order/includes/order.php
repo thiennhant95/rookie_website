@@ -291,8 +291,8 @@ function show_order_view()
                 e.preventDefault();
                 var href = $(this).attr('href');
                 var order_id =$(this).attr('order-id');
-                // console.log(order_id);
-                var totalweight =<?php if (isset($totalweight)) echo $totalweight; else echo 0?>;
+                console.log(order_id);
+                var totalweight =<?php echo $totalweight ?>;
                 $.ajax({
                     type: "POST",
                     url: href,

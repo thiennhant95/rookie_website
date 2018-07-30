@@ -28,7 +28,7 @@ function send_mail_donhang_api($mail_to,$content)
     $mail->Password = "tiep290696";
     $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Xác nhận giao hàng";
-    $mail->Body = "Đơn hàng của đã chuẩn bị thành công và đang được giao. Mã đơn hàng của bạn là: $content. Bạn có thể theo dõi đơn hàng tại <a href='https://ecommerceportal.dhl.com/track/' target='_blank'> </a>
+    $mail->Body = "Đơn hàng của đã chuẩn bị thành công và đang được giao. Mã đơn hàng của bạn là: $content. Bạn có thể theo dõi đơn hàng tại <a href='https://ecommerceportal.dhl.com/track/' target='_blank'>https://ecommerceportal.dhl.com/track/ </a>
 <br>
 <br/>
 <b>Rookie Marketing 2018</b><br/>
