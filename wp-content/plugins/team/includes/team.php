@@ -9,7 +9,7 @@ function team_view_function()
 {
     global $wpdb;
     $table_products = $wpdb->prefix."team";
-    $data = "SELECT * FROM $table_products";
+    $data = "SELECT * FROM $table_products ORDER BY id DESC";
     $product_list =$wpdb->get_results($data);
     ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css">
@@ -48,7 +48,7 @@ function team_view_function()
                 ?>
                 </p>
                 <!--            <br/>-->
-                <h3 class="box-title" style="float: right"><a class="btn btn-primary btn-flat" href="../wp-admin/admin.php?page=team_view&add_team=1">Thêm Nhóm Mới</a></h3>
+<!--                <h3 class="box-title" style="float: right"><a class="btn btn-primary btn-flat" href="../wp-admin/admin.php?page=team_view&add_team=1">Thêm Nhóm Mới</a></h3>-->
             </div>
             <!-- /.box-header -->
             <div class="box-body">

@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $table_token ="token_api";
         $query_token = "SELECT * FROM $table_token";
-        $token = ($wpdb->get_results($query_token))[0]->token;
+        $token_data = ($wpdb->get_results($query_token));
+        $token =$token_data[0]->token;
         $data_token =$wpdb->get_results($query_token);
         $shipment_id ="VNVNCC".$data_token[0]->last_shipment_id;
 
@@ -49,20 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          "soldToAccountId":"5000000002",
          "pickupDateTime":"$time_fomat",
          "handoverMethod":2,
-         "shipperAddress":{  
-            "companyName":"VinaCacao Company",
-            "name":"Vinacacao",
-            "address1":" 6 Thăng Long, Phường 4",
-            "address2":null,
-            "address3":null,
-            "city":"Quận Tân Bình",
-            "state":"Hồ Chí Minh",
-            "district":null,
-            "country":"VN",
-            "postCode":null,
-            "phone":"0839103425",
-            "email":"cskh@vinacacao.com.vn"
-         },
          "shipmentItems":[  
             {  
                "consigneeAddress":{  

@@ -26,7 +26,7 @@ function sendmail($mail_to,$url)
     $mail->IsHTML(true);
     $mail->Username = "rookiemarketing2018@gmail.com";
     $mail->Password = "rookie2018";
-    $mail->SetFrom("thiennhant95@gmail.com",'Rookie Marketing 2018');
+    $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Cấp lại mật khẩu mới";
     $mail->Body = "Mật khẩu mới của bạn là:".$url."
 <br>

@@ -10,7 +10,7 @@
 	$team_slug = $explode[1];
 	global $wpdb;
 	$table_team = $wpdb->prefix."team";
-	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
+	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE team_status = 1 AND slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
 	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
 	$replace = array('<br>','<br>','&quot;','&amp;','&#039','"');
@@ -74,15 +74,15 @@
    .myborder{ padding: 5px; }
 }
 @media only screen and (max-width: 600px){
-    .size-custom{ padding-left: 0 !important; padding-right: 0 !important; }
+    .size-custom{ padding-left: 3px !important; padding-right: 3px !important }
     .size-custom-mobile{ padding-right: 30px !important; }
-    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 5px !important; padding-left: 5px !important }
+    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 2px !important; padding-left: 2px !important }
 }
 @media only screen and (max-width: 991px){
     .info-mobile{ display: block; margin-right: 0 !important; margin-left: 0 !important }
     .info-normal{ display: none; }
 }
-@media only screen and (max-width: 767px) and (min-width: 510px){
+@media only screen and (max-width: 767px) and (min-width: 400px){
     table { display: inline-table !important; }
 }
 </style>
@@ -116,7 +116,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
 								<div class="col-md-12">
 									<?php
@@ -125,7 +125,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px;">
+							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px;">
 								<h4><span class="glyphicon glyphicon-home" style="padding-right: 15px; color: #0CBDE3"></span><strong>Thông tin nhóm</strong></h4>
 								<div class="col-md-12 col-xs-12 col-sm-12">
 									<table class="table table-striped table-bordered list-team table-reponsive" style="font-size: 13px">
@@ -157,7 +157,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px;margin-top: 15px">
+							<div class="col-md-12 row info-mobile" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px;margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
 								<div class="col-md-12">
 									<div class="shop-items">
@@ -214,7 +214,7 @@
 							</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
@@ -238,8 +238,8 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
-								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẽ</a></strong></h4>
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
+								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẻ</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_share)){ 
@@ -295,7 +295,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="col-md-12 row info-normal" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 15px">
+							<div class="col-md-12 row info-normal" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-left: 10px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-inbox" style="padding-right: 15px; color: #0CBDE3"></span><strong>Sản Phẩm</strong></h4>
 								<div class="col-md-12 row">
 									<div class="shop-items">

@@ -141,8 +141,14 @@ $images_url = home_url()."/wp-content/uploads/image-product/";
                         </div>
                     </div>
                 </div>
+                <?php
+                if (isset($_SESSION['products'])  && count($_SESSION['products'])!=0){
+                    ?>
                 <a href="/thanh-toan/" class="btn btn-primary pull-right thanhtoan">Thanh Toán<span class="glyphicon glyphicon-chevron-right"></span></a> &nbsp;
                 <a  href="javascript:void()" onclick="document.getElementById('product').submit()" class="btn btn-success pull-right"><span class="glyphicon glyphicon-refresh"></span>&nbsp;  Cập nhật</a>&nbsp;&nbsp;
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </div>

@@ -46,10 +46,10 @@ if( ! function_exists( 'mfn_admin_scripts' ) )
     function mfn_admin_scripts() {
         wp_enqueue_script( 'jquery-ui-sortable' );
     }
-}   
+}
 add_action( 'wp_enqueue_scripts', 'mfn_admin_scripts' );
 add_action( 'admin_enqueue_scripts', 'mfn_admin_scripts' );
-    
+
 require( THEME_DIR .'/muffin-options/theme-options.php' );
 
 $theme_disable = mfn_opts_get( 'theme-disable' );
@@ -128,7 +128,7 @@ require_once( LIBS_DIR .'/widget-tag-cloud.php' );
 // TinyMCE ----------------------------------------------------------------------
 require_once( LIBS_DIR .'/tinymce/tinymce.php' );
 
-// Plugins ---------------------------------------------------------------------- 
+// Plugins ----------------------------------------------------------------------
 if( ! isset( $theme_disable['demo-data'] ) ){
     require_once( LIBS_DIR .'/importer/import.php' );
 }
@@ -168,7 +168,7 @@ if( ! mfn_opts_get( 'plugin-layer' ) ){
     }
 }
 
-// Visual Composer 
+// Visual Composer
 if( ! mfn_opts_get( 'plugin-visual' ) ){
     add_action( 'vc_before_init', 'mfn_vcSetAsTheme' );
     function mfn_vcSetAsTheme() {
@@ -268,7 +268,7 @@ add_action('init', function() {
 add_action('init', function() {
   $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
   $path = explode("/",$url_path);
-  $templatename = "manage-group"; 
+  $templatename = "manage-group";
   if($path[0] == $templatename){
      $load = locate_template('group-team/manage-page-team.php', true);
      if ($load) {
@@ -431,6 +431,15 @@ function create_shortcode_randompost() {
         <?php
         $i++;
     endforeach;
+    if(empty($product_list)){
+        ?>
+        <script>
+            jQuery(function($){ 
+                $(".products-home").css({"display":"none"});
+            });
+        </script>
+        <?php
+    }
     ?>
     </div>
     </div>
@@ -495,7 +504,7 @@ function ranking_team() {
 <!--                    <tr>-->
 <!--                        <td style="vertical-align: middle" height="360px" colspan="3"><strong>Đang cập nhật</strong></td>-->
 <!--                    </tr>-->
-            <?php  
+            <?php
             global $wpdb;
             $table_team = $wpdb->prefix."team";
             $table_statistical = "statistical";
@@ -503,7 +512,7 @@ function ranking_team() {
             $query_statistical = "SELECT $table_statistical.*, $table_statistical_point.point,$table_team.ten_nhom FROM $table_statistical RIGHT JOIN $table_team ON $table_statistical.team_id = $table_team.id INNER JOIN $table_statistical_point ON $table_statistical_point.team_id = $table_team.id ORDER BY $table_statistical_point.point DESC, sum_no_ship DESC, count_success DESC, count_cancel DESC LIMIT 10";
             $data_statistical = $wpdb->get_results($query_statistical);
             $rank = 1;
-            foreach($data_statistical as $statistical){ 
+            foreach($data_statistical as $statistical){
             ?>
             <tr>
                 <td class="text-danger" style="vertical-align: middle; text-align: center"><?php echo $rank; ?></td>
@@ -519,7 +528,7 @@ function ranking_team() {
                         <td id="title-ranking" colspan="3">BẢNG XẾP HẠNG</td>
                     </tr>
                     <tr>
-                        <td>Dữ liệu đang cập nhật</td>
+                        <td>Bảng xếp hạng sẽ được cập nhật từ ngày 15/9/2018</td>
                     </tr>
                     <?php
                 }
@@ -606,7 +615,9 @@ function admin_styles(){
     wp_register_style( 'am_admin_slick', get_template_directory_uri() . '/css/slick.css' );
     wp_register_style( 'am_admin_custom_style_admin', get_template_directory_uri() . '/css/admin-custom-style.css' );
     wp_register_style( 'am_admin_bootstrap_datatables', '//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css');
-    wp_enqueue_script( 'am_admin_jquery', get_template_directory_uri() . '/js/jquery-3.1.1.min.js' );
+    if(isset($_GET['page']) && $_GET['page'] != "revslider"){
+        wp_enqueue_script( 'am_admin_jquery', get_template_directory_uri() . '/js/jquery-3.1.1.min.js' );
+    }
     wp_enqueue_script( 'am_admin_bootstrap', get_template_directory_uri() . '/js/bootstrap.min.js' );
     wp_enqueue_script( 'am_admin_jquery_validate', get_template_directory_uri() . '/js/slick.min.js' );
     wp_enqueue_script( 'am_admin_validate_tooltips', get_template_directory_uri() . '/js/jquery-validate.bootstrap-tooltip.js' );
@@ -776,9 +787,9 @@ add_action('init', function() {
 });
 
 add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
-  
+
 function my_custom_dashboard_widgets() {
-    global $wp_meta_boxes; 
+    global $wp_meta_boxes;
     wp_add_dashboard_widget('custom_help_widget', 'Ranking Dashboard', 'custom_dashboard_help');
 }
 
@@ -809,7 +820,7 @@ function ranking_dashboard_admin(){
                 <th>Hạng</th>
                 <th>Tên nhóm</th>
                 <th>Số điểm</th>
-                <th>Số tiền</th>            
+                <th>Số tiền</th>
                 <th>Số đơn <br> thành công</th>
                 <th>Số đơn huỷ</th>
             </tr>
@@ -836,7 +847,7 @@ function ranking_dashboard_admin(){
         else{
             ?>
             <tr>
-                <td>Dữ liệu đang cập nhật</td>
+                <td>Bảng xếp hạng sẽ được cập nhật từ ngày 15/9/2018</td>
             </tr>
             <?php
         }
@@ -891,7 +902,7 @@ function post_page_frontend(){
             </div>
             <div class="post-excerpt home-excerpt" style="color: #737E86">
                 <?php $excerpt = wp_trim_words(get_post_field('post_content', $news->ID), 26,' [...]');
-                    echo $excerpt;                                  
+                    echo $excerpt;
                  ?>
             </div>
         </div>
@@ -1055,8 +1066,11 @@ function update_tracking()
 
     $table_token ="token_api";
     $query_token = "SELECT * FROM $table_token";
-    $last_time_tracking = ($wpdb->get_results($query_token))[0]->last_time_tracking;
+//    $last_time_tracking = ($wpdb->get_results($query_token))[0]->last_time_tracking;
+    $last_time =$wpdb->get_results($query_token);
+    $last_time_tracking = $last_time[0]->last_time_tracking;
     $data_token =$wpdb->get_results($query_token);
+    $token_api = $data_token[0]->token;
     $date = new DateTime();
     $date->modify('+4 hours');
     if ($last_time_tracking < date('Y-m-d H:i:s')) {
@@ -1074,7 +1088,7 @@ function update_tracking()
     "trackItemRequest": {
         "hdr": {
             "messageType": "TRACKITEM",
-            "accessToken": "750ebac0d11d17bcb2b8ffffbf4f4525",
+            "accessToken": "$token_api",
             "messageDateTime": "2016-01-12T11:20:27+08:00",
             "messageVersion": "1.0",
             "messageLanguage": "vi_VN"
@@ -1091,6 +1105,8 @@ function update_tracking()
 }
 
 HTTP_BODY;
+//            print_r($order);
+//            die();
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
@@ -1147,6 +1163,19 @@ add_action('init', function() {
     $templatename = 'function-shipping-dhl';
     if($path[0] == $templatename){
         $load = locate_template('xu-ly-shipping.php', true);
+        if ($load) {
+            exit();
+        }
+    }
+});
+
+/* Xử lý ship*/
+add_action('init', function() {
+    $url_path = trim(parse_url(add_query_arg(array()), PHP_URL_PATH), '/');
+    $path = explode("/",$url_path);
+    $templatename = 'test-mail';
+    if($path[0] == $templatename){
+        $load = locate_template('page-test-mail.php', true);
         if ($load) {
             exit();
         }

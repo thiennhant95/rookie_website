@@ -326,7 +326,7 @@ aside#text-6 >.textwidget{
 .post-desc { padding : 0 10px !important; }
 .group-logo { position: absolute !important; background-color: #fff; left: 5% !important; bottom:0 !important; height: 120px !important; padding:0 !important; width:120px !important }
 .group-name { position: absolute !important; right:10% !important; bottom: 2% !important; color: #000 !important; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff }
-.group-name span a{ font-size: 30px; color: #000 !important}
+.group-name span a{ font-size: 50px; color: #000 !important}
 .button-slide{
     color: white;
 }
@@ -349,3 +349,5 @@ aside#text-6 >.textwidget{
         padding: 0px!important;
     }
 }
+.the_content_wrapper img { width: unset !important; }
+.posts_group img.scale-with-grid.wp-post-image{ height: unset !important; }

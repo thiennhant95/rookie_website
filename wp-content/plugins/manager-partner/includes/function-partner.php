@@ -256,7 +256,7 @@ function delete_logo_partner(){
 function plugin_shortcode_logo_partner(){
 	global $wpdb;
 	$table_logo_partner = $wpdb->prefix."logo_partner";
-	$query_logo_partner = "SELECT * FROM $table_logo_partner ";
+	$query_logo_partner = "SELECT * FROM $table_logo_partner ORDER BY id ASC";
 	$data_logo_partner = $wpdb->get_results($query_logo_partner);
 	$search = array('\r\n','&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"','&lt;','&gt;');
 	$replace = array('<br>','<br>','"','&amp;','&#039','"','<','>');
@@ -268,7 +268,7 @@ function plugin_shortcode_logo_partner(){
     foreach($data_logo_partner as $logo_partner){
     ?>
 	  	<div>
-	  		<a href="<?php echo $logo_partner->partner_url ?>"><img src="<?php echo $logo_partner->partner_image; ?>" style="width: 180px; height: 150px; padding: 5px; border: 1px solid #E2E2E2"></a>
+	  		<a href="<?php echo $logo_partner->partner_url ?>" target="_blank"><img src="<?php echo $logo_partner->partner_image; ?>" style="width: 180px; height: 150px; padding: 5px; border: 1px solid #E2E2E2" class="img-logo"></a>
 	  	</div>
     <?php
    	}

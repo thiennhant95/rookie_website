@@ -12,7 +12,7 @@
 	$product_slug = $explode[3];
 	global $wpdb;
 	$table_team = $wpdb->prefix."team";
-	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
+	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE team_status = 1 AND slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
 	$table_products = $wpdb->prefix."products";
 	$data_prepare_products = $wpdb->prepare("SELECT * FROM $table_products WHERE status = 1 AND product_slug = %s",$product_slug);
@@ -212,9 +212,9 @@
     .active-image { border: 3px solid #29E2D7; }
     .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{ padding-left: 10px; padding-right: 10px }
     @media only screen and (max-width: 600px){
-    .size-custom{ padding-left: 0 !important; padding-right: 0 !important }
+    .size-custom{ padding-left: 3px !important; padding-right: 3px !important }
     .size-custom-mobile{ padding-right: 30px !important; }
-    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 5px !important; padding-left: 5px !important }
+    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 2px !important; padding-left: 2px !important }
     }
 </style>
 <?php get_header(); ?>
@@ -248,7 +248,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
 								<div class="col-md-12">
 									<?php
@@ -257,7 +257,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
@@ -281,8 +281,8 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
-								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẽ</a></strong></h4>
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
+								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẻ</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_share)){ 
