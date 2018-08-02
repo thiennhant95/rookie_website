@@ -350,4 +350,4 @@ aside#text-6 >.textwidget{
     }
 }
 .the_content_wrapper img { width: unset !important; }
-.posts_group img.scale-with-grid.wp-post-image{ height: unset !important; }
+.posts_group img.scale-with-grid.wp-post-image, .thumb-post img.scale-with-grid.wp-post-image{ height: unset !important; }

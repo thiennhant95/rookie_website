@@ -127,8 +127,10 @@
                                 		foreach($data_post_share as $post_share){
                                 ?>
                                 <div class="col-md-12" style="border: 1px solid #D9D9D9; border-radius: 10px; margin-bottom: 10px; padding: 15px"><?php echo $post_share->status_share ?></div>
-                                <div class="col-md-4 row">
-                                	<?php echo get_the_post_thumbnail($post_share->ID,'thumbnail') ?>
+                                <div class="col-md-4 row thumb-post">
+                                	<?php 
+                                		echo get_the_post_thumbnail( $post_share->ID, 'full', array( 'class'=>'scale-with-grid', 'itemprop'=>'image' ) );
+                                	?>
                                 </div>
                                 <div class="col-md-8">
                                 	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/".$post_share->post_name; ?>"><span style="font-size: 18px"><strong><?php echo $post_share->post_title ?></strong></span></a>
