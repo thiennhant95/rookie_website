@@ -24,14 +24,13 @@ function sendmail($mail_to,$noidung)
     $mail->CharSet = 'UTF-8';
     $mail->Port = 587;   // or 587
     $mail->IsHTML(true);
-    $mail->Username = "thiennhant95@gmail.com";
-    $mail->Password = "tiep290696";
-    $mail->SetFrom("thiennhant95@gmail.com",'Rookie Marketing 2018');
+    $mail->Username = "rookiemarketing2018@gmail.com";
+    $mail->Password = "rookie2018";
+    $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Xác nhận đơn hàng Rookie";
     $mail->Body =$noidung;
     $mail->AddAddress($mail_to);
-//    $mail->AddAddress($mail_onwer);
-
+    $mail->AddCC('rookiemarketing2018@gmail.com');
     if(!$mail->Send()) {
         return false;
 //        echo "Mailer Error: " . $mail->ErrorInfo;
@@ -61,19 +60,19 @@ function sendmail1($mail_to,$noidung)
     $mail->CharSet = 'UTF-8';
     $mail->Port = 587;   // or 587
     $mail->IsHTML(true);
-    $mail->Username = "thiennhant95@gmail.com";
-    $mail->Password = "tiep290696";
-    $mail->SetFrom("thiennhant95@gmail.com",'Rookie Marketing 2018');
+    $mail->Username = "rookiemarketing2018@gmail.com";
+    $mail->Password = "rookie";
+    $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Đơn hàng mới từ Rookie Marketing 2018";
     $mail->Body =$noidung;
     $mail->AddAddress($mail_to);
 
     if(!$mail->Send()) {
         return false;
-//        echo "Mailer Error: " . $mail->ErrorInfo;
+        echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
         return true;
-//        echo "Message has been sent";
+        echo "Message has been sent";
     }
 }
 
@@ -97,19 +96,20 @@ function sendmail2($mail_to,$noidung)
     $mail->CharSet = 'UTF-8';
     $mail->Port = 587;   // or 587
     $mail->IsHTML(true);
-    $mail->Username = "thiennhant95@gmail.com";
-    $mail->Password = "tiep290696";
-    $mail->SetFrom("thiennhant95@gmail.com",'Rookie Marketing 2018');
+    $mail->Username = "rookiemarketing2018@gmail.com";
+    $mail->Password = "rookie2018";
+    $mail->SetFrom("rookiemarketing2018@gmail.com",'Rookie Marketing 2018');
     $mail->Subject = "Đơn hàng mới từ Rookie Marketing 2018";
     $mail->Body =$noidung;
     $mail->AddAddress($mail_to);
 
+
     if(!$mail->Send()) {
         return false;
-//        echo "Mailer Error: " . $mail->ErrorInfo;
+        echo "Mailer Error: " . $mail->ErrorInfo;
     } else {
         return true;
-//        echo "Message has been sent";
+        echo "Message has been sent";
     }
 }
 ?>

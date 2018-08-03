@@ -12,7 +12,7 @@
 	$post_slug = $explode[3];
 	global $wpdb;
 	$table_team = $wpdb->prefix."team";
-	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
+	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE team_status = 1 AND slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
 	$table_post_group = $wpdb->prefix."post_group";
 	$search = array("\r\n",'&lt;br&gt;','\&quot;','\&amp;','\&#039;','\"');
@@ -46,9 +46,9 @@
 .col-sm-1, .col-sm-10, .col-sm-11,.col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 { padding-left: 5px; padding-right: 5px }
 .col-xs-4{ padding-left: 1px; padding-right: 1px }
 @media only screen and (max-width: 600px){
-	.size-custom{ padding-left: 0 !important; padding-right: 0 !important }
+	.size-custom{ padding-left: 3px !important; padding-right: 3px !important }
     .size-custom-mobile{ padding-right: 30px !important; }
-    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 5px !important; padding-left: 5px !important }
+    .col-xs-12, .col-sm-12, .col-md-12 { padding-right: 2px !important; padding-left: 2px !important }
 }
 </style>
 <?php
@@ -86,7 +86,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-bullhorn" style="padding-right: 15px; color: #0CBDE3"></span><strong>Slogan</strong></h4>
 								<div class="col-md-12">
 									<?php
@@ -95,7 +95,7 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
 								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet/" ?>">Bài Viết</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
@@ -119,16 +119,18 @@
 								</div>
 							</div>
 							<div class="clearfix"></div>
-							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 15px">
-								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẽ</a></strong></h4>
+							<div class="col-md-12" style="background: #ffffff; border-radius: 10px; border: 1px solid #F5F5F5;padding: 15px; margin-top: 7px">
+								<h4><span class="glyphicon glyphicon-pencil" style="padding-right: 15px; color: #0CBDE3"></span><strong><a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/" ?>">Bài Viết Chia Sẻ</a></strong></h4>
 								<div class="col-md-12" style="margin-top: 15px">
 								<?php 
 									if(!empty($data_post_share)){ 
                                 		foreach($data_post_share as $post_share){
                                 ?>
                                 <div class="col-md-12" style="border: 1px solid #D9D9D9; border-radius: 10px; margin-bottom: 10px; padding: 15px"><?php echo $post_share->status_share ?></div>
-                                <div class="col-md-4 row">
-                                	<?php echo get_the_post_thumbnail($post_share->ID,'thumbnail') ?>
+                                <div class="col-md-4 row thumb-post">
+                                	<?php 
+                                		echo get_the_post_thumbnail( $post_share->ID, 'full', array( 'class'=>'scale-with-grid', 'itemprop'=>'image' ) );
+                                	?>
                                 </div>
                                 <div class="col-md-8">
                                 	<a href="<?php echo home_url()."/group-team/".$team_slug."/bai-viet-chia-se/".$post_share->post_name; ?>"><span style="font-size: 18px"><strong><?php echo $post_share->post_title ?></strong></span></a>

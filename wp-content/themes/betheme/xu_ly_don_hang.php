@@ -1,6 +1,6 @@
 <?php
 global $wpdb;
-if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==0)
+if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==3)
 {
     $table_order = $wpdb->prefix . "order";
     $insert = $wpdb->update($table_order, array(
@@ -15,7 +15,7 @@ if (isset($_POST['order_id']) && isset($_POST['type']) && $_POST['type']==0)
         {
             $update = $wpdb->update($table_order_detail, array(
                 'status'=>3,
-            ),array('order_id'=>$_POST['order_id']));
+            ),array('id'=>$_POST['order_id']));
         }
     }
     echo json_encode(array('status'=>1,'class'=>'btn-danger'));

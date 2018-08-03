@@ -98,13 +98,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         sendmail1($row_team->email_truong_nhom,$owner_noidung);
                     }
                 }
-                if ($row_send==0)
-                {
-                    sendmail1("thiennhant95@yahoo.com",$owner_noidung);
-                    break;
-                }
+//                if ($row_send==0)
+//                {
+//                    sendmail1("thiennhant95@yahoo.com",$owner_noidung);
+//                    break;
+//                }
             }
-            sendmail2("thiennhant95@yahoo.com",$owner_noidung1);
+//            sendmail2("thiennhant95@yahoo.com",$owner_noidung1);
 
             sendmail($_POST['order_mail'],$noidung);
             unset($_SESSION['products']);

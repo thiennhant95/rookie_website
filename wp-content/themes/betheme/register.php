@@ -317,7 +317,7 @@ get_footer();
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });
@@ -328,7 +328,7 @@ get_footer();
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });
@@ -339,7 +339,7 @@ get_footer();
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });

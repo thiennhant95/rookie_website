@@ -43,6 +43,9 @@ if( $back_to_top_class == 'hide' ){
         width: 50% !important;
     }
     .slick-arrow { display: none !important; }
+    @media only screen and (max-width: 390px){
+    	.img-logo { width: 140px !important; height: 120px !important; }
+    }
 </style>
 <script>
 jQuery(document).ready(function($) {
@@ -50,9 +53,16 @@ jQuery(document).ready(function($) {
 		jQuery(".autoplay").not('.slick-initialized').slick({
 			autoplay: true,
 			arrows: true,
-			slidesToShow: 6,
+			slidesToShow: 7,
 			slidesToScroll: 1,
 			responsive: [
+			{
+				breakpoint: 1500,
+				settings: {
+				slidesToShow: 6,
+				slidesToScroll: 1
+				}
+			},
 			{
 				breakpoint: 1200,
 				settings: {
@@ -81,9 +91,9 @@ jQuery(document).ready(function($) {
 	$(window).on( 'resize', createSlick);
 });
 </script>
-<!-- #Footer -->		
+<!-- #Footer -->
 <footer id="Footer" class="clearfix">
-	
+
 	<?php if ( $footer_call_to_action = mfn_opts_get('footer-call-to-action') ): ?>
 	<div class="footer_action">
 		<div class="container">
@@ -93,41 +103,41 @@ jQuery(document).ready(function($) {
 		</div>
 	</div>
 	<?php endif; ?>
-	
-	<?php 
+
+	<?php
 		$sidebars_count = 0;
 		for( $i = 1; $i <= 5; $i++ ){
 			if ( is_active_sidebar( 'footer-area-'. $i ) ) $sidebars_count++;
 		}
-		
+
 		if( $sidebars_count > 0 ){
-			
+
 			$footer_style = '';
-				
+
 			if( mfn_opts_get( 'footer-padding' ) ){
 				$footer_style .= 'padding:'. mfn_opts_get( 'footer-padding' ) .';';
 			}
-			
+
 			echo '<div class="widgets_wrapper" style="'. $footer_style .'">';
 				echo '<div class="container">';
-						
+
 					if( $footer_layout = mfn_opts_get( 'footer-layout' ) ){
 						// Theme Options
 
 						$footer_layout 	= explode( ';', $footer_layout );
 						$footer_cols 	= $footer_layout[0];
-		
+
 						for( $i = 1; $i <= $footer_cols; $i++ ){
 							if ( is_active_sidebar( 'footer-area-'. $i ) ){
 								echo '<div class="column '. $footer_layout[$i] .'">';
 									dynamic_sidebar( 'footer-area-'. $i );
 								echo '</div>';
 							}
-						}						
-						
+						}
+
 					} else {
 						// Default - Equal Width
-						
+
 						$sidebar_class = '';
 						switch( $sidebars_count ){
 							case 2: $sidebar_class = 'one-second'; break;
@@ -136,7 +146,7 @@ jQuery(document).ready(function($) {
 							case 5: $sidebar_class = 'one-fifth'; break;
 							default: $sidebar_class = 'one';
 						}
-						
+
 						for( $i = 1; $i <= 5; $i++ ){
 							if ( is_active_sidebar( 'footer-area-'. $i ) ){
 								echo '<div class="column '. $sidebar_class .'">';
@@ -144,9 +154,9 @@ jQuery(document).ready(function($) {
 								echo '</div>';
 							}
 						}
-						
+
 					}
-				
+
 				echo '</div>';
 			echo '</div>';
 		}
@@ -154,20 +164,20 @@ jQuery(document).ready(function($) {
 
 
 	<?php if( mfn_opts_get('footer-hide') != 1 ): ?>
-	
+
 		<div class="footer_copy">
 			<div class="container">
 				<div class="column one">
 
-					<?php 
+					<?php
 						if( $back_to_top_position == 'copyright' ){
 							echo '<a id="back_to_top" class="button button_js" href=""><i class="icon-up-open-big"></i></a>';
 						}
 					?>
-					
+
 					<!-- Copyrights -->
 					<div class="copyright">
-						<?php 
+						<?php
 							if( mfn_opts_get('footer-copy') ){
 								echo do_shortcode( mfn_opts_get('footer-copy') );
 							} else {
@@ -175,34 +185,34 @@ jQuery(document).ready(function($) {
 							}
 						?>
 					</div>
-					
-					<?php 
+
+					<?php
 						if( has_nav_menu( 'social-menu-bottom' ) ){
 							mfn_wp_social_menu_bottom();
 						} else {
 							get_template_part( 'includes/include', 'social' );
 						}
 					?>
-							
+
 				</div>
 			</div>
 		</div>
-	
+
 	<?php endif; ?>
-	
-	
-	<?php 
+
+
+	<?php
 		if( $back_to_top_position == 'footer' ){
 			echo '<a id="back_to_top" class="button button_js in_footer" href=""><i class="icon-up-open-big"></i></a>';
 		}
 	?>
 
-	
+
 </footer>
 
 </div><!-- #Wrapper -->
 
-<?php 
+<?php
 	// Responsive | Side Slide
 	if( mfn_opts_get( 'responsive-mobile-menu' ) ){
 		get_template_part( 'includes/header', 'side-slide' );
@@ -226,7 +236,7 @@ jQuery(document).ready(function($) {
 <?php endif; ?>
 
 <?php do_action( 'mfn_hook_bottom' ); ?>
-	
+
 <!-- wp_footer() -->
 <?php wp_footer(); ?>
 <script src="<?php bloginfo('template_directory') ?>/js/custom_js_nhan.js"></script>
@@ -250,10 +260,9 @@ jQuery(document).ready(function($) {
         jQuery('.fchat').toggle('slow');
     });
     jQuery(function($){
-        $("#menu-main-menu").append('<li id="menu-item-101" class="menu-item menu-item-type-post_type menu-item-object-post last menu-register"><a href="/dang-ky-thanh-vien/">Đăng ký</span></a></li>');
-        $("#menu-main-menu").append('<li id="menu-item-102" class="menu-item menu-item-type-post_type menu-item-object-post last menu-login"><a href="/dang-nhap/">Đăng nhập</span></a></li>');
-        $("#menu-main-menu").append('<li id="menu-item-100" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span style="font-size:30px" class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"><?php if ($_SESSION['products']) echo $value = array_sum(array_column($_SESSION['products'],'qty')); else echo '0'?></span>' +
-            '</a></li>');
+        $("#menu-main-menu").append('<li id="menu-item-101" class="menu-item menu-item-type-post_type menu-item-object-post last menu-register"><a href="/dang-ky-thanh-vien/"><span>ĐĂNG KÝ</span></a></li>');
+        $("#menu-main-menu").append('<li id="menu-item-103" class="menu-item menu-item-type-post_type menu-item-object-post last menu-login"><a href="/dang-nhap/"><span>ĐĂNG NHẬP</span></a></li>');
+        $("#menu-main-menu").append('<li id="menu-item-103" class="menu-item menu-item-type-post_type menu-item-object-post last"><a href="/gio-hang/"><span style="font-size:30px" class="glyphicon glyphicon-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge">'+ <?php if(isset($_SESSION['products'])) echo $value = array_sum(array_column($_SESSION['products'],'qty')); else echo '0'  ?>+'</span></span></a></li>');
     });
 <?php if(isset($_SESSION["branch_id"])){
         $table_team = $wpdb->prefix."team";

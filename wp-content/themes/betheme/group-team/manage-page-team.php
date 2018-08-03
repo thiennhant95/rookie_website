@@ -11,7 +11,7 @@
 	$team_slug = $explode[1];
 	global $wpdb;
 	$table_team = $wpdb->prefix."team";
-	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE slug = %s",$team_slug);
+	$data_prepare = $wpdb->prepare("SELECT * FROM $table_team WHERE team_status = 1 AND slug = %s",$team_slug);
 	$data_team = $wpdb->get_row($data_prepare);
 	$search = array("\r\n","&lt;br&gt;","\&quot;","\&amp;","\&#039;","\\\\");
 	$replace = array("<br>","<br>","&quot;","&amp;","&#039","\\");
@@ -198,8 +198,8 @@
                         </div></label>
                         <input type="file" name="upload-photo" id="upload-photo" style="display: none">
                     </div>
-                    <div class="col-md-8 col-xs-6 col-sm-6" style="position: absolute; right:10%; bottom: 2%; color: #000; text-shadow: 1px 2px 0 #fff, 2px 1px 0 #fff, -1px 2px 0 #fff, -2px 1px 0 #fff, 1px -2px 0 #fff, 2px -1px 0 #fff, -1px -2px 0 #fff, -2px -1px 0 #fff">
-                        <h3 style="color: #000"><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>" target="_blank"><?php echo $data_team->ten_nhom ?></a></strong></h3>
+                    <div class="col-md-8 col-xs-6 col-sm-6 group-name">
+                        <span><strong><a href="<?php echo home_url().'/group-team/'.$data_team->slug ?>" target="_blank"><?php echo $data_team->ten_nhom ?></a></strong></span>
                     </div>
                     <div class="clearfix"></div>
                     <div style="margin-left: 5%; position: absolute;"><button type="submit" class="btn btn-primary" style="width: 120px; border-radius: 5px; display:none" id="save-upload">Cập nhật</button></div>
@@ -769,7 +769,7 @@
                             ?>
                             </tbody>
                         </table>
-                        <div class="col-md-12" style="margin: 15px 0px"><strong><span style="font-size: 20px">Bài Viết Đã Chia Sẽ</span></strong></div>
+                        <div class="col-md-12" style="margin: 15px 0px"><strong><span style="font-size: 20px">Bài Viết Đã Chia Sẻ</span></strong></div>
                         <table id="your-list-share" class="table table-responsive table-hover table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -1017,7 +1017,7 @@
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });
@@ -1028,7 +1028,7 @@
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });
@@ -1039,7 +1039,7 @@
             dateFormat: 'yy/mm/dd',
             changeMonth: true,
             changeYear: true,
-            // yearRange: "1980:2000",
+            yearRange: "1980:2100",
             monthNames: ["1","2","3","4","5","6","7","8","9","10","11","12"],
             monthNamesShort: ["1","2","3","4","5","6","7","8","9","10","11","12"]
         });
